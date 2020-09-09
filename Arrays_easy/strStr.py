@@ -22,3 +22,6 @@ a = Solution()
 haystack = 'aabaa'
 needle = 'ba'
 print(a.strStr(haystack, needle))
+
+#Learm KMP algorithm for pattern searching
+
