@@ -33,3 +33,28 @@ def addBinary(a: str, b: str) -> str:
             res.extend(rem_str[:(max_len-len(res))][::-1])
     res.reverse()
     return "".join(res)
+
+# from leetcode
+def add_binary(a:str, b:str)->str:
+    a = list(a)
+    b = list(b)
+    c = 0
+    res = ''
+    while a or b or c:
+        if a:
+            c += int(a.pop())
+        if b:
+            c += int(b.pop())
+        res += str(c%2)
+        c //= 2
+    return result[::-1]
+
+# from leetcode
+def add_binary(a: str, b:str)->str:
+    if len(a) == 0: return b
+    if len(b) == 0: return a
+    if a[-1] =='1' and b[-1] =='1':
+        return add_binary(add_binary(a[:-1],b[:-1]),'1')+'0'
+    else:
+        return add_binary(a[:-1],b[:-1])+str(int(a[-1])|int(b[-1]))
+
