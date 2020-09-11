@@ -1,12 +1,10 @@
 class Solution:
     def longestCommonPrefix(self, strs: [str]) -> str:
         if len(strs) == 0: return ""
-        if len(strs) == 1: return strs[0]
         min_len = len(strs[0])
         for i in strs:
             if min_len>len(i):
                 min_len = len(i)
-        if min_len == 0: return ""
         res = []
         temp = ""
         common = True
@@ -28,17 +26,17 @@ class Solution:
 
 a = Solution()
 strs = ["flower","flow","flight"]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs) =='fl')
 #Edge cases
 strs = [""]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="")
 strs = []
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="")
 strs = ["", ""]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="")
 strs = ["a"]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="a")
 strs = ["a", "", "c"]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="")
 strs = ["c","c"]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="c")
