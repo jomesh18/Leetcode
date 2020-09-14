@@ -26,19 +26,20 @@ class Solution:
 
 a = Solution()
 strs = ["flower","flow","flight"]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs) =='fl')
 #Edge cases
 strs = [""]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="")
 strs = []
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="")
 strs = ["", ""]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="")
 strs = ["a"]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="a")
 strs = ["a", "", "c"]
-print(a.longestCommonPrefix(strs))
+print(a.longestCommonPrefix(strs)=="")
 strs = ["c","c"]
+<<<<<<< HEAD
 print(a.longestCommonPrefix(strs))
 
 #From Leetcode
@@ -55,3 +56,6 @@ def longestCommonPrefix(self, strs):
             if other[i] != ch:
                 return shortest[:i]
     return shortest
+=======
+print(a.longestCommonPrefix(strs)=="c")
+>>>>>>> 329adadbf4a16bbbc7b91f909cece94659e673ba
