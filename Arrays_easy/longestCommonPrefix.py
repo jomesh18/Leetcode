@@ -1,12 +1,10 @@
 class Solution:
     def longestCommonPrefix(self, strs: [str]) -> str:
         if len(strs) == 0: return ""
-        if len(strs) == 1: return strs[0]
         min_len = len(strs[0])
         for i in strs:
             if min_len>len(i):
                 min_len = len(i)
-        if min_len == 0: return ""
         res = []
         temp = ""
         common = True
@@ -42,3 +40,18 @@ strs = ["a", "", "c"]
 print(a.longestCommonPrefix(strs))
 strs = ["c","c"]
 print(a.longestCommonPrefix(strs))
+
+#From Leetcode
+def longestCommonPrefix(self, strs):
+    """
+    :type strs: List[str]
+    :rtype: str
+    """
+    if not strs:
+        return ""
+    shortest = min(strs,key=len)
+    for i, ch in enumerate(shortest):
+        for other in strs:
+            if other[i] != ch:
+                return shortest[:i]
+    return shortest
