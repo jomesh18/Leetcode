@@ -34,6 +34,7 @@ def addBinary(a: str, b: str) -> str:
     res.reverse()
     return "".join(res)
 
+<<<<<<< Updated upstream
 # from leetcode
 def add_binary(a:str, b:str)->str:
     a = list(a)
@@ -58,3 +59,21 @@ def add_binary(a: str, b:str)->str:
     else:
         return add_binary(a[:-1],b[:-1])+str(int(a[-1])|int(b[-1]))
 
+=======
+#from leetcode
+def addBinary(a: str, b: str) -> str:
+    c, d, i = 0, "", -1
+    j = -len(a) if len(a)<len(b) else -len(b)
+    while i>=j:
+        d=str((int(a[i])+int(b[i])+c)%2)+d
+        c=int((int(a[i])+int(b[i])+c)/2)
+        i-=1
+    rem_str = a if len(a)>len(b) else b
+    while i>=-len(rem_str):
+        d=str((int(rem_str[i])+c)%2)+d
+        c=int((int(rem_str[i])+c)/2)
+        i-=1
+    if(c==1):
+        d="1"+d
+    return d
+>>>>>>> Stashed changes
