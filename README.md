@@ -6,7 +6,7 @@ git remote add origin https://github.com/user/repo.git
 #pushing 
 git push master origin
 #pulling
-git pull master origin
+git pull origin master
 <<<<<<< HEAD
 
 # try the longestcommonprefix edge cases check
