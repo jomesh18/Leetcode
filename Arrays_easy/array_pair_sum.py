@@ -11,3 +11,9 @@ nums = [1,4,3,2]
 print(obj.arrayPairSum(nums))
 nums = [1,2,3,2]
 print(obj.arrayPairSum(nums))
+
+# from leetcode
+class Solution:
+    def arrayPairSum(self, nums: List[int]) -> int:
+        nums.sort()
+        return(sum(nums[::2]))

@@ -7,12 +7,12 @@ git remote add origin https://github.com/user/repo.git
 git push master origin
 #pulling
 git pull origin master
-<<<<<<< HEAD
-
-# try the longestcommonprefix edge cases check
-
-=======
+#adding all files
+git add --all
 #commit your changes or stash  them before merge
 #discard local changes
 git reset --hard
->>>>>>> 329adadbf4a16bbbc7b91f909cece94659e673ba
+
+
+# try the longestcommonprefix edge cases check
+#try kmp algorithm
