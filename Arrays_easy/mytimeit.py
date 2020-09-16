@@ -5,33 +5,23 @@ import timeit
 
 # code snippet whose execution time is to be measured
 mycode = '''
-def longestCommonPrefix(strs: []) -> str:
-    if len(strs) == 0: return ""
-    prefix = ""
-    sample = min(strs, key=len)
-    word_count = len(strs)
-    checks = 0
+def twoSum(numbers: [int], target: int) -> [int]:
+    begining, end = 0, len(numbers)-1
+    while begining < end:
+        if numbers[end] + numbers[begining] == target:
+            return [begining+1, end+1]
+        elif numbers[end] + numbers[begining] > target:
+            end -= 1
+        else:
+            begining += 1
 
-    for i in range(0, len(sample)):
-        for string in strs:
-            if sample[i] == string[i]:
-                checks += 1
-                continue
-            else:
-                return prefix
-        if checks == word_count:
-            prefix += sample[i]
-            checks = 0
-    return prefix
-
-strs = ["flower","flow","flight"]
-longestCommonPrefix(strs)
+numbers = [2,7,11,15]
+target = 9
+twoSum(numbers, target)
 '''
 
 # timeit statement
 print(timeit.timeit(stmt = mycode, number = 10000))
-
-
 
 
 # code snippet to be executed only once
@@ -39,25 +29,21 @@ print(timeit.timeit(stmt = mycode, number = 10000))
 
 # code snippet whose execution time is to be measured
 mycode = '''
-def longestCommonPrefix(strs: []) -> str:
-    if len(strs) == 0: return ""
-    min_len = len(min(strs, key=len))
-    res = []
-    common = True
-    for j in range(min_len):
-        for string in strs[1:]:
-            if string[j] != strs[0][j]:
-                common = False
-                break
-        if common:
-            res.append(strs[0][j])
-            j += 1
+def twoSum(numbers: [int], target: int) -> [int]:
+    begining, end = 0, len(numbers)-1
+    while begining < end:
+        left = numbers[begining]
+        right = numbers[end]
+        if left + right == target:
+            return [begining+1, end+1]
+        elif left + right > target:
+            end -= 1
         else:
-            return "".join(res)
-    return "".join(res)
+            begining += 1
 
-strs = ["flower","flow","flight"]
-longestCommonPrefix(strs)
+numbers = [2,7,11,15]
+target = 9
+twoSum(numbers, target)
 '''
 
 # timeit statement
@@ -69,28 +55,19 @@ print(timeit.timeit(stmt = mycode, number = 10000))
 
 # code snippet whose execution time is to be measured
 mycode = '''
-def longestCommonPrefix(strs: []) -> str:
-    if len(strs) ==0:
-        return ""
-    prefix = ""
-    strs = sorted(strs,key=lambda x: len(x))
-    first_word =strs[0]
-    max_prefix = len(first_word)
-    need_to_run =True
-    index = 0
-    last_index = 0
-    while need_to_run and index < max_prefix:
-        for word in strs[1:]:
-            if word[index] !=first_word[index]:
-                need_to_run=False
-                last_index = index
-        if need_to_run:
-            prefix+=first_word[index]
-        index+=1
-    return prefix
+def twoSum(numbers: [int], target: int) -> [int]:
+    begining, end = 0, len(numbers)-1
+    while begining < end:
+        if numbers[end] + numbers[begining] == target:
+            return [begining+1, end+1]
+        elif numbers[end] + numbers[begining] > target:
+            end -= 1
+        else:
+            begining += 1
 
-strs = ["flower","flow","flight"]
-longestCommonPrefix(strs)
+numbers = [2,7,11,15]
+target = 9
+twoSum(numbers, target)
 '''
 
 # timeit statement
