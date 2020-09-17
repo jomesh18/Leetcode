@@ -13,6 +13,5 @@ git add --all
 #discard local changes
 git reset --hard
 
-
-# try the longestcommonprefix edge cases check
+# to do
 #try kmp algorithm
