@@ -86,6 +86,7 @@
 // 	}
 //     void rotate(vector<int>& nums, int k) {
 //     	int n = nums.size()-1;
+//     	k %= n+1;
 //         reverse_arr(nums, 0, n);
 //         reverse_arr(nums, 0, k-1);
 //         reverse_arr(nums, k, n);
@@ -116,8 +117,7 @@ using namespace std;
 class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
-    	int count, start = 0;
-    	int n = nums.size();
+    	int count, start = 0, n = nums.size();
     	k %= n;
     	while(count<n){
     		int current = start;
@@ -131,9 +131,6 @@ public:
     			current = next_index;
     			if (current == start)
     				break;
-    			for(int i=0;i<n;i++)
-			        cout<<nums[i]<<" ";
-			    cout<<"\n";
     		}
     		start++;
     	}
