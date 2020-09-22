@@ -13,3 +13,12 @@ class Solution:
 obj = Solution()
 rowIndex = 4
 print(obj.getRow(rowIndex))
+
+#from leetcode
+# class Solution:
+#     def getRow(self, rowIndex: int) -> List[int]:
+#         count=[1]*(rowIndex+1)
+#         for i in range(0,rowIndex):
+#             for k in range(i,0,-1):
+#                 count[k]+=count[k-1]     
+#         return count
