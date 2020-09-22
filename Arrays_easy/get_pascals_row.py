@@ -12,7 +12,7 @@ class Solution:
 
 obj = Solution()
 rowIndex = 4
-print(obj.getRow(rowIndex))
+print(obj.getRow(rowIndex));
 
 #from leetcode
 # class Solution:
@@ -22,3 +22,7 @@ print(obj.getRow(rowIndex))
 #             for k in range(i,0,-1):
 #                 count[k]+=count[k-1]     
 #         return count
+
+# obj = Solution()
+# rowIndex = 4
+# print(obj.getRow(rowIndex))
