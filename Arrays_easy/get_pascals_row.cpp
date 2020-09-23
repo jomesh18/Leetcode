@@ -63,6 +63,64 @@
 // }
 
 //from leetcode
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// class Solution {
+// public:
+//     vector<int> getRow(int rowIndex) {
+//         vector<int> A(rowIndex+1, 0);
+//         A[0] = 1;
+//         for(int i=1; i<rowIndex+1; i++)
+//             for(int j=i; j>=1; j--)
+//                 A[j] += A[j-1];
+//         return A;
+//     }
+// };
+
+// int main(){
+//     Solution obj;
+//     int rowIndex = 4;
+//     vector<int> r = obj.getRow(rowIndex);
+//     for(int i=0; i<r.size(); i++)
+//         cout<<r[i]<<" ";
+//     return 0;
+// }
+
+//from leetcode, using combination logic
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// class Solution {
+// public:
+// vector<int> getRow(int rowIndex) {
+//     vector<int> ans(rowIndex+1,1);
+//     int small = rowIndex/2;
+//     long comb = 1;
+//     int j = 1;
+//     for (int i=rowIndex; i>=small; i--){
+//         comb *= i;
+//         comb /= j;
+//         j ++;
+//         ans[i-1] = (int)comb;
+//         ans[j-1] = (int)comb;
+//     }
+//     return ans;
+// }
+// };
+
+// int main(){
+//     Solution obj;
+//     int rowIndex = 4;
+//     vector<int> r = obj.getRow(rowIndex);
+//     for(int i=0; i<r.size(); i++)
+//         cout<<r[i]<<" ";
+//     return 0;
+// }
+
+//using math
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -70,13 +128,11 @@ using namespace std;
 class Solution {
 public:
     vector<int> getRow(int rowIndex) {
-        vector<int> A(rowIndex+1, 0);
-        A[0] = 1;
-        for(int i=1; i<rowIndex+1; i++)
-            for(int j=i; j>=1; j--)
-                A[j] += A[j-1];
-        return A;
-    }
+        vector<int> res(rowIndex + 1, 1);
+        for(int k = 1; k <= (rowIndex + 1)/2; k++)
+            res[k] = res[rowIndex - k] = (long)res[k - 1]*(long)(rowIndex - k + 1)/k;
+        return res;
+}
 };
 
 int main(){
