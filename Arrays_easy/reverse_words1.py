@@ -6,7 +6,7 @@
 #         # l = l[::-1]
 #         # return " ".join(l)
 #         return " ".join(s.split()[::-1])
-
+			# return " ".join(reversed(s.spit()))
 # obj = Solution()
 # s = "the sky is blue"
 # print(s)
