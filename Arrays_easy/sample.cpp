@@ -20,5 +20,10 @@ int main(){
     // cout<<p[2][3]<<endl;
     cout<<((p+2))<<endl;
     cout<<*(*(p+2))<<endl;
+    string s = "hi brother";
+    cout<<s<<endl;
+    s.append(" how are you?");
+    cout<<s<<endl;
+    cout<<s.substr(1, 5)<<endl;
 	return 0;
 }

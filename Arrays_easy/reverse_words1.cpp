@@ -102,17 +102,18 @@ using std::string;
 
 class Solution {
 public:
-    void reverseWords(string &s) {
+    string reverseWords(string &s) {
         string res;
         for(int i=s.size()-1; i>=0; i--){
-            if s[i] != ' '{
-                if (i != s.size()-1) res.push_back(' ');
+            if (s[i] != ' '){
                 int j = i;
-                while (j>=0 && s[j] != ' ') res.push_back(s[j--]);
-
-
+                while (j>=0 && s[j] != ' ') j--;
+                res.append(s.substr(j+1, i-j));
+                res.push_back(' ');
+                i = j;
             }
         }
+        res.pop_back();
         return res;
     }
 };
@@ -122,6 +123,5 @@ int main(){
     string s = "the    sky is  blue ";
     cout<<s<<endl;
     cout<<obj.reverseWords(s)<<endl;
-    cout<<s<<endl;
     return 0;
 }
