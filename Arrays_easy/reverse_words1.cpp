@@ -91,37 +91,72 @@
 //     return 0;
 // }
 
+
 // O(n) space based on the above code
+// #include <iostream>
+// #include <string>
+// #include <algorithm>
+
+// using std::cout;
+// using std::endl;
+// using std::string;
+
+// class Solution {
+// public:
+//     string reverseWords(string &s) {
+//         string res;
+//         for(int i=s.size()-1; i>=0; i--){
+//             if (s[i] != ' '){
+//                 int j = i;
+//                 while (j>=0 && s[j] != ' ') j--;
+//                 res.append(s.substr(j+1, i-j));
+//                 res.push_back(' ');
+//                 i = j;
+//             }
+//         }
+//         res.pop_back();
+//         return res;
+//     }
+// };
+
+// int main(){
+//     Solution obj;
+//     string s = "the    sky is  blue ";
+//     cout<<s<<endl;
+//     cout<<obj.reverseWords(s)<<endl;
+//     return 0;
+// }
+
+// from leetcode using istringstream, O(n**2)
+
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include<sstream>
 
 using std::cout;
 using std::endl;
 using std::string;
+using std::istringstream;
 
 class Solution {
 public:
-    string reverseWords(string &s) {
-        string res;
-        for(int i=s.size()-1; i>=0; i--){
-            if (s[i] != ' '){
-                int j = i;
-                while (j>=0 && s[j] != ' ') j--;
-                res.append(s.substr(j+1, i-j));
-                res.push_back(' ');
-                i = j;
-            }
-        }
-        res.pop_back();
-        return res;
+    void reverseWords(string &s) {
+        istringstream is(s);
+        string tmp;
+        is >> s;
+        // cout<<s<<endl;
+        while(is >> tmp) s = tmp + " " + s;
+        if(s[0] == ' ') s = "";
     }
 };
 
 int main(){
     Solution obj;
-    string s = "the    sky is  blue ";
+    // string s = "the    sky is  blue ";
+    string s = "    ";
     cout<<s<<endl;
-    cout<<obj.reverseWords(s)<<endl;
+    obj.reverseWords(s);
+    cout<<s<<endl;
     return 0;
 }
