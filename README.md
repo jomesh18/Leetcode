@@ -15,3 +15,5 @@ git reset --hard
 
 # to do
 #try kmp algorithm
+#floyd’s algorithm explanation (cycle in linked list)
+
