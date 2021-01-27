@@ -89,3 +89,21 @@ s.detectCycle(ll)
 
 #try with floyd's algorithm
 
+# class Solution:
+# 	def detectCycle(self, head: ListNode) -> ListNode:
+# 		if self.head is None:
+# 			return head
+# 		fast = self.head
+# 		slow = self.head
+# 		while fast != slow:
+# 			if fast is None or fast.next is None:
+# 				return None
+# 			fast = fast.next.next
+# 			slow = slow.next
+
+# 		slow = self.head
+# 		while slow != fast:
+# 			slow = slow.next
+# 			fast = fast.next
+# 		return slow
+# 		
