@@ -88,3 +88,4 @@ s = Solution()
 s.detectCycle(ll)
 
 #try with floyd's algorithm
+
