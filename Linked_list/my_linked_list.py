@@ -236,3 +236,12 @@ class MyLinkedList:
 # obj.addAtIndex(index,val)
 # obj.deleteAtIndex(index)
 
+# #to correct
+# ip1 = ["MyLinkedList", "addAtHead", "addAtTail", "addAtIndex", "get", "deleteAtIndex", "get"]
+# ip2 = [[], [1], [3], [1, 2], [1], [1], [1]]
+# ll = MyLinkedList()
+# for fun, para in zip(ip1[1:], ip2[1:]):
+#     ll.fun(*para)
+
+# Output
+# [null, null, null, null, 2, null, 3]

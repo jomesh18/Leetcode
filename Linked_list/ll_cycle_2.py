@@ -40,6 +40,80 @@ Follow up: Can you solve it using O(1) (i.e. constant) memory?
 '''
 
 # Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# class LL:
+# 	def __init__(self):
+# 		self.head = None
+
+# 	def addAtTail(self, val):
+# 		node = ListNode(val)
+# 		if self.head:
+# 			current = self.head
+# 			while current.next:
+# 				current = current.next
+# 			current.next = node
+# 		else:
+# 			self.head = node
+
+# 	def __str__(self):
+# 		ret_str = ''
+# 		current = self.head
+# 		while current:
+# 			ret_str += str(current.val) + ' --> '
+# 			current = current.next
+# 		return ret_str
+
+# class Solution:
+# 	def detectCycle(self, head: ListNode) -> ListNode:
+# 		if head is None:
+# 			return head
+# 		visited = set()
+# 		current = head
+# 		while current:
+# 			if current in visited:
+# 				return current
+# 			visited.add(current)
+# 			current = current.next
+# 		return current
+
+# ll = LL()
+# # head = [3,2,0,-4]
+# # pos = 1
+# # Output: tail connects to node index 1
+# head = [1,2]
+# pos = 0
+
+# for i in head:
+# 	ll.addAtTail(i)
+# print(ll)
+# if pos != -1:
+# 	i = 0
+# 	current = ll.head
+# 	while i != pos:
+# 		i += 1
+# 		current = current.next
+# 	cycle_start = current
+# 	while current.next:
+# 		current = current.next
+# 	current.next = cycle_start
+# i = 0
+# current = ll.head
+# ret = ''
+# while i<10 and current:
+# 	ret += str(current.val)+ ' ==> ' 
+# 	i += 1
+# 	current = current.next
+# print(ret)
+# s = Solution()
+# node = s.detectCycle(ll.head)
+# print(node.val)
+
+#try with floyd's algorithm
+
 class ListNode:
     def __init__(self, x):
         self.val = x
@@ -47,16 +121,17 @@ class ListNode:
 
 class LL:
 	def __init__(self):
-		self.head = ListNode(None)
+		self.head = None
 
 	def addAtTail(self, val):
-		current = self.head
-		if self.head.val is None:
-			self.head.val = val
-		else:
+		node = ListNode(val)
+		if self.head:
+			current = self.head
 			while current.next:
 				current = current.next
-			current.next = ListNode(val)
+			current.next = node
+		else:
+			self.head = node
 
 	def __str__(self):
 		ret_str = ''
@@ -70,40 +145,48 @@ class Solution:
 	def detectCycle(self, head: ListNode) -> ListNode:
 		if head is None:
 			return head
-		visited = set()
-		current = head
-		while current:
-			if current in visited:
-				return current
-			visited.add(current)
-			current = current.next
-		return current
+		fast = head
+		slow = head
+		while fast != slow:
+			if fast is None or fast.next is None:
+				return None
+			fast = fast.next.next
+			slow = slow.next
+
+		slow = head
+		while slow != fast:
+			slow = slow.next
+			fast = fast.next
+		return slow
 
 ll = LL()
-ll.addAtTail(1)
-ll.addAtTail(2)
-ll.addAtTail(3)
+# head = [3,2,0,-4]
+# pos = 1
+# Output: tail connects to node index 1
+head = [1,2]
+pos = 0
+
+for i in head:
+	ll.addAtTail(i)
 print(ll)
+if pos != -1:
+	i = 0
+	current = ll.head
+	while i != pos:
+		i += 1
+		current = current.next
+	cycle_start = current
+	while current.next:
+		current = current.next
+	current.next = cycle_start
+i = 0
+current = ll.head
+ret = ''
+while i<10 and current:
+	ret += str(current.val)+ ' ==> ' 
+	i += 1
+	current = current.next
+print(ret)
 s = Solution()
-s.detectCycle(ll)
-
-#try with floyd's algorithm
-
-# class Solution:
-# 	def detectCycle(self, head: ListNode) -> ListNode:
-# 		if self.head is None:
-# 			return head
-# 		fast = self.head
-# 		slow = self.head
-# 		while fast != slow:
-# 			if fast is None or fast.next is None:
-# 				return None
-# 			fast = fast.next.next
-# 			slow = slow.next
-
-# 		slow = self.head
-# 		while slow != fast:
-# 			slow = slow.next
-# 			fast = fast.next
-# 		return slow
-# 		
+node = s.detectCycle(ll.head)
+print(node.val)

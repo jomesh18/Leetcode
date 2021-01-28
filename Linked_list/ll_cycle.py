@@ -60,11 +60,33 @@ Follow up: Can you solve it using O(1) (i.e. constant) memory?
 
  #Floyd's technique
 
-Definition for singly-linked list.
+# Definition for singly-linked list.
 class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
+
+class LL:
+    def __init__(self):
+        self.head = None
+
+    def addAtTail(self, val):
+        node = ListNode(val)
+        if self.head:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = node
+        else:
+            self.head = node
+
+    def __str__(self):
+        ret = ''
+        current = self.head
+        while current:
+            ret += str(current.val)+ ' ==> '
+            current = current.next
+        return ret
 
 class Solution:
     def hasCycle(self, head: ListNode) -> bool:
@@ -78,3 +100,34 @@ class Solution:
     		slow = slow.next
     		fast = fast.next.next
     	return True
+
+# head = [3,2,0,-4]
+# pos = 1
+head = [1]
+pos = -1
+ll = LL()
+for i in head:
+    ll.addAtTail(i)
+print(ll)
+if pos != -1:
+    current = ll.head
+    i = 0
+    while i != pos:
+        current = current.next
+        i += 1
+    cycle_start = current
+    while current.next:
+        current = current.next
+    current.next = cycle_start
+i = 0
+current = ll.head
+ret = ''
+while(i<10 and current):
+    i += 1
+    ret += str(current.val)+ ' ==> '
+    current = current.next
+print(ret)
+ # Output: true
+
+obj = Solution()
+print(obj.hasCycle(ll.head))
