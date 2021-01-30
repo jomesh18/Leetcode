@@ -43,10 +43,30 @@ class LL:
 
 class Solution:
 	def reverseList(self, head: ListNode) -> ListNode:
-		current = head
-		while current.next:
-			current, current.next = current.next, current
-			
+		first = head
+		while first.next:
+			second = first.next
+			first.next = second.next
+			second.next = head
+			head = second
+		return head
 
 # Input: 1->2->3->4->5->NULL
 # Output: 5->4->3->2->1->NULL
+
+ll = LL()
+input_l = [1, 2, 3, 4, 5]
+for i in input_l:
+	ll.addAtTail(i)
+print(ll)
+s = Solution()
+# reverse_ll = s.reverseList(ll.head)
+# current = reverse_ll
+# st = ''
+# while current:
+# 	st += str(current.val)+ ' ==> '
+# 	current = current.next
+# print(st)
+reverse_ll = LL()
+reverse_ll.head = s.reverseList(ll.head)
+print(reverse_ll)
