@@ -69,16 +69,36 @@ class LL:
 
 # from leetcode
 
+# class Solution:
+#     def reverseList(self, head: ListNode) -> ListNode:
+#         current = head
+#         prev = None
+#         while current:
+#             temp = current.next
+#             current.next = prev
+#             prev = current
+#             current = temp
+#         return prev
+
+# ll = LL()
+# input_l = [1, 2, 3, 4, 5]
+# for i in input_l:
+#     ll.addAtTail(i)
+# print(ll)
+# s = Solution()
+# reverse_ll = LL()
+# reverse_ll.head = s.reverseList(ll.head)
+# print(reverse_ll)
+
+# using recursion
 class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
-        current = head
-        prev = None
-        while current:
-            temp = current.next
-            current.next = prev
-            prev = current
-            current = temp
-        return prev
+        if head is None or head.next is None:
+            return head
+        h = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
+        return h
 
 ll = LL()
 input_l = [1, 2, 3, 4, 5]
@@ -89,5 +109,3 @@ s = Solution()
 reverse_ll = LL()
 reverse_ll.head = s.reverseList(ll.head)
 print(reverse_ll)
-
-# using recursion
