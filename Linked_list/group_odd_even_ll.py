@@ -76,3 +76,35 @@ s = Solution()
 odd_even = LL()
 odd_even.head = s.oddEvenList(ll.head)
 print(odd_even)
+
+#from leetcode
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if head is None:
+            return head
+        odd = head
+        even = head.next
+        evenhead = even
+        while even is not None and even.next is not None:
+            odd.next = even.next
+            odd = odd.next
+            even.next = odd.next
+            even = even.next
+        odd.next = evenhead
+        return head
+#from leetcode
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if head is None:
+            return None
+        odd = head
+        even = head.next
+        even_head = head.next
+
+        while even and even.next:
+            odd.next, even.next = odd.next.next, even.next.next
+            odd, even = odd.next, even.next
+
+        odd.next = even_head
+        return head
+        
