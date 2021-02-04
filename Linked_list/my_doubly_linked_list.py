@@ -54,7 +54,7 @@ class MyLinkedList:
         Initialize your data structure here.
         """
         self.head = None
-        
+        self.tail = None
 
     def get(self, index: int) -> int:
         """
@@ -81,16 +81,22 @@ class MyLinkedList:
             self.head = node
         else:
             self.head = node
+            self.tail = node
     def addAtTail(self, val: int) -> None:
         """
         Append a node of value val to the last element of the linked list.
         """
         node = self.Node(val)
         current = self.head
-        while current.next:
-            current = current.next
-        current.next = node
-        node.prev = current
+        if current:
+            while current.next:
+                current = current.next
+            current.next = node
+            node.prev = current
+            self.tail = node
+        else:
+            self.head = node
+            self.tail = node
 
     def addAtIndex(self, index: int, val: int) -> None:
         """
@@ -128,23 +134,39 @@ class MyLinkedList:
             l.append(str(current.val))
             current = current.next
             i += 1 
-        return '==>'.join(l)+'==>'
+        return 'Original ll: '+'==>'.join(l)+'==>'
+    def rev_print(self):
+        l = []
+        current = self.tail
+        i = 0
+        while current and i<10:
+            l.append(str(current.val))
+            current = current.prev
+            i += 1
+        return 'Reverse ll: <=='+'<=='.join(l[::-1])
 
     def deleteAtIndex(self, index: int) -> None:
         """
         Delete the index-th node in the linked list, if the index is valid.
         """
         current = self.head
-        if index == 0:
+        size = len(self)
+        if index<0 or index>=size:
+            return
+        elif index == 0 and current:
             self.head = current.next
-            current.next.prev = None
-        elif index == len(self)-1:
+            if current.next:
+                current.next.prev = None
+            else:
+                self.tail = self.head
+        elif index == size-1:
             while current.next:
                 current = current.next
+            self.tail = current.prev
             current.prev.next = None
         else:
             i = 0
-            while current and i<index:
+            while current.next and i<index:
                 current = current.next
                 i += 1
             current.prev.next = current.next
@@ -161,27 +183,92 @@ class MyLinkedList:
 # ["MyLinkedList","addAtHead","addAtHead","addAtHead","addAtIndex","deleteAtIndex","addAtHead","addAtTail","get","addAtHead","addAtIndex","addAtHead"]
 # [[],[7],[2],[1],[3,0],[2],[6],[4],[4],[4],[5,0],[6]]
 
+# obj = MyLinkedList()
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtHead(7)
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtHead(2)
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtHead(1)
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtIndex(3, 0)
+# print(obj)
+# print(obj.rev_print())
+# obj.deleteAtIndex(2)
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtHead(6)
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtTail(4)
+# print(obj)
+# print(obj.rev_print())
+# print(obj.get(4))
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtHead(4)
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtIndex(5, 0)
+# print(obj)
+# print(obj.rev_print())
+# obj.addAtHead(6)
+# print(obj)
+# print(obj.rev_print())
+
+# obj = MyLinkedList()
+# obj.addAtHead(1)
+# print(obj)
+# print(obj.rev_print())
+# obj.deleteAtIndex(0)
+# print(obj)
+# print(obj.rev_print())
+
+# obj = MyLinkedList()
+# obj.addAtTail(1)
+# print(obj)
+# print(obj.rev_print())
+# print(obj.get(0))
+# print(obj)
+# print(obj.rev_print())
+
+["MyLinkedList","addAtHead","deleteAtIndex","addAtHead","addAtHead","addAtHead","addAtHead","addAtHead","addAtTail","get","deleteAtIndex","deleteAtIndex"]
+[[],[2],[1],[2],[7],[3],[2],[5],[5],[5],[6],[4]]
+
 obj = MyLinkedList()
-print(obj)
-obj.addAtHead(7)
-print(obj)
 obj.addAtHead(2)
 print(obj)
-obj.addAtHead(1)
+print(obj.rev_print())
+obj.deleteAtIndex(1)
 print(obj)
-obj.addAtIndex(3, 0)
+print(obj.rev_print())
+obj.addAtHead(2)
 print(obj)
-obj.deleteAtIndex(2)
+print(obj.rev_print())
+obj.addAtHead(7)
 print(obj)
-obj.addAtHead(6)
+print(obj.rev_print())
+obj.addAtHead(3)
 print(obj)
-obj.addAtTail(4)
+print(obj.rev_print())
+obj.addAtHead(2)
 print(obj)
-obj.get(4)
+print(obj.rev_print())
+obj.addAtHead(5)
 print(obj)
-obj.addAtHead(4)
+print(obj.rev_print())
+obj.addAtTail(5)
 print(obj)
-obj.addAtIndex(5, 0)
+print(obj.rev_print())
+print(obj.get(5))
+obj.deleteAtIndex(6)
 print(obj)
-obj.addAtHead(6)
+print(obj.rev_print())
+obj.deleteAtIndex(6)
 print(obj)
+print(obj.rev_print())
+
