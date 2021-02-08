@@ -232,3 +232,22 @@ def mergeTwoLists(self, l1, l2):
         cur = cur.next
     cur.next = l1 or l2
     return dummy.next
+
+#my try
+def mergeTwoLists(self, l1, l2):
+    if not (l1 and l2):
+        return l1 or l2
+    dummy = ListNode(0)
+    dummy.next = l1
+    current = dummy
+    while l1 and l2:
+        if l1.val<l2.val:
+            l1 = l1.next
+        else:
+            temp = l2.next
+            current.next = l2
+            l2.next = l1
+            l2 = temp
+        current = current.next
+    current.next = l1 or l2
+    return dummy.next
