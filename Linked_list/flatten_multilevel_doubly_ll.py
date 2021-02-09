@@ -76,12 +76,142 @@ Constraints:
 
 # Definition for a Node.
 class Node:
-    def __init__(self, val, prev, next, child):
+    def __init__(self, val=None, prev=None, next=None, child=None):
         self.val = val
         self.prev = prev
         self.next = next
         self.child = child
 
+class MyLinkedList:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.head = None
+        self.tail = None
+        self.size = 0
+
+    def get(self, index: int) -> int:
+        """
+        Get the value of the index-th node in the linked list. If the index is invalid, return -1.
+        """
+        if index<0 or index>=self.size:
+            return -1
+        if not self.head:
+            return -1
+        current = self.head
+        for _ in range(index):
+            current = current.next
+        return current.val
+
+
+    def addAtHead(self, val: int) -> None:
+        """
+        Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
+        """
+        self.addAtIndex(0, val)
+
+    def addAtTail(self, val: int) -> None:
+        """
+        Append a node of value val to the last element of the linked list.
+        """
+        self.addAtIndex(self.size, val)
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        """
+        Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted.
+        """
+        if index<0 or index>self.size:
+            return
+        node = Node(val)
+        if index == 0:
+            if self.head:
+                node.next = self.head
+                self.head.prev = node
+                self.head = node
+            else:
+                self.head = node
+                self.tail = node
+        elif index == self.size:
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = node
+        else:
+            current = self.head
+            for _ in range(index-1):
+                current = current.next
+            node.next = current.next
+            node.prev = current
+            current.next.prev = node
+            current.next = node
+
+        self.size += 1
+
+    def deleteAtIndex(self, index: int) -> None:
+        """
+        Delete the index-th node in the linked list, if the index is valid.
+        """
+        if index<0 or index>=self.size:
+            return
+        current = self.head
+        if index == 0:
+            if self.size == 0:
+                return
+            elif self.size == 1:
+                self.head = self.tail = None
+            else:
+                self.head = self.head.next
+                self.head.prev = None
+        elif index == self.size-1:
+            self.tail = self.tail.prev
+            self.tail.next = None
+        else:
+            for _ in range(index-1):
+                current = current.next
+            current.next.next.prev = current.next.prev
+            current.next = current.next.next
+
+        self.size -= 1
+
+    def __str__(self):
+        l = []
+        current = self.head
+        while current:
+            l.append(str(current.val))
+            current = current.next
+        return 'Original ll: '+'==>'.join(l)+'==>'
+        
+    def rev_print(self):
+        l = []
+        current = self.tail
+        while current:
+            l.append(str(current.val))
+            current = current.prev
+        return 'Reverse ll: <=='+'<=='.join(l[::-1])
+
 class Solution:
     def flatten(self, head: 'Node') -> 'Node':
-      
+        if not head:
+            return None
+        last = head
+        n = head.next
+        if head.child:
+            head.next = self.flatten(head.child)
+        if n:
+            last.next = self.flatten(n)
+        return head
+
+ll = MyLinkedList()
+ll.addAtTail(1)
+ll.addAtTail(2)
+ll.addAtTail(3)
+current = ll.head
+current = current.next
+current.child = Node(4)
+current.child.next = Node(5)
+current.child.next.prev = current.child
+s = Solution()
+flat_ll = MyLinkedList()
+flat_ll.head = s.flatten(ll.head)
+print(flat_ll)
