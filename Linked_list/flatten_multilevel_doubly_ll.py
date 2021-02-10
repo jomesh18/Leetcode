@@ -76,12 +76,11 @@ Constraints:
 
 # Definition for a Node.
 class Node:
-    def __init__(self, val=None, prev=None, next=None, child=None):
+    def __init__(self, val, prev=None, next=None, child=None):
         self.val = val
         self.prev = prev
         self.next = next
         self.child = child
-
 class MyLinkedList:
 
     def __init__(self):
@@ -189,18 +188,80 @@ class MyLinkedList:
             l.append(str(current.val))
             current = current.prev
         return 'Reverse ll: <=='+'<=='.join(l[::-1])
+# with stack
+# class Solution:
+#     def flatten(self, head: 'Node') -> 'Node':
+#         if not head:
+#             return head
+#         stack = [head]
+#         prev = Node(0)
 
+#         while stack:
+#             curr = stack.pop()
+#             prev.next = curr
+#             curr.prev = prev
+
+#             if curr.next:
+#                 stack.append(curr.next)
+#             if curr.child:
+#                 stack.append(curr.child)
+#             prev = curr
+#         head.prev = None
+#         return head
+
+# without stack
+'''
+    Iterate list from head and create current node
+    Loop until current is not null
+    Check if current don't have child just update current to current.next and continute [case of simple dll]
+    If child node exit then find the tail of child dll and join that tail to before the current.next
+    If current.next is not null change the prev to temp [tail of current child chain]
+    Update current.next to current.child and also change the prev of current.child to current and null child node [mark visited this child node]
+'''
+# class Solution:
+#     def flatten(self, head: 'Node') -> 'Node':
+#         curr = head
+#         while curr:
+#             if curr.child:
+#                 c = curr.child
+#                 while c.next:
+#                     c = c.next
+#                 if curr.next:
+#                     c.next = curr.next
+#                     curr.next.prev = c
+#                 curr.next = curr.child
+#                 curr.child.prev = curr
+#                 curr.child = None
+#             curr = curr.next
+#         return head
+
+# recursive from leetcode
 class Solution:
     def flatten(self, head: 'Node') -> 'Node':
         if not head:
-            return None
-        last = head
-        n = head.next
-        if head.child:
-            head.next = self.flatten(head.child)
-        if n:
-            last.next = self.flatten(n)
-        return head
+            return (None)
+        self.travel(head)
+        return (head)
+
+    def travel(self, cur):
+        while cur:
+            next_node = cur.next # have to store next node in case cur.next gets overridden to point to child node. will use this to connect the child level back to current level
+            if not next_node: tail = cur  # reached the last node in current level, assign it to 'tail' for return
+
+            if cur.child: # if the current node contains a child node, this if clause will handle the child node's level and any more child nodes that it spawns
+                cur.child.prev = cur
+                cur.next = cur.child
+
+                child_tail = self.travel(cur.child) #returns tail after traversing the child node's level
+                if next_node:     # if there exists a node in the prior level, connect its prev pointer to the child node's tail. if there is none, then no need
+                    next_node.prev = child_tail
+
+                child_tail.next = next_node  # have to connect child_tail back to prior level regardless if next node is null or not
+                cur.child = None  # clearing child pointers
+
+            cur = cur.next  # this will either begin traversing cur's child node level (if exists) or resume traversing cur's current level
+
+        return (tail)  # returns tail node of level  
 
 ll = MyLinkedList()
 ll.addAtTail(1)
@@ -215,3 +276,6 @@ s = Solution()
 flat_ll = MyLinkedList()
 flat_ll.head = s.flatten(ll.head)
 print(flat_ll)
+print(flat_ll.rev_print())
+print(ll)
+print(ll.rev_print())
