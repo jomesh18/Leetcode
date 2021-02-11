@@ -81,6 +81,11 @@ class Node:
         self.prev = prev
         self.next = next
         self.child = child
+
+    def add_next(self, node):
+        self.next = node
+        node.prev = self
+
 class MyLinkedList:
 
     def __init__(self):
@@ -189,25 +194,26 @@ class MyLinkedList:
             current = current.prev
         return 'Reverse ll: <=='+'<=='.join(l[::-1])
 # with stack
-# class Solution:
-#     def flatten(self, head: 'Node') -> 'Node':
-#         if not head:
-#             return head
-#         stack = [head]
-#         prev = Node(0)
+class Solution:
+    def flatten(self, head: 'Node') -> 'Node':
+        if not head:
+            return head
+        stack = [head]
+        prev = Node(0)
 
-#         while stack:
-#             curr = stack.pop()
-#             prev.next = curr
-#             curr.prev = prev
+        while stack:
+            curr = stack.pop()
+            prev.next = curr
+            curr.prev = prev
 
-#             if curr.next:
-#                 stack.append(curr.next)
-#             if curr.child:
-#                 stack.append(curr.child)
-#             prev = curr
-#         head.prev = None
-#         return head
+            if curr.next:
+                stack.append(curr.next)
+            if curr.child:
+                stack.append(curr.child)
+                curr.child = None
+            prev = curr
+        head.prev = None
+        return head
 
 # without stack
 '''
@@ -227,8 +233,8 @@ class MyLinkedList:
 #                 while c.next:
 #                     c = c.next
 #                 if curr.next:
-#                     c.next = curr.next
 #                     curr.next.prev = c
+#                 c.next = curr.next
 #                 curr.next = curr.child
 #                 curr.child.prev = curr
 #                 curr.child = None
@@ -236,46 +242,88 @@ class MyLinkedList:
 #         return head
 
 # recursive from leetcode
-class Solution:
-    def flatten(self, head: 'Node') -> 'Node':
-        if not head:
-            return (None)
-        self.travel(head)
-        return (head)
+# class Solution:
+#     def flatten(self, head: 'Node') -> 'Node':
+#         if not head:
+#             return (None)
+#         self.travel(head)
+#         return (head)
 
-    def travel(self, cur):
-        while cur:
-            next_node = cur.next # have to store next node in case cur.next gets overridden to point to child node. will use this to connect the child level back to current level
-            if not next_node: tail = cur  # reached the last node in current level, assign it to 'tail' for return
+#     def travel(self, cur):
+#         while cur:
+#             next_node = cur.next # have to store next node in case cur.next gets overridden to point to child node. will use this to connect the child level back to current level
+#             if not next_node: tail = cur  # reached the last node in current level, assign it to 'tail' for return
 
-            if cur.child: # if the current node contains a child node, this if clause will handle the child node's level and any more child nodes that it spawns
-                cur.child.prev = cur
-                cur.next = cur.child
+#             if cur.child: # if the current node contains a child node, this if clause will handle the child node's level and any more child nodes that it spawns
+#                 cur.child.prev = cur
+#                 cur.next = cur.child
 
-                child_tail = self.travel(cur.child) #returns tail after traversing the child node's level
-                if next_node:     # if there exists a node in the prior level, connect its prev pointer to the child node's tail. if there is none, then no need
-                    next_node.prev = child_tail
+#                 child_tail = self.travel(cur.child) #returns tail after traversing the child node's level
+#                 if next_node:     # if there exists a node in the prior level, connect its prev pointer to the child node's tail. if there is none, then no need
+#                     next_node.prev = child_tail
 
-                child_tail.next = next_node  # have to connect child_tail back to prior level regardless if next node is null or not
-                cur.child = None  # clearing child pointers
+#                 child_tail.next = next_node  # have to connect child_tail back to prior level regardless if next node is null or not
+#                 cur.child = None  # clearing child pointers
 
-            cur = cur.next  # this will either begin traversing cur's child node level (if exists) or resume traversing cur's current level
+#             cur = cur.next  # this will either begin traversing cur's child node level (if exists) or resume traversing cur's current level
 
-        return (tail)  # returns tail node of level  
+#         return (tail)  # returns tail node of level
+
+# recursive from leetcode function signature changed
+
+# class Solution:
+#     def flatten(self, head: 'Node', rest=None):
+#         if not head: return rest
+#         head.next = self.flatten(head.child, self.flatten(head.next, rest))
+#         if head.next: head.next.prev = head
+#         head.child = None
+#         return head
 
 ll = MyLinkedList()
-ll.addAtTail(1)
-ll.addAtTail(2)
-ll.addAtTail(3)
-current = ll.head
-current = current.next
-current.child = Node(4)
-current.child.next = Node(5)
-current.child.next.prev = current.child
+l = [1,2,3,4,5,6,None,None,None,7,8,9,10,None,None,11,12]
+pos = 0
+next_level_head = None
+while pos<len(l) and l[pos] is not None:
+    ll.addAtTail(l[pos])
+    pos += 1
+pos += 1
+while pos<len(l):
+    curr = next_level_head or ll.head
+    while pos<len(l) and l[pos] is None:
+        curr = curr.next
+        pos += 1
+    next_level_head = Node(l[pos])
+    curr.child = next_level_head
+    pos += 1
+    curr = next_level_head
+    while pos<len(l) and l[pos] is not None:
+        curr.add_next(Node(l[pos]))
+        pos += 1
+        curr = curr.next
+    pos += 1
+temp_list = [ll.head]
+i = 0
+while temp_list:
+    curr = temp_list.pop(0)
+    temp = []
+    print('Level {}'.format(i))
+    while curr:
+        temp.append(str(curr.val))
+        if curr.child:
+            temp_list.append(curr.child)
+        curr = curr.next
+    print('==>'.join(temp))
+    i += 1
+
 s = Solution()
 flat_ll = MyLinkedList()
+# flat_ll.head = s.flatten(ll.head)
 flat_ll.head = s.flatten(ll.head)
-print(flat_ll)
-print(flat_ll.rev_print())
-print(ll)
-print(ll.rev_print())
+# print(flat_ll)
+# print(flat_ll.rev_print())
+# print(ll)
+# print(ll.rev_print())
+current = flat_ll.head
+while current:
+    print("Value is {}, address is {}, next is {}, prev is {}, child is {}".format(current.val, current, current.next, current.prev, current.child))
+    current = current.next
