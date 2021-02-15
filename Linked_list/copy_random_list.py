@@ -86,21 +86,35 @@ class LL:
 class Solution:
     def copyRandomList(self, head: 'Node') -> 'Node':
         if not head: return head
+        #making new nodes, copying the list
         current = head
         while current:
         	temp = current.next
         	current.next = Node(current.val)
         	current.next.next = temp
-        	current = current.next.next
+        	current = current.next.next #or current = temp
         current = head
+        #setting randoms
         while current:
         	current.next.random = current.random if not current.random else current.random.next
         	current = current.next.next
         current = head.next
+        #returning the desired ll only, old ll is doomed
         while current.next:
         	current.next = current.next.next
         	current = current.next
         return head.next
+        #incase we need old ll, use the below code
+        '''
+        current = second = head.next
+        while current.next:
+            head.next = current.next
+            head = head.next
+            current.next = head.next
+            current = current.next
+        head.next = None
+        return second
+        '''
 
 ll = LL()
 head = [[7,None],[13,0],[11,4],[10,2],[1,0]]
@@ -137,3 +151,57 @@ while head:
 	head = head.next
 print(l)
 print('finished')
+
+
+
+#from leetcode, using dictionary
+#O(2n)
+class Solution:
+# @param head, a RandomListNode
+# @return a RandomListNode
+    def copyRandomList(self, head):
+        dic = dict()
+        m = n = head
+        while m:
+            dic[m] = Node(m.val)
+            m = m.next
+        while n:
+            dic[n].next = dic.get(n.next)
+            dic[n].random = dic.get(n.random)
+            n = n.next
+        return dic.get(head)
+    '''just for comparison
+        def copyRandomList(self, head):
+            if not head:
+                return 
+            cur, dic = head, {}
+            # copy nodes
+            while cur:
+                dic[cur] = Node(cur.val)
+                cur = cur.next
+            cur = head
+            # copy random pointers
+            while cur:
+                if cur.random:
+                    dic[cur].random = dic[cur.random]
+                if cur.next:
+                    dic[cur].next = dic[cur.next]
+                cur = cur.next
+            return dic[head]
+    '''
+
+# O(n)
+
+class Solution:
+# @param head, a Node
+# @return a Node
+    def copyRandomList(self, head):
+        dic = collections.defaultdict(lambda: Node(0))
+        dic[None] = None
+        n = head
+        while n:
+            dic[n].val = n.val
+            dic[n].next = dic[n.next]
+            dic[n].random = dic[n.random]
+            n = n.next
+        return dic[head]
