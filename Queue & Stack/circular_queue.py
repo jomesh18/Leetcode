@@ -52,25 +52,36 @@ Follow up: Could you solve the problem without using the built-in queue?
 class MyCircularQueue:
 
     def __init__(self, k: int):
-        
+        self.l = [None] * k
+        self.head = self.tail = None
 
     def enQueue(self, value: int) -> bool:
-        
+        if self.isFull():
+            return False
+        if tail < k-1:
+            self.l[tail] = value
+            tail += 1
+        elif tail == k-1:
+            tail = 0
+            self.l[tail] = value
 
     def deQueue(self) -> bool:
         
 
     def Front(self) -> int:
-        
+        return self.l[head] if head else -1
 
     def Rear(self) -> int:
-        
+        return self.l[tail] if l else -1
 
     def isEmpty(self) -> bool:
-        
+        return True if self.head else False
 
     def isFull(self) -> bool:
-        
+        if self.head:
+            if (self.tail - self.head == k-1) or (self.head - self.tail == 1):
+                return True
+        return False
 
 
 # Your MyCircularQueue object will be instantiated and called as such:
