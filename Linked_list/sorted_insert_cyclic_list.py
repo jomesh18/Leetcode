@@ -54,9 +54,8 @@ def sortedInsert(head, data):
     else:
         while data > curr.next.data and curr.next != head:
             curr = curr.next
-        temp = curr.next
+        n.next = curr.next
         curr.next = n
-        n = temp
     return head
 
 class Node:
@@ -112,6 +111,7 @@ data = 2
 for e in l:
     cll.push(e)
 printList(cll.head)
+print()
 res = LinkedList()
 res.head = sortedInsert(cll.head, data)
 printList(res.head)
