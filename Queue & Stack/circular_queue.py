@@ -56,21 +56,24 @@ class MyCircularQueue:
         self.head = self.tail = None
 
     def enQueue(self, value: int) -> bool:
+        k = len(self.l)
         if self.isEmpty():
-            self.head = 0
-            self.tail = 0
+            self.head = self.tail = 0
             self.l[self.tail] = value
+            print(self.head, self.tail, self.l)
         elif self.isFull():
             return False
         elif self.tail < k-1:
-            self.l[self.tail] = value
             self.tail += 1
+            self.l[self.tail] = value
+            print(self.head, self.tail, self.l)
         elif self.tail == k-1:
             self.tail = 0
             self.l[self.tail] = value
         return True
 
     def deQueue(self) -> bool:
+        k = len(self.l)
         if self.isEmpty():
             return False
         elif self.head == self.tail:
@@ -85,22 +88,30 @@ class MyCircularQueue:
         return True
 
     def Front(self) -> int:
-        return self.l[self.head] if self.head else -1
+        return self.l[self.head] if self.head is not None else -1
 
     def Rear(self) -> int:
-        return self.l[self.tail] if self.tail else -1
+        return self.l[self.tail] if self.tail is not None else -1
 
     def isEmpty(self) -> bool:
-        return True if self.head else False
+        a = True if self.head is not None else False
+        print(a)
+        return True if self.head is not None else False
 
     def isFull(self) -> bool:
-        if self.head:
+        if self.head is not None:
             if (self.tail - self.head == k-1) or (self.head - self.tail == 1):
                 return True
         return False
 
     def __str__(self):
-        
+        if self.head is not None:
+            if self.head<=self.tail:
+                return str(l[self.head:self.tail+1])
+            else:
+                return str(l[:self.tail+1]+l[self.head:])
+        return 'None'
+
 
 # Your MyCircularQueue object will be instantiated and called as such:
 # obj = MyCircularQueue(k)
@@ -116,4 +127,21 @@ class MyCircularQueue:
 # [[3], [1], [2], [3], [4], [], [], [], [4], []]
 # Output
 # [null, true, true, true, false, 3, true, true, true, 4]
-s = MyCircularQueue()
+q = MyCircularQueue(3)
+# print(q)
+# print(q.l)
+# print(q.head)
+# print(q.tail)
+# i = 0
+# for _ in range(4):
+#     i+=1
+#     print(q.enQueue(i))
+# print(q)
+print(q.enQueue(1))
+# # print(q.enQueue(2))
+# # print(q.enQueue(3))
+# # print(q.enQueue(4))
+# print(q.Rear())
+# print(q.isFull())
+# print(q.deQueue())
+# print(q.Rear())
