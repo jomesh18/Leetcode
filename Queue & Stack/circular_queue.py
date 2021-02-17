@@ -56,23 +56,39 @@ class MyCircularQueue:
         self.head = self.tail = None
 
     def enQueue(self, value: int) -> bool:
-        if self.isFull():
+        if self.isEmpty():
+            self.head = 0
+            self.tail = 0
+            self.l[self.tail] = value
+        elif self.isFull():
             return False
-        if tail < k-1:
-            self.l[tail] = value
-            tail += 1
-        elif tail == k-1:
-            tail = 0
-            self.l[tail] = value
+        elif self.tail < k-1:
+            self.l[self.tail] = value
+            self.tail += 1
+        elif self.tail == k-1:
+            self.tail = 0
+            self.l[self.tail] = value
+        return True
 
     def deQueue(self) -> bool:
-        
+        if self.isEmpty():
+            return False
+        elif self.head == self.tail:
+            self.head = self.tail = None
+            return False
+        elif self.head<k-1:
+            self.head += 1
+            self.l[self.head] = value
+        elif self.head == k-1:
+            self.head = 0
+            self.l[self.head] = value
+        return True
 
     def Front(self) -> int:
-        return self.l[head] if head else -1
+        return self.l[self.head] if self.head else -1
 
     def Rear(self) -> int:
-        return self.l[tail] if l else -1
+        return self.l[self.tail] if self.tail else -1
 
     def isEmpty(self) -> bool:
         return True if self.head else False
@@ -83,6 +99,8 @@ class MyCircularQueue:
                 return True
         return False
 
+    def __str__(self):
+        
 
 # Your MyCircularQueue object will be instantiated and called as such:
 # obj = MyCircularQueue(k)
@@ -92,3 +110,10 @@ class MyCircularQueue:
 # param_4 = obj.Rear()
 # param_5 = obj.isEmpty()
 # param_6 = obj.isFull()
+
+
+# ["MyCircularQueue", "enQueue", "enQueue", "enQueue", "enQueue", "Rear", "isFull", "deQueue", "enQueue", "Rear"]
+# [[3], [1], [2], [3], [4], [], [], [], [4], []]
+# Output
+# [null, true, true, true, false, 3, true, true, true, 4]
+s = MyCircularQueue()
