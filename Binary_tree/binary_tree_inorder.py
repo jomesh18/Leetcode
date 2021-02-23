@@ -77,3 +77,15 @@ class Solution:
 tn = TreeNode('f', TreeNode('b', TreeNode('a', None, None), TreeNode('d', TreeNode('c', None, None), TreeNode('e', None, None))), TreeNode('g', None, TreeNode('i', TreeNode('h', None, None), None)))
 s = Solution()
 print(s.inorderTraversal(tn))
+
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> []:
+    	res = []
+    	self.dfs(root, res)
+    	return res
+
+    def dfs(self, root, res):
+    	if not root:
+
+    	res = dfs(root.left, res)+ root.val + dfs(root.right, res)
+
