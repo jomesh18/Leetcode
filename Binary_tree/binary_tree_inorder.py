@@ -54,7 +54,26 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def inorderTraversal(self, root: TreeNode) -> List[int]:
+    def inorderTraversal(self, root: TreeNode) -> []:
+        if not root:
+            return root
         stack = [root]
+        res = []
+        traversed = []
         while stack:
-        	
+            curr = stack.pop()
+            if curr not in traversed:
+                if curr.right:
+                    stack.append(curr.right)
+                stack.append(curr)
+                if curr.left:
+                    stack.append(curr.left)
+                traversed.append(curr)
+            else:
+                res.append(curr.val)
+            # print(stack, traversed, res)
+        return res
+
+tn = TreeNode('f', TreeNode('b', TreeNode('a', None, None), TreeNode('d', TreeNode('c', None, None), TreeNode('e', None, None))), TreeNode('g', None, TreeNode('i', TreeNode('h', None, None), None)))
+s = Solution()
+print(s.inorderTraversal(tn))
