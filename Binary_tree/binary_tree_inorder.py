@@ -53,39 +53,59 @@ class TreeNode:
         self.left = left
         self.right = right
 
-class Solution:
-    def inorderTraversal(self, root: TreeNode) -> []:
-        if not root:
-            return root
-        stack = [root]
-        res = []
-        traversed = []
-        while stack:
-            curr = stack.pop()
-            if curr not in traversed:
-                if curr.right:
-                    stack.append(curr.right)
-                stack.append(curr)
-                if curr.left:
-                    stack.append(curr.left)
-                traversed.append(curr)
-            else:
-                res.append(curr.val)
-            # print(stack, traversed, res)
-        return res
+# class Solution:
+    # def inorderTraversal(self, root: TreeNode) -> []:
+    #     if not root:
+    #         return root
+    #     stack = [root]
+    #     res = []
+    #     traversed = []
+    #     while stack:
+    #         curr = stack.pop()
+    #         if curr not in traversed:
+    #             if curr.right:
+    #                 stack.append(curr.right)
+    #             stack.append(curr)
+    #             if curr.left:
+    #                 stack.append(curr.left)
+    #             traversed.append(curr)
+    #         else:
+    #             res.append(curr.val)
+    #         # print(stack, traversed, res)
+    #     return res
+
+# from leetcode my try, recursive
+# class Solution:
+#     def inorderTraversal(self, root: TreeNode) -> []:
+#         res = []
+#         self.dfs(root, res)
+#         return res
+
+#     def dfs(self, root, res):
+#         if root:
+#             self.dfs(root.left, res)
+#             res.append(root.val)
+#             self.dfs(root.right, res)
+#         return res
+
+# from leetcode, my try, using stack
+# class Solution:
+#     def inorderTraversal(self, root: TreeNode) -> []:
+#         curr = root
+#         stack = []
+#         res = []
+#         while curr or stack:
+#             while curr:
+#                 stack.append(curr)
+#                 curr = curr.left
+#             curr = stack.pop()
+#             res.append(curr.val)
+#             curr = curr.right
+#         return res
+
+# from leetcode, my try, morris traversal
+
 
 tn = TreeNode('f', TreeNode('b', TreeNode('a', None, None), TreeNode('d', TreeNode('c', None, None), TreeNode('e', None, None))), TreeNode('g', None, TreeNode('i', TreeNode('h', None, None), None)))
 s = Solution()
 print(s.inorderTraversal(tn))
-
-class Solution:
-    def inorderTraversal(self, root: TreeNode) -> []:
-    	res = []
-    	self.dfs(root, res)
-    	return res
-
-    def dfs(self, root, res):
-    	if not root:
-
-    	res = dfs(root.left, res)+ root.val + dfs(root.right, res)
-
