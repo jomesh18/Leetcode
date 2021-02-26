@@ -89,22 +89,62 @@ class TreeNode:
 #         return res
 
 # from leetcode, my try, using stack
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> []:
+        curr = root
+        stack = []
+        res = []
+        while curr or stack:
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+            curr = stack.pop()
+            res.append(curr.val)
+            curr = curr.right
+        return res
+
+# from leetcode, my try, morris traversal, printing only
 # class Solution:
 #     def inorderTraversal(self, root: TreeNode) -> []:
+#         if not root:
+#             return []
 #         curr = root
-#         stack = []
-#         res = []
-#         while curr or stack:
-#             while curr:
-#                 stack.append(curr)
-#                 curr = curr.left
-#             curr = stack.pop()
-#             res.append(curr.val)
-#             curr = curr.right
-#         return res
+#         while curr:
+#             if not curr.left:
+#                 print(curr.val, end=' ')
+#                 curr = curr.right
+#             else:
+#                 pre = curr.left
+#                 while pre.right and pre.right != curr:
+#                     pre = pre.right
+#                 if pre.right == None:
+#                     pre.right = curr
+#                     curr = curr.left
+#                 else:
+#                     print(curr.val, end=' ')
+#                     pre.right = None
+#                     curr = curr.right
 
-# from leetcode, my try, morris traversal
+#from leetcode
+# def inorder(root):
+  # return  inorder(root.left) + [root.val] + inorder(root.right) if root else []
+#from leetcode, visited flag
 
+# class Solution:
+#     def inorderTraversal(self, root):
+#         result, stack = [], [(root, False)]
+
+#         while stack:
+#             cur, visited = stack.pop()
+#             if cur:
+#                 if visited:
+#                     result.append(cur.val)
+#                 else:
+#                     stack.append((cur.right, False))
+#                     stack.append((cur, True))
+#                     stack.append((cur.left, False))
+
+#         return result
 
 tn = TreeNode('f', TreeNode('b', TreeNode('a', None, None), TreeNode('d', TreeNode('c', None, None), TreeNode('e', None, None))), TreeNode('g', None, TreeNode('i', TreeNode('h', None, None), None)))
 s = Solution()
