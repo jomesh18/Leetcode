@@ -30,24 +30,43 @@ Constraints:
 
 '''
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
 class Solution:
-    def levelOrder(self, root: TreeNode) -> List[List[int]]:
-        queue = [[root]]
+    def levelOrder(self, root: TreeNode) -> [[]]:
+        queue = [root]
         res = []
-        while queue:
-        	curr = queue.pop(0)
-        	level_res = []
-        	level_q = []
-        	for i in curr:
-        		if i:
-	        		level_res.append(i.val)
-	        		level_q.append(curr.left)
-	        		level_q.append(curr.right)
-	        res.append(level_res)
-	        queue.append(level_q)
-	        
+        count = 1
+        while queue and count<15:
+            # print('Count {}'.format(count))
+            count += 1
+            curr = queue.pop(0)
+            level_res = []
+            level_q = []
+            # print("Curr: {}".format(curr))
+            for i in curr:
+                if i:
+                    # print('val of i is {}'.format(i.val))
+                    level_res.append(i.val)
+                    # print('level_res is {}'.format(level_res))
+                    level_q.append(i.left)
+                    level_q.append(i.right)
+                    # print('level_q is {}'.format(level_q))
+            res.append(level_res)
+            queue.append(level_q)
+            # level_q.clear()
+            # level_res.clear()
+            # print('res is {} and queue is {}'.format(res, queue))
+        return res
+
+# root = [3,9,20,null,null,15,7]
+# Output: [[3],[9,20],[15,7]]
+
+tree = TreeNode(3, TreeNode(9, None, None), TreeNode(20, TreeNode(15, None, None), TreeNode(7, None, None)))
+s = Solution()
+res = s.levelOrder(tree)
+print(res)
