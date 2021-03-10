@@ -40,33 +40,25 @@ class Solution:
     def levelOrder(self, root: TreeNode) -> [[]]:
         queue = [root]
         res = []
-        count = 1
-        while queue and count<15:
-            # print('Count {}'.format(count))
-            count += 1
-            curr = queue.pop(0)
-            level_res = []
-            level_q = []
-            # print("Curr: {}".format(curr))
-            for i in curr:
-                if i:
-                    # print('val of i is {}'.format(i.val))
-                    level_res.append(i.val)
-                    # print('level_res is {}'.format(level_res))
-                    level_q.append(i.left)
-                    level_q.append(i.right)
-                    # print('level_q is {}'.format(level_q))
-            res.append(level_res)
-            queue.append(level_q)
-            # level_q.clear()
-            # level_res.clear()
-            # print('res is {} and queue is {}'.format(res, queue))
+        while not all(l is None for l in queue):
+            temp_queue = []
+            temp_res = []
+            while queue:
+                curr = queue.pop(0)
+                temp_res.append(curr.val)
+                if curr.left:
+                    temp_queue.append(curr.left)
+                if curr.right:
+                    temp_queue.append(curr.right)
+            res.append(temp_res)
+            queue.extend(temp_queue)
         return res
 
 # root = [3,9,20,null,null,15,7]
 # Output: [[3],[9,20],[15,7]]
 
-tree = TreeNode(3, TreeNode(9, None, None), TreeNode(20, TreeNode(15, None, None), TreeNode(7, None, None)))
+# tree = TreeNode(3, TreeNode(9, None, None), TreeNode(20, TreeNode(15, None, None), TreeNode(7, None, None)))
+tree = None
 s = Solution()
 res = s.levelOrder(tree)
 print(res)
