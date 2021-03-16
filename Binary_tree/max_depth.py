@@ -55,6 +55,36 @@ class Solution:
     def maxDepth(self, root: TreeNode) -> int:
         return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right)) if root else 0
 
+#from leetcode, bfs
+
+class Solution(object):
+    def maxDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        depth = 0
+        level = [root] if root else []
+        while level:
+            depth += 1
+            queue = []
+            for el in level:
+                if el.left:
+                    queue.append(el.left)
+                if el.right:
+                    queue.append(el.right)
+            level = queue
+            
+        return depth
+
+#shorter version of above
+    depth = 0
+    level = [root] if root else []
+    while level:
+        level = [child for node in level for child in (node.left, node.right) if child]
+        depth += 1
+    return depth
+
 # def level_order_print(root):
 #   res = []
 #   if not root:

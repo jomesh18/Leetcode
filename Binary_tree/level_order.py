@@ -53,7 +53,25 @@ class Solution:
             res.append(temp_res)
             queue.extend(temp_queue)
         return res
-
+#from leetcode using deque
+from collections import deque
+class Solution:
+    def levelOrder(self, root):
+        if not root: return []
+        queue, res = deque([root]), []
+        
+        while queue:
+            cur_level, size = [], len(queue)
+            for i in range(size):
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+                cur_level.append(node.val)
+            res.append(cur_level)
+        return res
+        
 #from leetcode
 # level is a list of the nodes in the current level. Keep appending a list of the values of these nodes to ans and then updating level with all the nodes in the next level (kids) until it reaches an empty level. Python's list comprehension makes it easier to deal with many conditions in a concise manner.
 
@@ -92,6 +110,29 @@ def levelOrder(self, root):
             temp.extend([node.left, node.right])
         level = [leaf for leaf in temp if leaf]
     return ans
+
+#dfs recursive
+
+    def levelOrder(self, root):
+        if not root:
+            return []
+        
+        answer = []
+        self.traverse(root, 1, answer)
+        return answer
+    
+    def traverse(self, node, level, answer):
+        if not node:
+            return 
+        
+        if level > len(answer):
+            # we are at a new level
+            answer.append([node.val])
+        else:
+            answer[level-1].extend([node.val])
+        
+        self.traverse(node.left, level + 1, answer)
+        self.traverse(node.right, level + 1, answer) 
 
 # root = [3,9,20,null,null,15,7]
 # Output: [[3],[9,20],[15,7]]
