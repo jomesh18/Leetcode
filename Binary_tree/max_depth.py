@@ -1,4 +1,4 @@
- ''' 
+''' 
   Maximum Depth of Binary Tree
 
 Given the root of a binary tree, return its maximum depth.
@@ -41,44 +41,52 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+# bottom up approach
+# class Solution:
+#     def maxDepth(self, root: TreeNode) -> int:
+#         if not root:
+#             return 0
+#         left_depth = self.maxDepth(root.left)
+#         right_depth = self.maxDepth(root.right)
+#         return max(left_depth, right_depth) + 1
 
+#from leetcode, 1 line
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
-    	if not root:
-    		return 0
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right)) if root else 0
 
-    	if not root.left and not root.right:
-    		return max(ans, depth)
-    	maxDepth(root.left, depth+1)
-    	maxDepth(root.right, depth+1)
-
-def level_order_print(root):
-	res = []
-	if not root:
-		return res
-	q = [root]
-	while q:
-		curr = q.pop(0)
-		if curr:
-			res.append(curr.val)
-			q.append(curr.left)
-			q.append(curr.right)
-		else:
-			res.append(None)
+# def level_order_print(root):
+#   res = []
+#   if not root:
+#       return res
+#   q = [root]
+#   while q:
+#       curr = q.pop(0)
+#       if curr:
+#           res.append(curr.val)
+#           q.append(curr.left)
+#           q.append(curr.right)
+#       else:
+#           res.append(None)
+#   return res
 
 root = [3,9,20,None,None,15,7]
 # Output: 3
-q = []
 start = TreeNode(root[0])
-q.append(start)
+q = [start]
 i = 1
 while i < len(root) and q:
-	curr = q.pop(0)
-	if root[i] is not None:
-		curr.left = TreeNode(root[i])
-		q.append(curr.left)
-	i + = 1
-	if root[i] is not None:
-		curr.right = TreeNode(root[i])
-		q.append(curr.right)
-	i += 1
+    curr = q.pop(0)
+    if root[i] is not None:
+        curr.left = TreeNode(root[i])
+        q.append(curr.left)
+    i += 1
+    if root[i] is not None:
+        curr.right = TreeNode(root[i])
+        q.append(curr.right)
+    i += 1
+
+# print(level_order_print(start))
+
+s = Solution()
+print(s.maxDepth(start))
