@@ -37,41 +37,45 @@ class TreeNode:
 
 class Solution:
     def isSymmetric(self, root: TreeNode) -> bool:
-    	left_level = root.left
-    	right_level = root.right
-    	
-    	if left_level != right_level:
-    		return False
-    	left_level = [l for n in left_level for l in (n.left, n.right)]
-    	right_level = [l for n in right_level for l in (n.left, n.right)]
-
-
+        left = deque[root.left]
+        right = deque[root.right]
+        
+        while left or right:
+            l = left.popleft()
+            r = right.popleft()
+            if l and r:
+                if l.val != r.val:
+                    return False
+                l.extend([l.left, l.right])
+                r.extend([r.right, r.left])
+                
         
 def construct_tree(root):
-	start = TreeNode(root[0])
-	q = deque([start])
-	i = 1
-	while i < len(root):
-		curr = q.popleft()
-		if root[i] is not None:
-			curr.left = TreeNode(root[i])
-			q.append(curr.left)
-		i += 1
-		if root[i] is not None:
-			curr.right = TreeNode(root[i])
-			q.append(curr.right)
-		i += 1
-	return start
+    start = TreeNode(root[0])
+    q = deque([start])
+    i = 1
+    while i < len(root):
+        curr = q.popleft()
+        if root[i] is not None:
+            curr.left = TreeNode(root[i])
+            q.append(curr.left)
+        i += 1
+        if root[i] is not None:
+            curr.right = TreeNode(root[i])
+            q.append(curr.right)
+        i += 1
+    return start
 
 def print_level_order(root):
-	level = [root]
-	ans = []
-	while root and level:
-		ans.append([n.val for n in level])
-		level = [n_l for n in level for n_l in (n.left, n.right) if n_l]
-	return ans
+    level = [root]
+    ans = []
+    while root and level:
+        ans.append([n.val for n in level])
+        level = [n_l for n in level for n_l in (n.left, n.right) if n_l]
+    return ans
 
 root = [1,2,2,3,4,4,3]
+root = [1,2,2,3,None,3,None]
 # Output: true
 start = construct_tree(root)
 print(print_level_order(start))
