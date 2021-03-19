@@ -34,11 +34,42 @@ Constraints:
 '''
 
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+from collections import deque
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+#iterative
 class Solution:
     def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
-        
+        if not root: return False
+
+        q = deque([root])
+        s = deque([root.val])
+        while q:
+        	curr = q.popleft()
+        	curr_sum = s.popleft()
+        	if curr:
+        		if curr.left: 
+        			s.append(curr_sum + curr.left.val)
+        		else:
+        			if curr_sum == targetSum: return True
+        		if curr.right:
+        			s.append(curr_sum + curr.right.val)
+        		else:
+        			if curr_sum == targetSum: return True
+        	else:
+        		if curr_sum == targetSum: return True
+        return False
+
+def create_tree(root):
+	
+
+root = [5,4,8,11,None,13,4,7,2,None,None,None,1]
+targetSum = 22
+# Output: true
+start = create_tree(root)
+s = Solution()
+print(s.hasPathSum(start, targetSum))
