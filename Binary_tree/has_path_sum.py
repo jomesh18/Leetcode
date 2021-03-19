@@ -65,11 +65,33 @@ class Solution:
         return False
 
 def create_tree(root):
-	
+	if not root:
+		return
+	start = TreeNode(root.pop(0))
+	q = deque([start])
+	while root:
+		curr = q.popleft()
+		if curr:
+			l = root.pop(0)
+			r = root.pop(0) if root else None
+			curr.left = TreeNode(l) if l else None
+			curr.right = TreeNode(r) if r else None
+			q.extend([curr.left, curr.right])
+	return start
+
+def print_level_order(root):
+	if not root: return None
+	level = [root]
+	ans = []
+	while level:
+		ans.append([i.val if i else None for i in level])
+		level = [i for n in level if n for i in (n.left, n.right)]
+	return ans
 
 root = [5,4,8,11,None,13,4,7,2,None,None,None,1]
 targetSum = 22
 # Output: true
 start = create_tree(root)
+print(print_level_order(start))
 s = Solution()
 print(s.hasPathSum(start, targetSum))
