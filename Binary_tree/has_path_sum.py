@@ -41,28 +41,42 @@ class TreeNode:
         self.left = left
         self.right = right
 
-#iterative
+#iterative, bfs
+# class Solution:
+#     def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+#         if not root: return False
+
+#         q = deque([root])
+#         s = deque([root.val])
+#         while q:
+#         	curr = q.popleft()
+#         	curr_sum = s.popleft()
+#         	if curr:
+#         		if not curr.left and not curr.right:
+#         			if curr_sum == targetSum: return True
+#         		else:
+# 	        		if curr.left:
+# 	        			s.append(curr_sum + curr.left.val)
+# 	        			q.append(curr.left)
+# 	        		if curr.right:
+# 	        			s.append(curr_sum + curr.right.val)
+# 	        			q.append(curr.right)
+#         return False
+
 class Solution:
     def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
-        if not root: return False
+    	if not root: return False
 
-        q = deque([root])
-        s = deque([root.val])
-        while q:
-        	curr = q.popleft()
-        	curr_sum = s.popleft()
-        	if curr:
-        		if curr.left: 
-        			s.append(curr_sum + curr.left.val)
-        		else:
-        			if curr_sum == targetSum: return True
-        		if curr.right:
-        			s.append(curr_sum + curr.right.val)
-        		else:
-        			if curr_sum == targetSum: return True
-        	else:
-        		if curr_sum == targetSum: return True
-        return False
+    	stack = deque([root])
+    	s = deque([root.val])
+    	curr = root
+    	while curr.left:
+    		stack.append(curr.left)
+    		s.append(s[-1]+curr.left.val)
+    	if curr.right:
+    		stack.append(curr.right)
+    		curr = curr.right
+    		s.append(s[-1]+curr.val)
 
 def create_tree(root):
 	if not root:
@@ -83,7 +97,7 @@ def print_level_order(root):
 	if not root: return None
 	level = [root]
 	ans = []
-	while level:
+	while any(level):
 		ans.append([i.val if i else None for i in level])
 		level = [i for n in level if n for i in (n.left, n.right)]
 	return ans
@@ -92,6 +106,6 @@ root = [5,4,8,11,None,13,4,7,2,None,None,None,1]
 targetSum = 22
 # Output: true
 start = create_tree(root)
-print(print_level_order(start))
+# print(print_level_order(start))
 s = Solution()
 print(s.hasPathSum(start, targetSum))
