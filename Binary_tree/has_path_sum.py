@@ -41,7 +41,7 @@ class TreeNode:
         self.left = left
         self.right = right
 
-#iterative, bfs
+#iterative, bfs using queue
 # class Solution:
 #     def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
 #         if not root: return False
@@ -49,58 +49,107 @@ class TreeNode:
 #         q = deque([root])
 #         s = deque([root.val])
 #         while q:
-#         	curr = q.popleft()
-#         	curr_sum = s.popleft()
-#         	if curr:
-#         		if not curr.left and not curr.right:
-#         			if curr_sum == targetSum: return True
-#         		else:
-# 	        		if curr.left:
-# 	        			s.append(curr_sum + curr.left.val)
-# 	        			q.append(curr.left)
-# 	        		if curr.right:
-# 	        			s.append(curr_sum + curr.right.val)
-# 	        			q.append(curr.right)
+#           curr = q.popleft()
+#           curr_sum = s.popleft()
+#           if curr:
+#               if not curr.left and not curr.right:
+#                   if curr_sum == targetSum: return True
+#               else:
+#                   if curr.left:
+#                       s.append(curr_sum + curr.left.val)
+#                       q.append(curr.left)
+#                   if curr.right:
+#                       s.append(curr_sum + curr.right.val)
+#                       q.append(curr.right)
 #         return False
 
-class Solution:
-    def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
-    	if not root: return False
+#dfs using stack
+# class Solution:
+#     def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+#       if not root: return False
+#       stack = [(root, root.val)]
+#       while stack:
+#           curr, curr_sum = stack.pop()
+#           if not curr.left and not curr.right and curr_sum == targetSum: 
+#               return True
+#           else:
+#               if curr.right:
+#                   stack.append((curr.right, curr_sum+curr.right.val))
+#               if curr.left:
+#                   stack.append((curr.left, curr_sum+curr.left.val))
+#       return False
 
-    	stack = deque([root])
-    	s = deque([root.val])
-    	curr = root
-    	while curr.left:
-    		stack.append(curr.left)
-    		s.append(s[-1]+curr.left.val)
-    	if curr.right:
-    		stack.append(curr.right)
-    		curr = curr.right
-    		s.append(s[-1]+curr.val)
+#recursive, my own
+# class Solution:
+#     def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+#         if not root: return False
+#         return True if self.dfs(root, root.val, targetSum) else False
 
+#     def dfs(self, curr, curr_sum, targetSum):
+#         if curr: print(curr.val)
+#         if not curr.left and not curr.right and curr_sum == targetSum: 
+#             return True
+#         else:
+#             if curr.right:
+#                 if self.dfs(curr.right, curr_sum+curr.right.val, targetSum):
+#                     return True
+#             if curr.left:
+#                 if self.dfs(curr.left, curr_sum+curr.left.val, targetSum):
+#                     return True
+#recursive, less lines of above
+# class Solution:
+#     def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+#         if not root: return False
+#         def dfs(curr, curr_sum, targetSum):
+#             if not curr.left and not curr.right and curr_sum == targetSum: return True
+#             else:
+#                 if curr.right and dfs(curr.right, curr_sum+curr.right.val, targetSum): return True
+#                 if curr.left and dfs(curr.left, curr_sum+curr.left.val, targetSum): return True
+#         return True if dfs(root, root.val, targetSum) else False
+
+#from leetcode, oldcoding farmer, recursive
+def hasPathSum1(self, root, sum):
+    if not root:
+        return False
+    if not root.left and not root.right and root.val == sum:
+        return True
+    return self.hasPathSum(root.left, sum-root.val) or self.hasPathSum(root.right, sum-root.val)
+ 
+#from leetcode, oldcoding farmer, DFS + stack   
+def hasPathSum(self, root, sum):
+    stack = [(root, sum)]
+    while stack:
+        node, value = stack.pop()
+        if node:
+            if not node.left and not node.right and node.val == value:
+                return True
+            stack.append((node.right, value-node.val))
+            stack.append((node.left, value-node.val))
+    return False        
+    
 def create_tree(root):
-	if not root:
-		return
-	start = TreeNode(root.pop(0))
-	q = deque([start])
-	while root:
-		curr = q.popleft()
-		if curr:
-			l = root.pop(0)
-			r = root.pop(0) if root else None
-			curr.left = TreeNode(l) if l else None
-			curr.right = TreeNode(r) if r else None
-			q.extend([curr.left, curr.right])
-	return start
+    if not root:
+        return
+    start = TreeNode(root.pop(0))
+    q = deque([start])
+    while root:
+        curr = q.popleft()
+        if curr:
+            l = root.pop(0)
+            r = root.pop(0) if root else None
+            curr.left = TreeNode(l) if l else None
+            curr.right = TreeNode(r) if r else None
+            q.extend([curr.left, curr.right])
+    return start
 
 def print_level_order(root):
-	if not root: return None
-	level = [root]
-	ans = []
-	while any(level):
-		ans.append([i.val if i else None for i in level])
-		level = [i for n in level if n for i in (n.left, n.right)]
-	return ans
+    if not root: return None
+    level = [root]
+    ans = []
+    while any(level):
+        ans.append([i.val if i else None for i in level])
+        level = [i for n in level if n for i in (n.left, n.right)]
+    return ans
 
 root = [5,4,8,11,None,13,4,7,2,None,None,None,1]
 targetSum = 22
