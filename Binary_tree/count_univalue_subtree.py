@@ -22,15 +22,18 @@ class TreeNode:
 
 class Solution:
 	def univalue(self, root):
-
-		def dfs(root, count)
+		count = [0]
+		def count_univalue(root, count):
 			if not root: return True
-			if not root.left and not root.right: 
-				count += 1
-				return True
-			if dfs(root.left, count) == dfs(root.right, count): count += 1
-
-		return dfs(root, 0)
+			left_ans = count_univalue(root.left, count)
+			right_ans = count_univalue(root.right, count)
+			if not left_ans or not right_ans: return False
+			if root.left and root.val != root.left.val: return False
+			if root.right and root.val != root.right.val: return False
+			count[0] += 1
+			return True
+		count_univalue(root, count)
+		return count[0]
 
 def create_binarytree(root):
 	if not root: return None
@@ -68,3 +71,5 @@ root = [5, 1, 5, 5, 5, None, 5]
 
 start = create_binarytree(root)
 print(print_tree(start))
+s = Solution()
+print(s.univalue(start))

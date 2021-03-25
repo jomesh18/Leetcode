@@ -125,7 +125,7 @@ def hasPathSum(self, root, sum):
                 return True
             stack.append((node.right, value-node.val))
             stack.append((node.left, value-node.val))
-    return False        
+    return False
     
 def create_tree(root):
     if not root:
