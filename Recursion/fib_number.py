@@ -38,9 +38,8 @@ class Solution:
         def fib_helper(n):
             if n in cache: return cache[n]
             if n<2: return n
-            temp = fib_helper(n-1) + fib_helper(n-2)
-            cache[n] = temp
-            return temp
+            cache[n] = fib_helper(n-1) + fib_helper(n-2)
+            return cache[n]
         return fib_helper(n)
 n = 2
 #o/p = 1
