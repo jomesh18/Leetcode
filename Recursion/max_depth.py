@@ -44,37 +44,47 @@ class TreeNode:
 
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
-        pass
+        # if not root: return 0
+        def helper(root, count):
+            if not root: return count
+            count += 1
+            return max(helper(root.left, count), helper(root.right, count))
+        return helper(root, 0)
 
+#from leetcode one liner
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right)) if root else 0
+        
 def build_tree(root):
-	if not root: return root
-	start = TreeNode(root[0])
-	i = 1
-	q = [start]
-	while i<len(root):
-		curr = q.pop(0)
-		if root[i] is not None:
-			curr.left = TreeNode(root[i])
-			q.append(curr.left)
-		i += 1
-		if root[i] is not None:
-			curr.right = TreeNode(root[i])
-			q.append(curr.right)
-		i += 1
-	return start
+    if not root: return root
+    start = TreeNode(root[0])
+    i = 1
+    q = [start]
+    while i<len(root):
+        curr = q.pop(0)
+        if root[i] is not None:
+            curr.left = TreeNode(root[i])
+            q.append(curr.left)
+        i += 1
+        if root[i] is not None:
+            curr.right = TreeNode(root[i])
+            q.append(curr.right)
+        i += 1
+    return start
 
 def print_tree(root):
-	ans = []
-	q = [root]
-	while q:
-		curr = q.pop(0)
-		if curr:
-			ans.append(curr.val)
-			q.append(curr.left)
-			q.append(curr.right)
-		else:
-			ans.append(None)
-	return ans
+    ans = []
+    q = [root]
+    while q:
+        curr = q.pop(0)
+        if curr:
+            ans.append(curr.val)
+            q.append(curr.left)
+            q.append(curr.right)
+        else:
+            ans.append(None)
+    return ans
 
 root = [3,9,20,None,None,15,7]
 # Output: 3
