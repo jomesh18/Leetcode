@@ -45,6 +45,31 @@ class Solution:
             ans /= x
         return ans
 
+#from leetcode iterative using binary exponentiation, ref below
+#https://cp-algorithms.com/algebra/binary-exp.html
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n<0:
+            x = 1/x
+            n = -n
+        res = 1
+        while n:
+            if x & 1:
+                res *= x
+            x *= x
+            n >>= 1
+        return res
+
+#from leetcode, recursive
+class Solution:
+    def myPow(self, x, n):
+        if not n:
+            return 1
+        if n < 0:
+            return 1 / self.myPow(x, -n)
+        if n % 2:
+            return x * self.myPow(x, n-1)
+        return self.myPow(x*x, n/2)
 
 # x = 2.00000
 # n = 10
