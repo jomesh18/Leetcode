@@ -45,6 +45,15 @@ class TreeNode:
 #     	root.right = self.buildTree(preorder[ind:], inorder[ind+1:])
 #     	return root
 
+# class Solution:
+#     def buildTree(self, preorder: [], inorder: []) -> TreeNode:
+#     	if inorder:
+#     		ind = inorder.index(preorder.pop(0))
+#     		root = TreeNode(inorder[ind])
+#     		root.left = self.buildTree(preorder, inorder[:ind])
+#     		root.right = self.buildTree(preorder, inorder[ind+1:])
+#     		return root
+    	
 class Solution:
     def buildTree(self, preorder: [], inorder: []) -> TreeNode:
     	dict = {value: ind for ind, value in enumerate(inorder)}
