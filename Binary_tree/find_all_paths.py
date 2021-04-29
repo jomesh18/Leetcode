@@ -10,36 +10,24 @@ class TreeNode:
         self.val = x
         self.left = None
         self.right = None
-
-def find_paths(start: TreeNode) -> []:
+	
+def find_paths(start):
 	res = []
-	def helper(node, discovered, res):
-		if not node:
-			return
+	def helper(node, discovered):
+		if not node: return
 		discovered.append(node)
-		# print([i.val for i in discovered])
-		if not node.right and not node.left:
-			a = discovered[:]
-			res.append(a)
-			# ans = []
-			# for l in res:
-			# 	temp = []
-			# 	for n in l:
-			# 		temp.append(n.val)
-			# 	ans.append(temp)
-			# print(ans)
+		if not node.left and not node.right:
+			res.append(discovered[:])
 			discovered.remove(node)
 			return
-		helper(node.left, discovered, res)
-		helper(node.right, discovered, res)
+		helper(node.left, discovered)
+		helper(node.right, discovered)
 		discovered.remove(node)
-	helper(start, [], res)
+	helper(start, [])
 	ans = []
 	for l in res:
 		ans.append([i.val for i in l])
-	# return res
 	return ans
-	
 
 def build_tree(root):
 	start = TreeNode(root[0])
