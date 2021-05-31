@@ -41,7 +41,7 @@ Constraints:
 #             return mid
 #         return mid-1
 
-#from leetcode
+#from leetcode, old coding farmer
 class Solution(object):
     def mySqrt(self, x):
         l, r = 0, x
