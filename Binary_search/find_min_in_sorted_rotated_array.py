@@ -65,6 +65,7 @@ class Solution:
                 left = middle + 1
         return nums[left]
 
+
 nums = [3,4,5,1,2]
 # Output: 1
 # nums = [4,5,6,7,0,1,2]
