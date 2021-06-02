@@ -41,55 +41,90 @@ Constraints:
 
 Follow up: Could you solve it using only O(s2.length) additional memory space?
 '''
+#from leetcode
 
+# class Solution:
+#     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        
+#         def helper(s1, i, s2, j, res, s3):
+#             # if not s3.startswith(res):
+#             #     return False
+#             if res == s3 and i == len(s1) and j == len(s2):
+#                 return True
+#             ans = False
+#             if i < len(s1):
+#                 # ans = ans or helper(s1, i+1, s2, j, res+s1[i], s3)
+#                 ans |= helper(s1, i+1, s2, j, res+s1[i], s3)
+#             if j < len(s2):
+#                 # ans = ans or helper(s1, i, s2, j+1, res+s2[j], s3)
+#                 ans |= helper(s1, i, s2, j+1, res+s2[j], s3)
+#             return ans
+#         if len(s1) + len(s2) != len(s3):
+#             return False
+#         else:
+#             return helper(s1, 0, s2, 0, "", s3)
+
+
+#from leetcode, recursive, with memoization
+
+# class Solution:
+#     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+
+#         def helper(s1, i, s2, j, s3, k, memo):
+#             if i == len(s1):
+#                 return s2[j:] == s3[k:]
+#             elif j == len(s2):
+#                 return s1[i:] == s3[k:]
+#             if memo[i][j] >= 0:
+#                 return memo[i][j]
+#             else:
+#                 ans = False
+#                 if s3[k] == s1[i] and helper(s1, i+1, s2, j, s3, k+1, memo) or s3[k] == s2[j] and helper(s1, i, s2, j+1, s3, k+1, memo):
+#                     ans = True
+#                 memo[i][j] = ans
+#                 return ans
+ 
+#         memo = [[-1 for i in range(len(s2))] for j in range(len(s1))]
+#         if len(s1) + len(s2) != len(s3):
+#             return False
+#         else:
+#             return helper(s1, 0, s2, 0, s3, 0, memo)
+
+#using dp
 class Solution:
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-        # print(s1, s2, s3)   
-        while s1 and s2:
-            part = ""
-            for s in s1:
-                if s3.startswith(s):
-                    part += s
-                    s3 = s3.replace(s, "", 1)
-                else:
-                    break
-            if len(part) == 0:
-                return False
-            else:
-                s1 = s1.replace(part, "", 1)
-            part = ""
-            for s in s2:
-                if s3.startswith(s):
-                    part += s
-                    s3 = s3.replace(s, "", 1)
-                else:
-                    break
-            if len(part) == 0:
-                return False
-            else:
-                s2 = s2.replace(part, "", 1)
-            # print(s1, s2, s3)
-        if not s1 and not s2:
-            return not s3
-        if s1:
-            if s1 == s3:
-                return True
-        elif s2:
-            if s2 == s3:
-                return True
+        if len(s1) + len(s2) != len(s3):
+            return False
+        dp = [[None for j in range(len(s2)+1)] for i in range(len(s1)+1)]
 
-s1 = "aabcc"
-s2 = "dbbca"
-s3 = "aadbbcbcac"
+        for i in range(len(s1)+1):
+            for j in range(len(s2)+1):
+                if i == 0 and j == 0:
+                    dp[i][j] = True
+                elif i == 0:
+                    dp[i][j] = dp[i][j-1] and s2[j-1] == s3[i+j-1]
+                elif j == 0:
+                    dp[i][j] = dp[i-1][j] and s1[i-1] == s3[i+j-1]
+                else:
+                    dp[i][j] = dp[i-1][j] and s1[i-1] == s3[i+j-1] or dp[i][j-1] and s2[j-1] == s3[i+j-1]
+        print(dp)
+        return dp[len(s1)][len(s2)]
+
+# s1 = "aabcc"
+# s2 = "dbbca"
+# s3 = "aadbbcbcac"
 # Output: true
-s1 = ""
-s2 = ""
-s3 = ""
-# Output: true
-s1 = "a"
-s2 = "b"
-s3 = "ab"
-# Output: true
+# s1 = ""
+# s2 = ""
+# s3 = ""
+# # Output: true
+# s1 = "a"
+# s2 = "b"
+# s3 = "ab"
+# # Output: true
+s1 = "aa"
+s2 = "ab"
+s3 = "aaba"
 
 s = Solution()
 print(s.isInterleave(s1, s2, s3))
