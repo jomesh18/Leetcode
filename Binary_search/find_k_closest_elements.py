@@ -32,38 +32,38 @@ arr is sorted in ascending order.
 #     def findClosestElements(self, arr: [int], k: int, x: int) -> [int]:
 #         l, r = 0, len(arr)-1
 #         while l<r:
-#         	mid = l + ((r-l)>>1)
-#         	if arr[mid] < x:
-#         		l = mid + 1
-#         	else:
-#         		r = mid
+#           mid = l + ((r-l)>>1)
+#           if arr[mid] < x:
+#               l = mid + 1
+#           else:
+#               r = mid
 
 #         res = []
 #         i = l-1
 #         j = l
 #         for _ in range(k):
-#         	print(res, i, j)
-#         	if i>=0 and j<len(arr):
-#         		if abs(arr[i] - x) < abs(arr[j] - x):
-#         			res.append(arr[i])
-#         			i -= 1
-#         		elif abs(arr[i] - x) > abs(arr[j] - x):
-#         			res.append(arr[j])
-#         			j += 1
-#         		else:
-#         			if arr[i]<arr[j]:
-#         				res.append(arr[i])
-#         				i -= 1
-#         			else:
-#         				res.append(arr[j])
-#         				j += 1
+#           print(res, i, j)
+#           if i>=0 and j<len(arr):
+#               if abs(arr[i] - x) < abs(arr[j] - x):
+#                   res.append(arr[i])
+#                   i -= 1
+#               elif abs(arr[i] - x) > abs(arr[j] - x):
+#                   res.append(arr[j])
+#                   j += 1
+#               else:
+#                   if arr[i]<arr[j]:
+#                       res.append(arr[i])
+#                       i -= 1
+#                   else:
+#                       res.append(arr[j])
+#                       j += 1
 
-#         	elif i<0:
-#         		res.append(arr[j])
-#         		j += 1
-#         	else:
-#         		res.append(arr[i])
-#         		i -= 1
+#           elif i<0:
+#               res.append(arr[j])
+#               j += 1
+#           else:
+#               res.append(arr[i])
+#               i -= 1
 #         res.sort()
 #         return res
 
@@ -84,18 +84,19 @@ arr is sorted in ascending order.
 # from leetcode Solution O(log(n-k)) Approach 3: Binary Search To Find The Left Bound
 class Solution:
     def findClosestElements(self, arr: [int], k: int, x: int) -> [int]:
-    	if len(arr) == k:
-    		return arr
-    	l, r = 0, len(arr)-k
-    	while l<r:
-    		mid = l + (r-l)//2
-    		# print(l, r, mid)
-    		if abs(x-arr[mid]) > abs(x-arr[mid+k]):
-    			l = mid + 1
-    		else:
-    			r = mid
-    	# print(l, r)
-    	return arr[l:l+k]
+        if len(arr) == k:
+            return arr
+        l, r = 0, len(arr)-k
+        while l<r:
+            mid = l + (r-l)//2
+            print(l, r, mid)
+            # if abs(x-arr[mid]) > abs(x-arr[mid+k]): dont use this, fails in conditions like [1, 1, 2, 2, 2, 2, 2, 3, 3]
+            if x - arr[mid] > arr[mid+k] - x:
+                l = mid + 1
+            else:
+                r = mid
+        # print(l, r)
+        return arr[l:l+k]
 
 arr = [1,2,3,4,5]
 k = 4
@@ -115,6 +116,7 @@ x = 5
 arr = [1,1,2,2,2,2,2,3,3]
 x = 3
 k = 3
+# Output: [2, 3, 3]
 
 s = Solution()
 print(s.findClosestElements(arr, k, x))
