@@ -90,6 +90,7 @@ class Solution:
 
         self.prev = -math.inf
         return inorder(root)
+
 #Iterative Inorder Traversal
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
@@ -111,7 +112,6 @@ class Solution:
         return True
 def build_tree(root):
     start = TreeNode(root[0])
-    curr = start
     i = 1
     q = deque([start])
     while i<len(root):
