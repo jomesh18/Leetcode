@@ -39,16 +39,76 @@ class TreeNode:
         self.left = left
         self.right = right
 
+# class Solution:
+#     def isValidBST(self, root: TreeNode) -> bool:
+#         def dfs(root):
+#             return dfs(root.left)+[root.val]+dfs(root.right) if root else []
+#         res = dfs(root)
+#         # print(res)
+#         return len([res[i] for i in range(1, len(res)) if res[i]<=res[i-1]])==0
+
+#Recursive Traversal with Valid Range
+# class Solution:
+#     def isValidBST(self, root: TreeNode) -> bool:
+#         def validate(root, lower, upper):
+#             if not root: return True
+#             if root.val<=lower or root.val>=upper:
+#                 return False
+#             return validate(root.left, lower, root.val) and validate(root.right, root.val, upper)
+#         return validate(root, float("-inf"), float("inf"))
+
+#Iterative Traversal with Valid Range
+# class Solution:
+#     def isValidBST(self, root: TreeNode) -> bool:
+#         if not root:
+#             return True
+#         stack = [(root, float("-inf"), float("inf"))]
+#         while stack:
+#             curr, lower, upper = stack.pop()
+#             if not curr:
+#                 continue
+#             val = root.val
+#             if val<=lower or val>=upper:
+#                 return False
+#             stack.append((root.right, val, upper))
+#             stack.append((root.left, lower, val))
+#         return True
+
+#Recursive Inorder Traversal
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
-        if not root: return True
-        l = r = True
-        if root.left:
-            l = (root.left.val<root.val) and self.isValidBST(root.left)
-        if root.right:
-            r = root.right.val>root.val and self.isValidBST(root.right)
-        return l and r
 
+        def inorder(root):
+            if not root:
+                return True
+            if not inorder(root.left):
+                return False
+            if root.val <= self.prev:
+                return False
+            self.prev = root.val
+            return inorder(root.right)
+
+        self.prev = -math.inf
+        return inorder(root)
+#Iterative Inorder Traversal
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        stack, prev = [], float("-inf")
+
+        while stack or root:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            # If next element in inorder traversal
+            # is smaller than the previous one
+            # that's not BST.
+            if root.val <= prev:
+                return False
+            prev = root.val
+            root = root.right
+
+        return True
 def build_tree(root):
     start = TreeNode(root[0])
     curr = start
@@ -80,7 +140,7 @@ def print_tree(start):
 
 null = None
 
-root = [2,1,3]
+# root = [2,1,3]
 # Output: true
 
 # root = [5,1,4,null,null,3,6]
@@ -88,6 +148,9 @@ root = [2,1,3]
 
 root = [5,4,6,null,null,3,7]
 # Output: false
+
+# root = [2,2,2]
+# # Output: false
 
 start = build_tree(root)
 print(print_tree(start))
