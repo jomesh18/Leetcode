@@ -36,43 +36,80 @@ class TreeNode(object):
 #                 next_is_successor = True
 #             curr = curr.right
 
-#Optimized, O(h), h is height of tree
+# #Optimized, O(h), h is height of tree
+# class Solution:
+#     """
+#     @param: root: The root of the BST.
+#     @param: p: You need find the successor node of p.
+#     @return: Successor of p.
+#     """
+#     '''
+#         If right subtree of node is not NULL, then succ lies in right subtree. Do the following. 
+#     Go to right subtree and return the node with minimum key value in the right subtree.
+#     If right subtree of node is NULL, then start from the root and use search-like technique. Do the following. 
+#     Travel down the tree, if a node’s data is greater than root’s data then go right side, otherwise, go to left side.
+#     '''
+#     def inorderSuccessor(self, root, p):
+#         if not root: return None
+#         if p.right:
+#             return self.find_min(p.right)
+#         curr = root
+#         succ = None
+#         while curr:
+#             if curr.val < p.val:
+#                 curr = curr.right
+#             elif curr.val > p.val:
+#                 succ = curr
+#                 curr = curr.left
+#             else:
+#                 break
+#         # print(succ.val)
+#         return succ
+
+#     def find_min(self, node):
+#         curr = node
+#         while curr.left:
+#             curr = curr.left
+#         # print(curr.val)
+#         return curr
+
+#from lintcode
+# class Solution:
+#     """
+#     @param: root: The root of the BST.
+#     @param: p: You need find the successor node of p.
+#     @return: Successor of p.
+#     """
+#     def inorderSuccessor(self, root, p):
+#         if root == None:
+#             return None
+#         if root.val <= p.val:
+#             return self.inorderSuccessor(root.right, p)
+
+#         left = self.inorderSuccessor(root.left, p)
+#         if left != None:
+#             return left
+#         else:
+#             return root
+
+#from lintcode
 class Solution:
     """
     @param: root: The root of the BST.
     @param: p: You need find the successor node of p.
     @return: Successor of p.
     """
-    '''
-        If right subtree of node is not NULL, then succ lies in right subtree. Do the following. 
-    Go to right subtree and return the node with minimum key value in the right subtree.
-    If right subtree of node is NULL, then start from the root and use search-like technique. Do the following. 
-    Travel down the tree, if a node’s data is greater than root’s data then go right side, otherwise, go to left side.
-    '''
     def inorderSuccessor(self, root, p):
-        if not root: return None
-        if p.right:
-            return self.find_min(p.right)
-        curr = root
-        succ = None
-        while curr:
-            if curr.val < p.val:
-                curr = curr.right
-            elif curr.val > p.val:
-                succ = curr
-                curr = curr.left
+        # write your code here
+        successor = None
+        while root:
+            if root.val > p.val:
+                successor = root
+                root = root.left
             else:
-                break
-        # print(succ.val)
-        return succ
-
-    def find_min(self, node):
-        curr = node
-        while curr.left:
-            curr = curr.left
-        # print(curr.val)
-        return curr
-
+                root = root.right
+        # if successor: print(successor.val)
+        return successor
 
 def build_tree(root):
     start = TreeNode(root[0])
@@ -121,6 +158,9 @@ p = 1
 root = [2,1,3]
 p = 1
 # Output: 2
+
+root = [13, 3, 14, 1, 4, None, 18, None, 2]
+p = 4
 
 start = build_tree(root)
 print(print_tree(start))
