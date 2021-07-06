@@ -54,25 +54,65 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+#from leetcode
+# class BSTIterator:
+
+#     def __init__(self, root):
+#         self.stack = list()
+#         self.pushAll(root)
+
+#     # @return a boolean, whether we have a next smallest number
+#     def hasNext(self):
+#         return bool(self.stack)
+
+#     # @return an integer, the next smallest number
+#     def next(self):
+#         tmpNode = self.stack.pop()
+#         self.pushAll(tmpNode.right)
+#         return tmpNode.val
+        
+#     def pushAll(self, node):
+#         while node is not None:
+#             self.stack.append(node)
+#             node = node.left
+
+#my try, also from leetcode
+# class BSTIterator:
+
+#     def __init__(self, root: TreeNode):
+#       self.stack = []
+#       self.node = root
+
+#     def next(self) -> int:
+#         while self.node:
+#           self.stack.append(self.node)
+#           self.node = self.node.left
+#         self.node = self.stack.pop()
+#         res = self.node.val
+#         self.node = self.node.right
+#         return res
+
+#     def hasNext(self) -> bool:
+#       # print(self.stack)
+#       # print(self.node)
+#       return bool(self.stack or self.node)
 
 class BSTIterator:
 
-    def __init__(self, root):
+    def __init__(self, root: TreeNode):
         self.stack = list()
-        self.pushAll(root)
+        self.pushall(root)
 
-    # @return a boolean, whether we have a next smallest number
-    def hasNext(self):
+    def next(self) -> int:
+        temp = self.stack.pop()
+        self.pushall(temp.right)
+        return temp.val
+
+    def hasNext(self) -> bool:
         return bool(self.stack)
 
-    # @return an integer, the next smallest number
-    def next(self):
-        tmpNode = self.stack.pop()
-        self.pushAll(tmpNode.right)
-        return tmpNode.val
-        
-    def pushAll(self, node):
-        while node is not None:
+    def pushall(self, node):
+        while node:
             self.stack.append(node)
             node = node.left
 

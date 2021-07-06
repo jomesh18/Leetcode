@@ -130,7 +130,7 @@ def build_tree(root):
 def print_tree(start):
     q = deque([start])
     res = []
-    while any(q):
+    while q:
         curr = q.popleft()
         if curr:
             res.append(curr.val)
