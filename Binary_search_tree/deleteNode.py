@@ -63,8 +63,29 @@ class Solution:
                 curr = curr.left
             else:
                 break
-        def inorderSuccessor(root):
-            
+        def inorderSuccessor(curr):
+            node = root
+            succ = None
+            while node:
+                if node.val <= curr.val:
+                    node = node.right
+                else:
+                    succ = node
+                    node = node.left
+            prev = None
+            node = root
+            if node != succ:
+                while node:
+                    if node.left = succ:
+                        node.left = None
+                    elif node.right = succ:
+                        node.right = None
+                    elif node.right.val > succ.val:
+
+            return succ
+
+        inorderSuccessor(curr)
+
 
 def build_tree(root):
     start = TreeNode(root[0])
