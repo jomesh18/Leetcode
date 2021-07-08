@@ -51,6 +51,7 @@ class TreeNode:
         self.left = left
         self.right = right
 
+#my try
 class Solution:
     def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
         dummy = TreeNode(float("-inf"), None, root)
@@ -82,36 +83,38 @@ class Solution:
         key_node, p = find_pos(dummy, key)
         node_above_key_node, key_node_is_right_child = p[0], p[1]
         if not key_node: return dummy.right
+        if key_node.left is None and key_node.right is None: #delete a leaf node
+            if key_node_is_right_child:
+                node_above_key_node.right = None
+            else:
+                node_above_key_node.left = None
+            return dummy.right
+        elif key_node.right is None: # delete node with no right subtree
+            if key_node_is_right_child:
+                node_above_key_node.right = key_node.left
+            else:
+                node_above_key_node.left = key_node.left
+            return dummy.right
 
         succ = inorderSuccessor(key_node)
         parent_successor = None
-        if succ:
-            t1, t2 = find_pos(dummy, succ.val)
-            parent_successor, succ_right_child_of_parent = t2
-            if succ_right_child_of_parent:
-                parent_successor.right = None
-            else:
-                parent_successor.left = None
-            succ.left = key_node.left
-            curr = succ
-            while curr:
-                prev = curr
-                curr = curr.right
-            prev.right = key_node.right
-        if key_node_is_right_child:
-            if succ:
-                node_above_key_node.right = succ
-            elif key_node.right:
-                node_above_key_node.right = key_node.right
-            else:
-                node_above_key_node.right = key_node.left
+        t1, t2 = find_pos(dummy, succ.val)
+        parent_successor, succ_right_child_of_parent = t2
+        if succ_right_child_of_parent:
+            parent_successor.right = None
         else:
-            if succ:
-                node_above_key_node.left = succ
-            elif key_node.left:
-                node_above_key_node.left = key_node.left
-            else:
-                node_above_key_node = key_node.right
+            parent_successor.left = None
+        succ.left = key_node.left
+        curr = succ
+        prev = succ
+        while curr:
+            prev = curr
+            curr = curr.right
+        prev.right = key_node.right
+        if key_node_is_right_child:
+            node_above_key_node.right = succ
+        else:
+            node_above_key_node.left = succ
 
         return dummy.right
 
@@ -121,6 +124,7 @@ def build_tree(root):
     q = deque([start])
     i = 1
     while i<len(root):
+        # print(i, root[i:], q)
         curr = q.popleft()
         if curr:
             curr.left = TreeNode(root[i]) if root[i] is not None else None
@@ -129,7 +133,7 @@ def build_tree(root):
             if i<len(root):
                 curr.right = TreeNode(root[i]) if root[i] is not None else None
                 q.append(curr.right)
-        i += 1
+                i += 1
     return start
 
 def print_tree(start):
@@ -152,31 +156,34 @@ key = 3
 
 root = [5,3,6,2,4,null,7]
 key = 0
-# # # # # # Output: [5,3,6,2,4,null,7]
+# # # # # # # Output: [5,3,6,2,4,null,7]
 
 root = []
 key = 0
-# # # # # # Output: []
+# # # # # # # Output: []
 
 root = [0]
 key = 0
-# # # Output: []
+# # # # Output: []
 
 root = [50,30,70,null,40,60,80]
 key = 50
-# # Output: [60, 30, 70, None, 40, None, 80]
+# # # Output: [60, 30, 70, None, 40, None, 80]
 
 root = [5,3,6,2,4,null,7]
 key = 5
-# # # Output : [6, 3, 7, 2, 4]
+# # # # Output : [6, 3, 7, 2, 4]
 
 root = [2,1]
 key = 2
-# # Output = [1]
+# # # Output = [1]
 
 root = [2,1]
 key = 1
-# Output = [2]
+# # Output = [2]
+
+root = [50,30,70,null,40,60,80]+[None]*2+[55,57,75,85]+[None]*5+[76]+[None]*3+[77]
+key = 70
 
 start = build_tree(root)
 print(print_tree(start))
