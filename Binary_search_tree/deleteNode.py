@@ -53,16 +53,21 @@ class TreeNode:
 
 class Solution:
     def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
-        curr = root
-        pos = None
-        while curr:
-            pos = curr
-            if key > curr.val:
-                curr = curr.right
-            elif key < curr.val:
-                curr = curr.left
-            else:
-                break
+        dummy = TreeNode(float("-inf"), None, root)
+        def find_pos(node, key):
+            curr = node
+            pos = (node, 1)
+            while curr:
+                if key > curr.val:
+                    pos = (curr, 1)
+                    curr = curr.right
+                elif key < curr.val:
+                    pos = (curr, 0)
+                    curr = curr.left
+                else:
+                    break
+            return (curr, pos)
+
         def inorderSuccessor(curr):
             node = root
             succ = None
@@ -72,22 +77,46 @@ class Solution:
                 else:
                     succ = node
                     node = node.left
-            prev = None
-            node = root
-            if node != succ:
-                while node:
-                    if node.left = succ:
-                        node.left = None
-                    elif node.right = succ:
-                        node.right = None
-                    elif node.right.val > succ.val:
-
             return succ
 
-        inorderSuccessor(curr)
+        key_node, p = find_pos(dummy, key)
+        node_above_key_node, key_node_is_right_child = p[0], p[1]
+        if not key_node: return dummy.right
 
+        succ = inorderSuccessor(key_node)
+        parent_successor = None
+        if succ:
+            t1, t2 = find_pos(dummy, succ.val)
+            parent_successor, succ_right_child_of_parent = t2
+            if succ_right_child_of_parent:
+                parent_successor.right = None
+            else:
+                parent_successor.left = None
+            succ.left = key_node.left
+            curr = succ
+            while curr:
+                prev = curr
+                curr = curr.right
+            prev.right = key_node.right
+        if key_node_is_right_child:
+            if succ:
+                node_above_key_node.right = succ
+            elif key_node.right:
+                node_above_key_node.right = key_node.right
+            else:
+                node_above_key_node.right = key_node.left
+        else:
+            if succ:
+                node_above_key_node.left = succ
+            elif key_node.left:
+                node_above_key_node.left = key_node.left
+            else:
+                node_above_key_node = key_node.right
+
+        return dummy.right
 
 def build_tree(root):
+    if not root: return root
     start = TreeNode(root[0])
     q = deque([start])
     i = 1
@@ -119,15 +148,35 @@ null = None
 
 root = [5,3,6,2,4,null,7]
 key = 3
-# Output: [5,4,6,2,null,null,7]
+# # Output: [5,4,6,2,null,null,7]
 
-# root = [5,3,6,2,4,null,7]
-# key = 0
-# # Output: [5,3,6,2,4,null,7]
+root = [5,3,6,2,4,null,7]
+key = 0
+# # # # # # Output: [5,3,6,2,4,null,7]
 
-# root = []
-# key = 0
-# # Output: []
+root = []
+key = 0
+# # # # # # Output: []
+
+root = [0]
+key = 0
+# # # Output: []
+
+root = [50,30,70,null,40,60,80]
+key = 50
+# # Output: [60, 30, 70, None, 40, None, 80]
+
+root = [5,3,6,2,4,null,7]
+key = 5
+# # # Output : [6, 3, 7, 2, 4]
+
+root = [2,1]
+key = 2
+# # Output = [1]
+
+root = [2,1]
+key = 1
+# Output = [2]
 
 start = build_tree(root)
 print(print_tree(start))
