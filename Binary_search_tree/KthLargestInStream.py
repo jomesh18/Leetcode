@@ -72,6 +72,18 @@ class KthLargest:
 
     def kth_largest(self, root, k):
         curr = root
+        while curr:
+            if curr.left:
+                diff = curr.count-curr.left.count
+                if diff == k:
+                    return root.val
+                elif diff < k:
+                    k -= diff
+                    root = root.left
+                else:
+                    root = root.right
+            elif curr.right:
+                root = root.right
 
 # Your KthLargest object will be instantiated and called as such:
 # obj = KthLargest(k, nums)
