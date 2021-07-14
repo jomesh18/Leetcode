@@ -40,11 +40,11 @@ Constraints:
 '''
 from collections import deque
 class TreeNode:
-    def __init__(self, val, left=None, right=None, coun=1):
+    def __init__(self, val, left=None, right=None, count=1):
         self.val = val
         self.left = left
         self.right = right
-        self.coun = coun
+        self.count = count
 
 # time limit exceeded
 # class KthLargest:
@@ -61,20 +61,20 @@ class TreeNode:
     
 #     def add_node(self, root, val):
 #         if not root:
-#             return TreeNode(val=val, coun=1)
+#             return TreeNode(val=val, count=1)
 #         if val<=root.val:
 #             root.left = self.add_node(root.left, val)
-#             root.coun += 1
+#             root.count += 1
 #         elif val>root.val:
 #             root.right = self.add_node(root.right, val)
-#             root.coun += 1
+#             root.count += 1
 #         return root
 
 #     def kth_largest(self, root, k):
 #         curr = root
 #         while curr:
 #             if curr.left:
-#                 diff = curr.coun-curr.left.coun
+#                 diff = curr.count-curr.left.count
 #                 if diff == k:
 #                     return curr.val
 #                 elif diff < k:
@@ -83,12 +83,36 @@ class TreeNode:
 #                 else:
 #                     curr = curr.right
 #             elif curr.right:
-#                 if curr.coun == k:
+#                 if curr.count == k:
 #                     return curr.val
 #                 curr = curr.right
 #             else:
-#                 if curr.coun == k:
+#                 if curr.count == k:
 #                     return curr.val
+
+#iterative 
+    def kth_largest(self, root, k):
+        coun = k
+        curr = root
+        while coun>0:
+            pos = 1 + (curr.right.count if curr.right else 0)
+            if pos == k:
+                return curr.val
+            elif pos < k:
+                curr = curr.right
+            else:
+                curr = curr.left
+                k -= pos
+
+    def kth_largest(self, root, k):
+        right_count = root.right.count if root.right else 0
+        curr_count = k-right_count-1
+        if curr_count == 0:
+            return root.val
+        elif curr_count < 0:
+            return self.kth_largest(root.right, k)
+        else:
+            return self.kth_largest(root.left, curr_count)
 
 import heapq
 class KthLargest:
@@ -135,7 +159,7 @@ def print_tree(start):
     while any(q):
         curr = q.popleft()
         if curr:
-            res.append((curr.val, curr.coun))
+            res.append((curr.val, curr.count))
             q.extend([curr.left, curr.right])
         else:
             res.append(None)
