@@ -44,35 +44,77 @@ class TreeNode(object):
         self.left = None
         self.right = None
 
-class Solution(object):
-    def lowestCommonAncestor(self, root, p, q):
-        """
-        :type root: TreeNode
-        :type p: TreeNode
-        :type q: TreeNode
-        :rtype: TreeNode
-        """
-        def find_node_path(root, node, path):
-            if not root:
-                return None
-            path.append(root.val)
-            # print(path)
-            if root.val == node.val:
-                return path
-            elif root.val < node.val:
-                return find_node_path(root.right, node, path)
-            else:
-                return find_node_path(root.left, node, path)
-        l1 = find_node_path(root, TreeNode(p), [])
-        l2 = find_node_path(root, TreeNode(q), [])
-        print(l1, l2)
-        ans = l1[0]
-        for u, v in zip(l1, l2):
-            if u == v:
-                ans = u
-            else:
-                break
-        return ans
+# class Solution(object):
+#     def lowestCommonAncestor(self, root, p, q):
+#         """
+#         :type root: TreeNode
+#         :type p: TreeNode
+#         :type q: TreeNode
+#         :rtype: TreeNode
+#         """
+#         def find_node_path(root, node, path):
+#             if not root:
+#                 return None
+#             path.append(root)
+#             # print(path)
+#             if root.val == node.val:
+#                 return path
+#             elif root.val < node.val:
+#                 return find_node_path(root.right, node, path)
+#             else:
+#                 return find_node_path(root.left, node, path)
+#         l1 = find_node_path(root, p, [])
+#         l2 = find_node_path(root, q, [])
+#         # print(l1, l2)
+#         ans = l1[0]
+#         for u, v in zip(l1, l2):
+#             if u.val == v.val:
+#                 ans = u
+#             else:
+#                 break
+#         return ans
+
+#recursive
+# class Solution(object):
+#     def lowestCommonAncestor(self, root, p, q):
+#         """
+#         :type root: TreeNode
+#         :type p: TreeNode
+#         :type q: TreeNode
+#         :rtype: TreeNode
+#         """
+#         if p.val>root.val and q.val>root.val:
+#             return self.lowestCommonAncestor(root.right, p, q)
+#         elif p.val<root.val and q.val<root.val:
+#             return self.lowestCommonAncestor(root.left, p, q)
+#         else:
+#             return root
+
+#iterative
+# class Solution(object):
+#     def lowestCommonAncestor(self, root, p, q):
+#         while root:
+#             if p.val > root.val and q.val>root.val:
+#                 root = root.right
+#             elif p.val<root.val and q.val<root.val:
+#                 root = root.left
+#             else:
+#                 return root
+
+#stefan pochmann
+# def lowestCommonAncestor(self, root, p, q):
+#     while (root.val - p.val) * (root.val - q.val) > 0:
+#         root = (root.left, root.right)[p.val > root.val]
+#     return root
+
+# def lowestCommonAncestor(self, root, p, q):
+#     next = p.val < root.val > q.val and root.left or \
+#            p.val > root.val < q.val and root.right
+#     return self.lowestCommonAncestor(next, p, q) if next else root
+
+# def lowestCommonAncestor(self, root, p, q):
+#     return root if (root.val - p.val) * (root.val - q.val) < 1 else \
+#            self.lowestCommonAncestor((root.left, root.right)[p.val > root.val], p, q)
 
 def build_tree(root):
     start = TreeNode(root[0])
@@ -117,10 +159,10 @@ q = 8
 # root = [2,1]
 # p = 2
 # q = 1
-# Output: 2
+# # Output: 2
 
 start = build_tree(root)
 print(print_tree(start))
 
 s = Solution()
-print(s.lowestCommonAncestor(start, p, q))
+print(s.lowestCommonAncestor(start, TreeNode(p), TreeNode(q)).val)
