@@ -40,21 +40,30 @@ Constraints:
 #         return False
 
 # O(nk)
-class Solution:
-    def containsNearbyAlmostDuplicate(self, nums: [int], k: int, t: int) -> bool:
-        if t==0 and len(nums) == len(set(nums)): return False
-        for i in range(len(nums)-1):
-            for j in range(i+1, i+1+k):
-                if j>=len(nums): break
-                if abs(nums[i]-nums[j])<=t: return True
-        return False
-
-# import heapq
 # class Solution:
 #     def containsNearbyAlmostDuplicate(self, nums: [int], k: int, t: int) -> bool:
-#         l = [(val, pos) for pos, val in enumerate(nums[:k])]
-#         heapq.heapify(l)
-#         print(l)
+#         if t==0 and len(nums) == len(set(nums)): return False
+#         for i in range(len(nums)-1):
+#             for j in range(i+1, i+1+k):
+#                 if j>=len(nums): break
+#                 if abs(nums[i]-nums[j])<=t: return True
+#         return False
+
+#using buckets, O(n)
+class Solution:
+    def containsNearbyAlmostDuplicate(self, nums: [int], k: int, t: int) -> bool:
+        bucket = {}
+        for pos, val in nums:
+            buck = val//(t+1)
+            if buck in bucket:
+                return True
+            else:
+                bucket[buck] = pos
+                if buck + 1 in bucket and bucket[buck+1]-pos <= k:
+                    return True
+                if buck - 1 in bucket and pos - bucket[buck-1] <= k:
+                    return True
+                if pos - k >
 
 nums = [1,2,3,1]
 k = 3
