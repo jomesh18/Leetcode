@@ -30,6 +30,7 @@ Constraints:
 '''
 
 # Definition for a binary tree node.
+from collections import deque
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -38,4 +39,30 @@ class TreeNode:
 
 class Solution:
     def sortedArrayToBST(self, nums: [int]) -> TreeNode:
-        
+        if not nums: return None
+        mid = len(nums)//2
+        root = TreeNode(nums[mid])
+        root.left = self.sortedArrayToBST(nums[:mid])
+        root.right = self.sortedArrayToBST(nums[mid+1:])
+        return root
+
+def print_tree(root):
+    res = []
+    q = deque([root])
+    while any(q):
+        curr = q.popleft()
+        if curr:
+            res.append(curr.val)
+            q.extend([curr.left, curr.right])
+        else:
+            res.append(None)
+    return res
+
+nums = [-10,-3,0,5,9]
+# Output: [0,-3,9,-10,null,5]
+
+# nums = [1,3]
+# Output: [3,1]
+
+sol = Solution()
+print(print_tree(sol.sortedArrayToBST(nums)))
