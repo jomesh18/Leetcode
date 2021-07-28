@@ -43,15 +43,17 @@ class TreeNode:
 
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
-        def get_height(node, l_h, r_h):
+        if not root: return True
+        isBal = True
+        def get_height(node):
             if not node: return 0
-            l_h = get_height(node.left, l_h+1, r_h)
-            r_h = get_height(node.right, l_h, r_h+1)
+            l_h = 1 + get_height(node.left)
+            r_h = 1 + get_height(node.right)
             if abs(l_h - r_h) > 1:
-                return False
-
-        return get_height(root, 0, 0)
-
+                isBal = False
+            return max(l_h, r_h)
+        get_height(root)
+        return isBal
 
 def build_tree(root):
     if not root: return None
@@ -84,14 +86,17 @@ def print_tree(start):
 
 null = None
 
-# root = [3,9,20,null,null,15,7]
+root = [3,9,20,null,null,15,7]
 # Output: true
 
-root = [1,2,2,3,3,null,null,4,4]
+# root = [1,2,2,3,3,null,null,4,4]
 # # Output: false
 
 # root = []
 # Output: true
+
+root = [1,2,2,3,null,null,3,4,null,null,4]
+# Output: False
 
 start = build_tree(root)
 print(print_tree(start))
