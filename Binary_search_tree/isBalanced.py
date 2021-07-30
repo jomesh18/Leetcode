@@ -41,16 +41,53 @@ class TreeNode:
         self.left = left
         self.right = right
 
-class Solution:
-    def isBalanced(self, root: TreeNode) -> bool:
-        def get_height(node):
-            if not node: return (True, 0)
-            isLBal, l_h = get_height(node.left)
-            if not isLBal: return (False, l_h + 1)
-            isRBal, r_h = get_height(node.right)
-            if not isRBal: return (False, r_h + 1)
-            return (abs(l_h-r_h)<=1, max(l_h, r_h)+1)
-        return get_height(root)[0]
+# class Solution:
+#     def isBalanced(self, root: TreeNode) -> bool:
+#         def get_height(node):
+#             if not node: return (True, 0)
+#             isLBal, l_h = get_height(node.left)
+#             if not isLBal: return (False, l_h + 1)
+#             isRBal, r_h = get_height(node.right)
+#             if not isRBal: return (False, r_h + 1)
+#             return (abs(l_h-r_h)<=1, max(l_h, r_h)+1)
+#         return get_height(root)[0]
+
+#from leetcode, recursive
+class Solution(object):
+    def isBalanced(self, root):
+            
+        def check(root):
+            if root is None:
+                return 0
+            left  = check(root.left)
+            right = check(root.right)
+            if left == -1 or right == -1 or abs(left - right) > 1:
+                return -1
+            return 1 + max(left, right)
+            
+        return check(root) != -1
+
+#from leetcode, iterative
+class Solution(object):
+    def isBalanced(self, root):
+        stack, node, last, depths = [], root, None, {}
+        while stack or node:
+            if node:
+                stack.append(node)
+                node = node.left
+            else:
+                node = stack[-1]
+                if not node.right or last == node.right:
+                    node = stack.pop()
+                    left, right  = depths.get(node.left, 0), depths.get(node.right, 0)
+                    if abs(left - right) > 1: return False
+                    depths[node] = 1 + max(left, right)
+                    last = node
+                    node = None
+                else:
+                    node = node.right
+        return True
+
 
 def build_tree(root):
     if not root: return None
