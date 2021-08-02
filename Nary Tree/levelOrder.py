@@ -36,6 +36,7 @@ class Node:
 
 class Solution:
     def levelOrder(self, root: 'Node') -> [[int]]:
+        if not root: return []
         
 
 def build_tree(root):

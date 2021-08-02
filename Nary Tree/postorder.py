@@ -78,6 +78,34 @@ class Node:
 #                     stack.append((n, False))
 #         return res
 
+# iterative with two stacks, same logic as recursive, from leetcode
+class Solution(object):
+    def postorder(self, root):
+        """
+        :type root: Node
+        :rtype: List[int]
+        """
+        if not root:
+            return []
+                        
+        stack, counters, retList = [root], [0], []
+        
+        while len(stack) != 0:
+        #To English: while the current top of the stack has an unseen child
+            while counters[-1] < len(stack[-1].children):
+        # Add that child to the top of the stack, with a new corresponding counter to the other stack
+                stack.append(stack[-1].children[counters[-1]])
+                counters.append(0)
+        # If the current top of the stack has reached the end of its children list, then we pop it, it's done
+            retList.append(stack.pop().val)
+        # need to pop its counter as well
+            counters.pop()
+        # and increment the counter of the next top of the stack to begin that search
+            if len(counters) != 0:
+                counters[-1] += 1
+            
+        return retList
+
 def build_tree(root):
     if not root: return []
     start = Node(root[0])
