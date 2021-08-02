@@ -29,15 +29,38 @@ The total number of nodes is between [0, 104]
 '''
 
 # Definition for a Node.
+from collections import deque
 class Node:
     def __init__(self, val=None, children=None):
         self.val = val
         self.children = children
 
+#using bfs
+# class Solution:
+#     def levelOrder(self, root: 'Node') -> [[int]]:
+#         if not root: return []
+#         ans = [[root.val]]
+#         q = deque([root])
+#         level = []
+#         while any(q):
+#             level = []
+#             while q:
+#                 curr = q.popleft()
+#                 if curr.children:
+#                     level.extend(curr.children)
+#             q.extend(level)
+#             if level:
+#                 ans.append([n.val for n in level])
+#         return ans
+
+#from leetcode
 class Solution:
-    def levelOrder(self, root: 'Node') -> [[int]]:
-        if not root: return []
-        
+    def levelOrder(self, root):
+        q, ret = [root], []
+        while any(q):
+            ret.append([node.val for node in q])
+            q = [child for node in q for child in node.children if child]
+        return ret
 
 def build_tree(root):
     if not root: return []
@@ -77,7 +100,7 @@ Output = [[1],[3,2,4],[5,6]]
 # root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
 # Output = [[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]
 
-# root = []
+# root = [] 
 # Output = []
 
 start = build_tree(root)

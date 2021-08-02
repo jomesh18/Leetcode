@@ -1,87 +1,112 @@
 '''
- Keys and Rooms
+N-ary Tree Level Order Traversal
 
 Solution
-There are N rooms and you start in room 0.  Each room has a distinct number in 0, 1, 2, ..., N-1, and each room may have some keys to access the next room. 
+Given an n-ary tree, return the level order traversal of its nodes' values.
 
-Formally, each room i has a list of keys rooms[i], and each key rooms[i][j] is an integer in [0, 1, ..., N-1] where N = rooms.length.  A key rooms[i][j] = v opens the room with number v.
+Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).
 
-Initially, all the rooms start locked (except for room 0). 
-
-You can walk back and forth between rooms freely.
-
-Return true if and only if you can enter every room.
+ 
 
 Example 1:
 
-Input: [[1],[2],[3],[]]
-Output: true
-Explanation:  
-We start in room 0, and pick up key 1.
-We then go to room 1, and pick up key 2.
-We then go to room 2, and pick up key 3.
-We then go to room 3.  Since we were able to go to every room, we return true.
+
+
+Input: root = [1,null,3,2,4,null,5,6]
+Output: [[1],[3,2,4],[5,6]]
 Example 2:
 
-Input: [[1,3],[3,0,1],[2],[0]]
-Output: false
-Explanation: We can't enter the room with number 2.
-Note:
 
-1 <= rooms.length <= 1000
-0 <= rooms[i].length <= 1000
-The number of keys in all rooms combined is at most 3000.
+
+Input: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+Output: [[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]
+ 
+
+Constraints:
+
+The height of the n-ary tree is less than or equal to 1000
+The total number of nodes is between [0, 104]
 '''
 
-# my try
-# class Solution:
-#     def canVisitAllRooms(self, rooms: [[int]]) -> bool:
-#         visited = [False]*len(rooms)
-#         def dfs(room):
-#         	if not visited[room]:
-# 	        	visited[room] = True
-# 	        	for key in rooms[room]:
-# 	        		if not visited[key]:
-# 	        			dfs(key)
-#         dfs(0)
-#         return all(visited)
-
-# my try again, using set
-# class Solution:
-#     def canVisitAllRooms(self, rooms: [[int]]) -> bool:
-#         visited = set()
-#         def dfs(room):
-#         	if room not in visited:
-# 	        	visited.add(room)
-# 	        	for key in rooms[room]:
-# 	        		if key not in visited:
-# 	        			dfs(key)
-#         dfs(0)
-#         return len(visited) == len(rooms)
-
-# my try, using bfs
+# Definition for a Node.
 from collections import deque
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+
+#using bfs
+# class Solution:
+#     def levelOrder(self, root: 'Node') -> [[int]]:
+#         if not root: return []
+#         ans = [[root.val]]
+#         q = deque([root])
+#         level = []
+#         while any(q):
+#             level = []
+#             while q:
+#                 curr = q.popleft()
+#                 if curr.children:
+#                     level.extend(curr.children)
+#             q.extend(level)
+#             if level:
+#                 ans.append([n.val for n in level])
+#         return ans
+
+#from leetcode
 class Solution:
-    def canVisitAllRooms(self, rooms: [[int]]) -> bool:
-        visited = set()
-        def bfs(room):
-        	q = deque([(room)])
-        	while q:
-	        	c = q.popleft()
-	        	if c not in visited:
-		        	visited.add(c)
-		        	if len(visited) == len(rooms):
-		        		return True
-		        	for key in rooms[c]:
-		        		if key not in visited:
-		        			q.append((key))
-        return bfs(0)
+    def levelOrder(self, root):
+        q, ret = [root], []
+        while any(q):
+            ret.append([node.val for node in q])
+            q = [child for node in q for child in node.children if child]
+        return ret
 
-rooms = [[1],[2],[3],[]]
-# Output: true
+def build_tree(root):
+    if not root: return []
+    start = Node(root[0])
+    i = 2
+    q = deque([start])
+    while i < len(root):
+        curr = q.popleft()
+        child_list = []
+        while i<len(root) and root[i] is not None:
+            child = Node(root[i])
+            i += 1
+            q.append(child)
+            child_list.append(child)
+        curr.children = child_list
+        i += 1
+    return start
 
-# rooms = [[1,3],[3,0,1],[2],[0]]
-# Output: false
+def print_tree(start):
+    if not start: return []
+    res = [start.val, None]
+    q = deque([start])
+    while any(q):
+        curr = q.popleft()
+        if curr:
+            if curr.children:
+                q.extend(curr.children)
+                res.extend([node.val for node in curr.children])
+            res.append(None)
+    return res
 
-s = Solution()
-print(s.canVisitAllRooms(rooms))
+null = None
+
+root = [1,null,3,2,4,null,5,6]
+Output = [[1],[3,2,4],[5,6]]
+
+root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+Output = [[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]
+
+# root = []
+# Output = []
+
+start = build_tree(root)
+#print(print_tree(start))
+
+sol = Solution()
+res = sol.levelOrder(start)
+print(res)
+print(res == Output)
