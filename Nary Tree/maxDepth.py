@@ -35,6 +35,7 @@ class Node:
         self.val = val
         self.children = children
 
+#dfs, my try
 # class Solution:
 #     def maxDepth(self, root: 'Node') -> int:
 #         ans = float("-inf")
@@ -47,12 +48,37 @@ class Node:
 #             return max(ans, d)
 #         return helper(root, 1)
 
-# from leetcode
+# from leetcode, bottom up approach, dfs
 class Solution(object):
     def maxDepth(self, root):
         if not root: return 0
-        if not root.children: return 1
-        return max(self.maxDepth(node) for node in root.children) + 1
+        depth = 0
+        if root.children:
+            for n in root.children:
+                depth = max(depth, self.maxDepth(n))
+        return depth + 1
+
+# from leetcode, bottom up approach, dfs
+# class Solution(object):
+#     def maxDepth(self, root):
+#         if not root: return 0
+#         if not root.children: return 1
+#         return max(self.maxDepth(node) for node in root.children) + 1
+
+#from leetcode, bfs:
+# class Solution:
+#     def maxDepth(self, root):
+#         if not root: return 0
+#         q = deque([root])
+#         depth = 0
+#         while q:
+#             l = len(q)
+#             for i in range(l):
+#                 curr = q.popleft()
+#                 if curr.children:
+#                     q.extend(curr.children)
+#             depth += 1
+#         return depth
 
 def build_tree(root):
     if not root: return []
