@@ -45,8 +45,6 @@ class Solution:
         if not root: return []
         res = []
         def dfs(node, temp, s):
-            # print(temp, s)
-            # if node: print(node.val)
             if not node: return
             if not node.left and not node.right:
                 if s+node.val == targetSum:
@@ -56,7 +54,7 @@ class Solution:
             s += node.val
             dfs(node.left, temp, s)
             dfs(node.right, temp, s)
-            temp.remove(node.val)
+            temp.pop()
             s -= node.val
         dfs(root, [], 0)
         return res
@@ -97,16 +95,16 @@ root = [5,4,8,11,null,13,4,7,2,null,null,5,1]
 targetSum = 22
 # Output: [[5,4,11,2],[5,8,4,5]]
 
-# root = [1,2,3]
-# targetSum = 5
+root = [1,2,3]
+targetSum = 5
 # # Output: []
 
-# root = [1,2]
-# targetSum = 0
+root = [1,2]
+targetSum = 0
 # # Output: []
 
-# root = [1,-2,-3,1,3,-2,null,-1]
-# targetSum = 2
+root = [1,-2,-3,1,3,-2,null,-1]
+targetSum = 2
 # Output: [[1,-2,3]]
 
 start = build_tree(root)

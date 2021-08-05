@@ -27,7 +27,7 @@ Note:
 N is in the range of  [1, 1000]
 Do not use class member/global/static variables to store states. Your encode and decode algorithms should be stateless.
 '''
-
+from collections import deque
 class UndirectedGraphNode:
      def __init__(self, x):
          self.label = x
@@ -44,6 +44,7 @@ class Solution:
     """
     def decode(self, root):
         # write your code here
+        pass
 
     """
     @param root: N-ary tree
@@ -51,4 +52,69 @@ class Solution:
     """
     def encode(self, root):
         # write your code here
-        
+        if not root: return []
+        q = deque([(root, TreeNode(root.label))])
+        bin_start = q[-1][1]
+        while q:
+            print([(u[0].label, u[1].val) for u in q])
+            curr, bin_curr = q.popleft()
+            # if not bin_curr: bin_curr = TreeNode(curr.label)
+            if curr.neighbors:
+                bin_curr.left = TreeNode(curr.neighbors[0].label)
+                q.append((curr.neighbors[0], bin_curr.left))
+                bin_curr = bin_curr.left
+                for n in curr.neighbors[1:]:
+                    bin_curr.right = TreeNode(n.label)
+                    q.append((n, bin_curr.right))
+                    bin_curr = bin_curr.right
+        return bin_start
+
+def build_nary_tree(root):
+    if not root: return []
+    start = UndirectedGraphNode(root[0])
+    i = 2
+    q = deque([start])
+    while i < len(root):
+        curr = q.popleft()
+        while i<len(root) and root[i] is not None:
+            curr.neighbors.append(UndirectedGraphNode(root[i]))
+            i += 1
+        q.extend(curr.neighbors)
+        i += 1
+    return start
+
+def print_nary(start):
+    if not start: return []
+    q = deque([start])
+    res = [start.label, None]
+    while any(q):
+        curr = q.popleft()
+        if curr and curr.neighbors:
+            res.extend([n.label for n in curr.neighbors])
+            q.extend(curr.neighbors)
+        res.append(None)
+    return res
+
+def print_binary(start):
+    res = []
+    if not start: return res
+    q = deque([start])
+    while any(q):
+        curr = q.popleft()
+        if curr:
+            res.append(curr.val)
+            q.extend([curr.left, curr.right])
+        else:
+            res.append(None)
+    return res
+
+root = [1, None, 2, 3, 4, None, 5, None, 6]
+
+start = build_nary_tree(root)
+
+print(print_nary(start))
+sol = Solution()
+b_tree = sol.encode(start)
+print(print_binary(b_tree))
+n_tree = sol.decode(b_tree)
+print(print_nary(n_tree))
