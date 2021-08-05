@@ -42,32 +42,76 @@ class Solution:
     @param root: binary tree
     @return: N-ary tree
     """
+    # def decode(self, root):
+    #     # write your code here
+    #     q = deque([(root, UndirectedGraphNode(root.val))])
+    #     n_start = q[0][1]
+    #     while q:
+    #         b_curr, n_curr = q.popleft()
+    #         if b_curr.left:
+    #             b_curr = b_curr.left
+    #             while b_curr:
+    #                 n_curr.neighbors.append(UndirectedGraphNode(b_curr.val))
+    #                 q.append([b_curr, n_curr.neighbors[-1]])
+    #                 b_curr = b_curr.right
+    #     return n_start
+
+    """
+    @param root: N-ary tree
+    @return: binary tree
+    """
+    # def encode(self, root):
+    #     # write your code here
+    #     if not root: return []
+    #     q = deque([(root, TreeNode(root.label))])
+    #     bin_start = q[-1][1]
+    #     while q:
+    #         # print([(u[0].label, u[1].val) for u in q])
+    #         curr, bin_curr = q.popleft()
+    #         # if not bin_curr: bin_curr = TreeNode(curr.label)
+    #         if curr.neighbors:
+    #             bin_curr.left = TreeNode(curr.neighbors[0].label)
+    #             q.append((curr.neighbors[0], bin_curr.left))
+    #             bin_curr = bin_curr.left
+    #             for n in curr.neighbors[1:]:
+    #                 bin_curr.right = TreeNode(n.label)
+    #                 q.append((n, bin_curr.right))
+    #                 bin_curr = bin_curr.right
+    #     return bin_start
+
     def decode(self, root):
-        # write your code here
-        pass
+        if not root:
+            return None
+    
+        res = UndirectedGraphNode(root.val)
+        cur = root.left
+        
+        while cur:
+            res.neighbors.append(self.decode(cur))
+            cur = cur.right
+       
+        return res
 
     """
     @param root: N-ary tree
     @return: binary tree
     """
     def encode(self, root):
-        # write your code here
-        if not root: return []
-        q = deque([(root, TreeNode(root.label))])
-        bin_start = q[-1][1]
-        while q:
-            print([(u[0].label, u[1].val) for u in q])
-            curr, bin_curr = q.popleft()
-            # if not bin_curr: bin_curr = TreeNode(curr.label)
-            if curr.neighbors:
-                bin_curr.left = TreeNode(curr.neighbors[0].label)
-                q.append((curr.neighbors[0], bin_curr.left))
-                bin_curr = bin_curr.left
-                for n in curr.neighbors[1:]:
-                    bin_curr.right = TreeNode(n.label)
-                    q.append((n, bin_curr.right))
-                    bin_curr = bin_curr.right
-        return bin_start
+        if not root:
+            return None
+    
+        res = TreeNode(root.label)
+        
+        if root.neighbors: 
+            res.left = self.encode(root.neighbors[0])
+            
+        cur = res.left
+        
+        for i in range(1, len(root.neighbors)):
+            cur.right = self.encode(root.neighbors[i])
+            cur = cur.right
+        
+        return res
 
 def build_nary_tree(root):
     if not root: return []
@@ -109,6 +153,9 @@ def print_binary(start):
     return res
 
 root = [1, None, 2, 3, 4, None, 5, None, 6]
+
+root = [1, None, 3, 2, 4, None, 5, 6]
+# {1,2,3,4#2#3,5,6#4#5#6}
 
 start = build_nary_tree(root)
 
