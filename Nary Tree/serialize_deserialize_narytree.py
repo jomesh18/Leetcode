@@ -43,33 +43,77 @@ class DirectedGraphNode:
         self.label = x
         self.neighbors = []
 
+#my try
+# class Solution:
+#     def serialize(self, root):
+#         if not root: return []
+#         q = deque([root])
+#         res = [root.label, None]
+#         while any(q):
+#             curr = q.popleft()
+#             if curr and curr.neighbors:
+#                 res.extend([n.label for n in curr.neighbors])
+#                 q.extend(curr.neighbors)
+#             res.append(None)
+#         return ','.join(str(i) for i in res)
+
+#     def deserialize(self, data):
+#         if not data: return []
+#         root = [int(i) if i!="None" else None for i in data.split(",")]
+#         start = DirectedGraphNode(root[0])
+#         i = 2
+#         q = deque([start])
+#         while i < len(root):
+#             curr = q.popleft()
+#             while i<len(root) and root[i] is not None:
+#                 curr.neighbors.append(DirectedGraphNode(root[i]))
+#                 i += 1
+#             q.extend(curr.neighbors)
+#             i += 1
+#         return start
+
+#from lintcode, different format: input format is root = [list of all nodes] whereas in leetcode, root = root_node
 class Solution:
-    def serialize(self, root):
-        if not root: return []
-        q = deque([root])
-        res = [root.label, None]
-        while any(q):
-            curr = q.popleft()
-            if curr and curr.neighbors:
-                res.extend([n.label for n in curr.neighbors])
-                q.extend(curr.neighbors)
-            res.append(None)
-        return ','.join(str(i) for i in res)
+    def __init__(self):
+        self.pos = 1
+    
+    def dfs(self,root):
+        ans = ""
+        if root is None:
+            return ans 
+        ans += "["
+        ans += str(root.label)
+        leng = len(root.neighbors)
+        for i in range(leng) :
+                ans += self.dfs(root.neighbors[i])
+        ans += "]"
+        return ans
+
+    def solve(self,data):
+        num = 0
+        while ord(data[self.pos]) >= ord('0') and ord(data[self.pos]) <= ord('9') :
+            num *= 10
+            num += ord(data[self.pos]) - ord('0')
+            self.pos += 1
+        node = UndirectedGraphNode(num)
+        while self.pos < len(data):
+            if data[self.pos] == '[':
+                self.pos += 1
+                node.neighbors.append(self.solve(data))
+            elif data[self.pos] == ']':
+                self.pos += 1
+                return node
+
+    def serialize(self, nodes):
+        ans = ""
+        if nodes is None:
+            return ans
+        return self.dfs(nodes[0])
 
     def deserialize(self, data):
-        if not data: return []
-        root = [int(i) if i!="None" else None for i in data.split(",")]
-        start = DirectedGraphNode(root[0])
-        i = 2
-        q = deque([start])
-        while i < len(root):
-            curr = q.popleft()
-            while i<len(root) and root[i] is not None:
-                curr.neighbors.append(DirectedGraphNode(root[i]))
-                i += 1
-            q.extend(curr.neighbors)
-            i += 1
-        return start
+        if len(data) == 0:
+            return None
+        return self.solve(data)
 
 def build_nary_tree(root):
     if not root: return []
