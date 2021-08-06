@@ -37,6 +37,7 @@ Do not use class member/global/static variables to store states. Your serialize 
 
 
 # Definition for a directed graph node
+from collections import deque
 class DirectedGraphNode:
     def __init__(self, x):
         self.label = x
@@ -44,5 +45,68 @@ class DirectedGraphNode:
 
 class Solution:
     def serialize(self, root):
-        
+        if not root: return []
+        q = deque([root])
+        res = [root.label, None]
+        while any(q):
+            curr = q.popleft()
+            if curr and curr.neighbors:
+                res.extend([n.label for n in curr.neighbors])
+                q.extend(curr.neighbors)
+            res.append(None)
+        return ','.join(str(i) for i in res)
+
     def deserialize(self, data):
+        if not data: return []
+        root = [int(i) if i!="None" else None for i in data.split(",")]
+        start = DirectedGraphNode(root[0])
+        i = 2
+        q = deque([start])
+        while i < len(root):
+            curr = q.popleft()
+            while i<len(root) and root[i] is not None:
+                curr.neighbors.append(DirectedGraphNode(root[i]))
+                i += 1
+            q.extend(curr.neighbors)
+            i += 1
+        return start
+
+def build_nary_tree(root):
+    if not root: return []
+    start = DirectedGraphNode(root[0])
+    i = 2
+    q = deque([start])
+    while i < len(root):
+        curr = q.popleft()
+        while i<len(root) and root[i] is not None:
+            curr.neighbors.append(DirectedGraphNode(root[i]))
+            i += 1
+        q.extend(curr.neighbors)
+        i += 1
+    return start
+
+def print_nary(start):
+    if not start: return []
+    q = deque([start])
+    res = [start.label, None]
+    while any(q):
+        curr = q.popleft()
+        if curr and curr.neighbors:
+            res.extend([n.label for n in curr.neighbors])
+            q.extend(curr.neighbors)
+        res.append(None)
+    return res
+
+root = [1, None, 2, 3, 4, None, 5, None, 6]
+
+root = [1, None, 3, 2, 4, None, 5, 6]
+# {1,2,3,4#2#3,5,6#4#5#6}
+
+start = build_nary_tree(root)
+print(print_nary(start))
+
+sol = Solution()
+ser = sol.serialize(start)
+print(ser)
+deser = sol.deserialize(ser)
+print(print_nary(deser))

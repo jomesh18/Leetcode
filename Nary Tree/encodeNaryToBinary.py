@@ -79,38 +79,58 @@ class Solution:
     #                 bin_curr = bin_curr.right
     #     return bin_start
 
-    def decode(self, root):
-        if not root:
-            return None
+    # def decode(self, root):
+    #     if not root:
+    #         return None
     
-        res = UndirectedGraphNode(root.val)
-        cur = root.left
+    #     res = UndirectedGraphNode(root.val)
+    #     cur = root.left
         
-        while cur:
-            res.neighbors.append(self.decode(cur))
-            cur = cur.right
+    #     while cur:
+    #         res.neighbors.append(self.decode(cur))
+    #         cur = cur.right
        
-        return res
+    #     return res
 
     """
     @param root: N-ary tree
     @return: binary tree
     """
-    def encode(self, root):
-        if not root:
-            return None
+    # def encode(self, root):
+    #     if not root:
+    #         return None
     
-        res = TreeNode(root.label)
+    #     res = TreeNode(root.label)
         
-        if root.neighbors: 
-            res.left = self.encode(root.neighbors[0])
+    #     if root.neighbors: 
+    #         res.left = self.encode(root.neighbors[0])
             
-        cur = res.left
+    #     cur = res.left
         
-        for i in range(1, len(root.neighbors)):
-            cur.right = self.encode(root.neighbors[i])
-            cur = cur.right
+    #     for i in range(1, len(root.neighbors)):
+    #         cur.right = self.encode(root.neighbors[i])
+    #         cur = cur.right
         
+    #     return res
+#my try
+    def encode(self, root):
+        if not root: return None
+        res = TreeNode(root.label)
+        if root.neighbors:
+            res.left = self.encode(root.neighbors[0])
+            curr = res.left
+            for i in range(1, len(root.neighbors)):
+                curr.right = self.encode(root.neighbors[i])
+                curr = curr.right
+        return res
+#my try
+    def decode(self, root):
+        if not root: return None
+        res = UndirectedGraphNode(root.val)
+        curr = root.left
+        while curr:
+            res.neighbors.append(self.decode(curr))
+            curr = curr.right
         return res
 
 def build_nary_tree(root):
