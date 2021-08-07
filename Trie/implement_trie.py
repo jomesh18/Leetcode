@@ -38,10 +38,12 @@ Constraints:
     At most 3 * 104 calls in total will be made to insert, search, and startsWith.
 
 '''
+from collections import deque
 class Node:
     def __init__(self, val=None):
         self.val = val
         self.children = []
+        self.end = False
 
 class Trie:
 
@@ -56,28 +58,62 @@ class Trie:
         """
         Inserts a word into the trie.
         """
-        curr = self.root
-        for c in word:
-            if curr.children:
-                if c not in curr.children:
-                    curr.children[c] = Node(c)
-            else:
-                curr.children.append(Node(c))
-            curr = curr.children[c]
+        if not self.search(word):
+            curr = self.root
+            for c in word:
+                if c not in [n.val for n in curr.children]:
+                    curr.children.append(Node(c))
+                for n in curr.children:
+                    if n.val == c:
+                        curr = n
+                        break
+            curr.end = True
 
 
     def search(self, word: str) -> bool:
         """
         Returns if the word is in the trie.
         """
-        pass
+        curr = self.root
+        for c in word:
+            c_in = False
+            for n in curr.children:
+                if c == n.val:
+                    curr = n
+                    c_in = True
+                    break
+            if not c_in:
+                return False
+        return True if curr.end else False
 
     def startsWith(self, prefix: str) -> bool:
         """
         Returns if there is any word in the trie that starts with the given prefix.
         """
-        pass
+        curr = self.root
+        for c in prefix:
+            c_in = False
+            for n in curr.children:
+                if c == n.val:
+                    curr = n
+                    c_in = True
+                    break
+            if not c_in:
+                return False
+        return True
 
+def print_tree(start):
+    if not start: return []
+    res = [start.val, None]
+    q = deque([start])
+    while any(q):
+        curr = q.popleft()
+        if curr:
+            if curr.children:
+                q.extend(curr.children)
+                res.extend([node.val for node in curr.children])
+            res.append(None)
+    return res
 
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
@@ -95,8 +131,12 @@ inp1 = ["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
 inp2 = [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
 Output = [null, null, true, false, true, null, true]
 
-end = 2
-res = []
+# inp1 = ["Trie","insert","search","search","startsWith","insert","search"]
+# inp2 = [[],["apple"],["apple"],["app"],["app"],["app"],["app"]]
+# Output = [null,null,true,false,true,null,true]
+
+end = len(inp1)
+res = [None]
 for fn, para in zip(inp1[1: end], inp2[1: end]):
     if fn == "insert":
         res.append(trie.insert(para[0]))
@@ -107,6 +147,7 @@ for fn, para in zip(inp1[1: end], inp2[1: end]):
     else:
         continue
 
+print(print_tree(trie.root))
 print(res)
 print(Output)
 print(res == Output)
