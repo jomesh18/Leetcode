@@ -36,43 +36,80 @@ key and prefix consist of only lowercase English letters.
 1 <= val <= 1000
 At most 50 calls will be made to insert and sum.
 '''
+#my try
 from collections import defaultdict
-class TrieNode:
-    def __init__(self):
-        self.children = defaultdict(TrieNode)
-        self.isEnd = False
-        self.count = 0
+# class TrieNode:
+#     # def __init__(self):
+#         self.children = defaultdict(TrieNode)
+#         self.isEnd = False
+#         self.count = 0
 
-class MapSum:
+# class MapSum:
 
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.root = TrieNode()
-        self.keyWords = dict()
+#     def __init__(self):
+#         """
+#         Initialize your data structure here.
+#         """
+#         self.root = TrieNode()
+#         self.keyWords = dict()
 
-    def containsKey(self, key):
-        if key in self.keyWords:
-            return self.keyWords[key]
-        else:
-            return 0
+#     def containsKey(self, key):
+#         if key in self.keyWords:
+#             return self.keyWords[key]
+#         else:
+#             return 0
 
-    def insert(self, key: str, val: int) -> None:
-        count = self.containsKey(key)
-        # print(key, count)
-        curr = self.root
-        for c in key:
-            curr = curr.children[c]
-            curr.count += val-count
-        curr.isEnd = True
-        self.keyWords[key] = val
+#     def insert(self, key: str, val: int) -> None:
+#         count = self.containsKey(key)
+#         # print(key, count)
+#         curr = self.root
+#         for c in key:
+#             curr = curr.children[c]
+#             curr.count += val-count
+#         curr.isEnd = True
+#         self.keyWords[key] = val
 
-    def sum(self, prefix: str) -> int:
-        curr = self.root
-        for c in prefix:
-            curr = curr.children[c]
-        return curr.count
+#     def sum(self, prefix: str) -> int:
+#         curr = self.root
+#         for c in prefix:
+#             curr = curr.children[c]
+#         # return curr.count
+
+#brute force, from leetcode
+# class MapSum:
+
+#     def __init__(self):
+#         """
+#         Initialize your data structure here.
+#         """
+#         self.dict = {}
+
+#     def insert(self, key: str, val: int) -> None:
+#         self.dict[key] = val
+
+#     def sum(self, prefix: str) -> int:
+#         count = 0
+#         for key in self.dict:
+#             if key.startswith(prefix):
+#                 count += self.dict[key]
+#         return count
+
+# Prefix Hashmap [Accepted], from leetcode
+# from collections import Counter
+# class MapSum:
+#     def __init__(self):
+#         self.dict = {}
+#         self.score = Counter()
+
+#     def insert(self, key, val):
+#         delta = val - self.dict.get(key, 0)
+#         self.dict[key] = val
+#         for i in range(len(key)+1):
+#             self.score[key[:i]] += delta
+
+#     def sum(self, prefix):
+#         return self.score[prefix]
+
 
 # Your MapSum object will be instantiated and called as such:
 # obj = MapSum()
