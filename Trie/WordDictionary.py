@@ -62,6 +62,8 @@ class WordDictionary:
     def search(self, word: str) -> bool:
         curr = self.root
         for c in word:
+            if c == ".":
+                q.extend(curr.chilren)
             curr = curr.chilren.get(c)
             if not curr: return False
         return curr.isEnd == True
