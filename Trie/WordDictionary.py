@@ -41,7 +41,7 @@ You should be familiar with how a Trie works. If not, please work on this proble
 '''
 class TrieNode:
     def __init__(self):
-        self.chilren = {}
+        self.children = {}
         self.isEnd = False
 
 class WordDictionary:
@@ -55,18 +55,42 @@ class WordDictionary:
     def addWord(self, word: str) -> None:
         curr = self.root
         for c in word:
-            
-            curr = curr.chilren.setdefault(c, TrieNode())
+            curr = curr.children.setdefault(c, TrieNode())
         curr.isEnd = True
 
     def search(self, word: str) -> bool:
         curr = self.root
-        for c in word:
+        for i, c in enumerate(word):
             if c == ".":
-                q.extend(curr.chilren)
-            curr = curr.chilren.get(c)
+                temp = [curr.children.values()]
+                curr = None
+                if i == len(word)-1:
+                    for cur in temp:
+                        if cur.isEnd:
+                            curr = cur
+                            break
+                else:
+                    for cur in temp:
+                        if word[i+1] in cur:
+                            curr = cur
+                            break
+            else:
+                curr = curr.children.get(c)
             if not curr: return False
+            print(curr.children)
         return curr.isEnd == True
+
+def print_trie(root):
+    res = []
+    def helper(node, temp):
+        if not node: return 
+        if not node.children: return
+        for n in node.children:
+            helper(node.children[n], temp.append(n))
+        res.append(temp)
+        temp.pop()
+    helper(root, [])
+    return res
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
@@ -92,6 +116,7 @@ for fn, para in zip(inp1, inp2):
     else:
         continue
 
+print(print_trie(obj.root))
 print(res)
 print(Output)
 print(res == Output)
