@@ -35,12 +35,17 @@ Constraints:
     -105 <= arr[i] <= 105
 
 '''
+from collections import Counter
 class Solution:
     def canReorderDoubled(self, arr: [int]) -> bool:
-        for n in arr:
-            if n//2 in arr or 2*n in arr:
-                continue
-            return False
+        count = Counter(arr)
+        # print(count)
+        for x in sorted(arr, key = abs):
+            if count[x] == 0: continue
+            if count[2*x] == 0: return False
+            count[x] -= 1
+            count[2*x] -= 1
+
         return True
 
 arr = [4,-2,2,-4]

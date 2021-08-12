@@ -62,7 +62,8 @@ class WordDictionary:
         curr = self.root
         for i, c in enumerate(word):
             if c == ".":
-                temp = [curr.children.values()]
+                temp = curr.children.values()
+                print(temp)
                 curr = None
                 if i == len(word)-1:
                     for cur in temp:
@@ -71,26 +72,27 @@ class WordDictionary:
                             break
                 else:
                     for cur in temp:
-                        if word[i+1] in cur:
+                        if word[i+1] in cur.children:
                             curr = cur
                             break
             else:
                 curr = curr.children.get(c)
             if not curr: return False
-            print(curr.children)
+            # print(curr.children)
         return curr.isEnd == True
 
 def print_trie(root):
-    res = []
-    def helper(node, temp):
-        if not node: return 
-        if not node.children: return
-        for n in node.children:
-            helper(node.children[n], temp.append(n))
-        res.append(temp)
-        temp.pop()
-    helper(root, [])
-    return res
+    pass
+#     res = []
+#     def helper(node, temp):
+#         if not node: return 
+#         if not node.children: return
+#         for n in node.children:
+#             helper(node.children[n], temp.append(n))
+#         res.extend(temp)
+#         # temp.pop()
+#     helper(root, [])
+#     return res
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
@@ -110,9 +112,9 @@ res = [None]
 
 for fn, para in zip(inp1, inp2):
     if fn == "addWord":
-        res.append(obj.addWord(para))
+        res.append(obj.addWord(para[0]))
     elif fn == "search":
-        res.append(obj.search(para))
+        res.append(obj.search(para[0]))
     else:
         continue
 
