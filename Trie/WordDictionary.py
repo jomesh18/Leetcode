@@ -82,17 +82,16 @@ class WordDictionary:
         return curr.isEnd == True
 
 def print_trie(root):
-    pass
-#     res = []
-#     def helper(node, temp):
-#         if not node: return 
-#         if not node.children: return
-#         for n in node.children:
-#             helper(node.children[n], temp.append(n))
-#         res.extend(temp)
-#         # temp.pop()
-#     helper(root, [])
-#     return res
+    ans = []
+    def helper(root, res):
+        if not root: return ""
+        if not root.children: return ""
+        for n in root.children:
+            if root.children[n].isEnd:
+                ans.extend([res+n])
+            helper(root.children[n], res+n)   
+    helper(root, "")
+    return ans
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
@@ -106,6 +105,11 @@ false = False
 inp1 = ["WordDictionary","addWord","addWord","addWord","search","search","search","search"]
 inp2 = [[],["bad"],["dad"],["mad"],["pad"],["bad"],[".ad"],["b.."]]
 Output = [null,null,null,null,false,true,true,true]
+
+# inp1 = ["WordDictionary","addWord","addWord","addWord","addWord","search","search","search","search"]
+# inp2 = [[],["bad"],["dad"],["mad"],["bit"],["pad"],["bad"],[".ad"],["b.."]]
+# Output = [null,null,null,null,null,false,true,true,true]
+
 
 obj = WordDictionary()
 res = [None]
