@@ -59,27 +59,16 @@ class WordDictionary:
         curr.isEnd = True
 
     def search(self, word: str) -> bool:
-        curr = self.root
-        for i, c in enumerate(word):
-            if c == ".":
-                temp = curr.children.values()
-                print(temp)
-                curr = None
-                if i == len(word)-1:
-                    for cur in temp:
-                        if cur.isEnd:
-                            curr = cur
-                            break
-                else:
-                    for cur in temp:
-                        if word[i+1] in cur.children:
-                            curr = cur
-                            break
-            else:
-                curr = curr.children.get(c)
-            if not curr: return False
-            # print(curr.children)
-        return curr.isEnd == True
+        self.found = False
+        def dfs(root, i):
+            if i == len(word):
+                return root.isEnd
+            if word[i] == ".":
+
+            word[i] in root.children:
+
+
+        dfs(self.root, 0)
 
 def print_trie(root):
     ans = []
@@ -89,7 +78,7 @@ def print_trie(root):
         for n in root.children:
             if root.children[n].isEnd:
                 ans.extend([res+n])
-            helper(root.children[n], res+n)   
+            helper(root.children[n], res+n)
     helper(root, "")
     return ans
 
