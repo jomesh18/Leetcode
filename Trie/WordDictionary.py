@@ -62,27 +62,17 @@ class WordDictionary:
         self.found = False
         def dfs(root, i):
             if i == len(word):
+                if root.isEnd:
+                    self.found = True
                 return
-            if i == len(word)-1:
-                if word[i] == ".":
-                    for n in root.children.values():
-                        if n.isEnd:
-                            self.found = True
-                else:
-                    if word[i] in root.children and root.children[word[i]].isEnd:
-                        self.found = True
-            else:
-                if word[i] == ".":
-                    for n in root.children.values():
-                        if not self.found:
-                            dfs(n, i+1)
-                        else:
-                            break
-                else:
-                    if word[i] in root.children:
-                        dfs(root.children[word[i]], i+1)
+            if word[i] == ".":
+                for n in root.children.values():
+                    if not self.found:
+                        dfs(n, i+1)
                     else:
-                        return
+                        break
+            if word[i] in root.children:
+                dfs(root.children[word[i]], i+1)
         dfs(self.root, 0)
         return self.found
 
