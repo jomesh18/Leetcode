@@ -52,11 +52,53 @@ Constraints:
     board[i][j] is a digit or '.'.
 
 '''
+#not working
 class Solution:
     def isValidSudoku(self, board: [[str]]) -> bool:
         row = len(board)
         column = len(board[0])
-        for i in row:
-            for j in column:
+        for i in range(row):
+            for j in range(column):
                 if board[i][j] != ".":
-                    
+                    c = board[i][j]
+                    for k in range(row):
+                        if board[k][j] == c and k!=i:
+                            # print(i,j, k)
+                            return False
+                    for k in range(column):
+                        if board[i][k] == c and k!=j:
+                            # print(i,j, k)
+                            return False
+                    row_start, column_start = (i//3)*3, (j//3)*3
+                    for k in range(row_start, row_start+3):
+                        for l in range(column_start, column_start+3):
+                            print(i,j, k, l)
+                            if board[k][l] == c and k!=i and l!=j:
+                                return False
+        return True
+
+
+board = [["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+# Output: true
+
+board = [["8","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+# Output: false
+
+sol = Solution()
+print(sol.isValidSudoku(board))
