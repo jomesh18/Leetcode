@@ -50,18 +50,14 @@ Constraints:
 
 class Solution:
     def findMaximumXOR(self, nums: [int]) -> int:
-        maxi, mask = 0, 0
-        for i in range(6, 0, -1):
-            mask = mask | (1<<i)
-            s = set()
+        max_, mask = 0, 0
+        for i in range(31, 0, -1):
+            mask |= (1<<i)
+            new_max = max_ | (1<<i)
+            se = set()
             for n in nums:
-                s.add(n & mask)
-            temp = maxi | (1<<i)
-            for prefix in s:
-                if (temp^prefix) in s:
-                    maxi = temp
-                    break
-        return maxi
+                se.add(n ^ mask)
+            for 
 
 nums = [3,10,5,25,2,8]
 # Output: 28
