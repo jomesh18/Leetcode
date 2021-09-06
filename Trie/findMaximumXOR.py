@@ -48,20 +48,41 @@ Constraints:
 #                 res = max(res, nums[i]^n)
 #         return res
 
+#bit manipulation, accepted
+# class Solution:
+#     def findMaximumXOR(self, nums: [int]) -> int:
+#         maxx, mask = 0, 0
+#         for i in range(31, -1, -1):
+#             mask |= (1<<i)
+#             new_max = maxx | (1<<i)
+#             se = set()
+#             for n in nums:
+#                 se.add(n & mask)
+#             for prefix in se:
+#                 if prefix^new_max in se:
+#                     maxx = new_max
+#                     break
+#         return maxx
+
+#using trie
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, num):
+        curr = self.root
+        num_bit = (1<<31) | num
+        for bit in num_bit:
+            curr.setdefault(bit, TrieNode())
+
 class Solution:
     def findMaximumXOR(self, nums: [int]) -> int:
-        maxx, mask = 0, 0
-        for i in range(31, -1, -1):
-            mask |= (1<<i)
-            new_max = maxx | (1<<i)
-            se = set()
-            for n in nums:
-                se.add(n & mask)
-            for prefix in se:
-                if prefix^new_max in se:
-                    maxx = new_max
-                    break
-        return maxx
+
 
 nums = [3,10,5,25,2,8]
 # Output: 28
