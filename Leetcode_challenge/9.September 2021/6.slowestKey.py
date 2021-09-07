@@ -49,8 +49,39 @@ Constraints:
     keysPressed contains only lowercase English letters.
 
 '''
+#not working
+# class Solution:
+#     def slowestKey(self, releaseTimes: [int], keysPressed: str) -> str:
+        # releaseTimes.append(0)
+        # d = {}
+        # for i, c in enumerate(keysPressed):
+        #     # d.setdefault(c, releaseTimes[i] - releaseTimes[i-1])
+        #     # d[c] = d.get(c, 0) + releaseTimes[i] - releaseTimes[i-1]
+        # l = []
+        # for key, val in d.items():
+        #     l.append((val, key))
+        # l.sort(key= lambda l: (l[0], l[1]), reverse=True)
+        # print(l)
+        # return l[0][1]
+
+#from leetcode
 class Solution:
     def slowestKey(self, releaseTimes: [int], keysPressed: str) -> str:
-        d = defaultdict(int)
-        for c in keysPressed:
-            c.get()
+        k, t = keysPressed[0], releaseTimes[0] 
+        for i in range(1, len(keysPressed)):
+            time = releaseTimes[i] - releaseTimes[i-1] 
+            if time > t or (time == t and keysPressed[i] > k):
+                t = time
+                k = keysPressed[i]
+        return k
+
+releaseTimes = [9,29,49,50]
+keysPressed = "cbcd"
+# Output: "c"
+
+# releaseTimes = [12,23,36,46,62]
+# keysPressed = "spuda"
+# Output: "a
+
+sol = Solution()
+print(sol.slowestKey(releaseTimes, keysPressed))
