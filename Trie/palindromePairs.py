@@ -62,22 +62,25 @@ class TrieNode:
     def __init__(self):
         self.neighbors = {}
         self.value = None
+        palins = []
 
 class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    def insert(self, word):
+    def insert(self, word, pos):
         current = self.root
-        for c in word:
+        for c in word[::-1]:
             current = current.setdefault(c, TrieNode())
-        current.value = word
+        current.value = 
 
 class Solution:
     def palindromePairs(self, words: [str]) -> [[int]]:
         trie = Trie()
-        for word in words:
-            trie.insert(word)
+        for pos, word in enumerate(words):
+            trie.insert(word, pos)
+        for pos, word in enumerate(words):
+
 
 
 words = ["abcd","dcba","lls","s","sssll"]
