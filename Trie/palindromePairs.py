@@ -57,47 +57,95 @@ Constraints:
 #         return res
 
 #from leetcode, O(n*l**2)
-class Solution:
-    def palindromePairs(self, words: [str]) -> [[int]]:
-        d, res = {word: i for i, word in enumerate(words)}, []
-        for i, word in enumerate(words):
-            for j in range(len(word)+1):
-                prefix, suffix = word[:j], word[j:]
-                if prefix[::-1] in d and d[prefix[::-1]] != i and suffix == suffix[::-1]:
-                    res.append([i, d[prefix[::-1]]])
-                if j != 0 and suffix[::-1] in d and d[suffix[::-1]] != i and prefix == prefix[::-1]:
-                    res.append([d[suffix[::-1]], i])
-        return res
-
-#using trie, not working
-
-# class TrieNode:
-#     def __init__(self):
-#         self.next = [None] * 26 
-#         self.index = -1
-#         self.isWord = False
-#         self.list = []
-
-# class Trie:
-#     def __init__(self):
-#         self.root = TrieNode()
-
-#     def insert(self, word, pos):
-#         current = self.root
-#         for c in word[::-1]:
-#             current = current.setdefault(c, TrieNode())
-#         current.value = 
-
 # class Solution:
 #     def palindromePairs(self, words: [str]) -> [[int]]:
-#         trie = Trie()
-#         for pos, word in enumerate(words):
-#             trie.insert(word, pos)
-#         for pos, word in enumerate(words):
+#         d, res = {word: i for i, word in enumerate(words)}, []
+#         for i, word in enumerate(words):
+#             for j in range(len(word)+1):
+#                 prefix, suffix = word[:j], word[j:]
+#                 if prefix[::-1] in d and d[prefix[::-1]] != i and suffix == suffix[::-1]:
+#                     res.append([i, d[prefix[::-1]]])
+#                 if j != 0 and suffix[::-1] in d and d[suffix[::-1]] != i and prefix == prefix[::-1]:
+#                     res.append([d[suffix[::-1]], i])
+#         return res
 
+#using trie, from fizbuzzed https://fizzbuzzed.com/top-interview-questions-5/
+from collections import defaultdict
 
+def isPalindrome(word):
+    for i in range(len(word) // 2):
+        if word[i] != word[-1 - i]:
+            return False
+    return True
 
-words = ["abcd","dcba","lls","s","sssll"]
+class Trie:
+    def __init__(self):
+        # letter -> next trie node.
+        self.paths = defaultdict(Trie)
+        # If a word ends at this node, then this will be a positive value
+        # that indicates the location of the word in the input list.
+        self.wordEndIndex = -1
+        # Stores all words that are palindromes from this node to end of word.
+        # e.g. if we are on a path 'a','c' and word "babca" exists in this trie
+        # (words are added in reverse), then "acbab"'s index will be in this
+        # list since "bab" is a palindrome.
+        self.palindromesBelow = []
+
+    # Adds a word to the trie - the word will be added in 
+    # reverse (e.g. adding abcd adds the path d,c,b,a,$index) to the trie.
+    # word - string the word to be added
+    # index - int index of the word in the list, used as word identifier.
+    def addWord(self, word, index):
+        trie = self
+        for j, char in enumerate(reversed(word)): 
+            if isPalindrome(word[0:len(word)-j]):
+                trie.palindromesBelow.append(index)
+            trie = trie.paths[char]
+        trie.wordEndIndex = index
+
+def makeTrie(words):
+    trie = Trie()
+    for i, word in enumerate(words):
+        trie.addWord(word, i)
+    return trie
+
+# Takes the trie, a word, and its index in the word array 
+# and returns the index of every word that could be appended
+# to it to form a palindrome.
+def getPalindromesForWord(trie, word, index):
+    # Walk trie. Every time we find a word ending,
+    # we need to check if we could make a palindrome.
+    # Once we get to the end of the word, we must check
+    # all endings below for palindromes (they are already
+    # stored in 'palindromesBelow').
+    output = []
+    while word:
+        if trie.wordEndIndex >= 0:
+            if isPalindrome(word):
+                output.append(trie.wordEndIndex)
+        if not word[0] in trie.paths:
+            return output
+        trie = trie.paths[word[0]]
+        word = word[1:]
+
+    if trie.wordEndIndex >= 0:
+        output.append(trie.wordEndIndex)
+    output.extend(trie.palindromesBelow)
+    return output
+
+class Solution:
+    def palindromePairs(self, words: [str]) -> [[int]]:
+        trie = makeTrie(words)
+        output = []
+        for i, word in enumerate(words):
+            candidates = getPalindromesForWord(trie, word, i)
+            output.extend([[i, c] for c in candidates if i != c])
+        return output
+
+words = ["acbe", "ca", "bca", "bbac"]
+# Output: 
+
+# words = ["abcd","dcba","lls","s","sssll"]
 # Output: [[0,1],[1,0],[3,2],[2,4]]
 
 # words = ["bat","tab","cat"]
