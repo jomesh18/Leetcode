@@ -31,6 +31,28 @@ Constraints:
     All the strings of words are unique.
 
 '''
+class TrieNode:
+    def __init__(self):
+        self.neighbors = {}
+        self.isWord = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def addWord(self, word):
+        current = self.root
+        for w in word:
+            current = current.setdefault(w, TrieNode())
+        current.isWord = True
+
 class Solution:
     def findWords(self, board: [[str]], words: [str]) -> [str]:
-        
+        trie = Trie()
+        for word in words:
+            trie.addWord(word)
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                node = trie.root
+                self.dfs(node, i, j, board)
+                
