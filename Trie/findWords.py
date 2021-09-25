@@ -43,7 +43,7 @@ class Trie:
     def addWord(self, word):
         current = self.root
         for w in word:
-            current = current.setdefault(w, TrieNode())
+            current = current.neighbors.setdefault(w, TrieNode())
         current.isWord = True
 
 class Solution:
@@ -51,8 +51,31 @@ class Solution:
         trie = Trie()
         for word in words:
             trie.addWord(word)
+        res = []
         for i in range(len(board)):
             for j in range(len(board[0])):
                 node = trie.root
-                self.dfs(node, i, j, board)
-                
+                res.append(self.dfs(node, i, j, board, ""))
+        return res
+
+    def dfs(self, node, i, j, board, path):
+        if node.isWord: return path
+        if i<0 or i>=len(board) or j<0 or j>=len(board[0]): return
+        temp = board[i][j]
+        if temp not in node.neighbors: return
+        node = node.neighbors[temp]
+        board[i][j] = "#"
+        for k, l in ((-1, 0), (0, -1), (0, 1), (1, 0)):
+            self.dfs(node, i+k, j+l, board, path+temp)
+        board[i][j] = temp
+            
+board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
+words = ["oath","pea","eat","rain"]
+# # Output: ["eat","oath"]
+
+# board = [["a","b"],["c","d"]]
+# words = ["abcb"]
+# # Output: []
+
+sol = Solution()
+print(sol.findWords(board, words))
