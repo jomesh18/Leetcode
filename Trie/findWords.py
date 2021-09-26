@@ -31,7 +31,7 @@ Constraints:
     All the strings of words are unique.
 
 '''
-#taking too much time
+#taking too much time, 8000ms
 # class TrieNode:
 #     def __init__(self):
 #         self.neighbors = {}
@@ -55,26 +55,26 @@ Constraints:
 #         for word in words:
 #             trie.addWord(word)
 #         # print(print_trie(trie))
-#         for i in range(len(board)):
-#             for j in range(len(board[0])):
-#                 self.dfs(node, i, j, board, res, "")
+#         for p in range(len(board)):
+#             for q in range(len(board[0])):
+#                 self.dfs(node, p, q, board, res, "")
 #         return res
 
 #     def dfs(self, node, i, j, board, res, path):
 #         if node.isWord:
 #             res.append(path)
-#             node.isWord = False
+#             # node.isWord = False
 #         if i<0 or i>=len(board) or j<0 or j>=len(board[0]): return
 #         temp = board[i][j]
-#         if temp == "#": return
 #         if temp not in node.neighbors: return
 #         node = node.neighbors[temp]
 #         board[i][j] = "#"
-#         for k, l in ((-1, 0), (0, -1), (0, 1), (1, 0)):
+#         for k, l in [(-1, 0), (0, -1), (0, 1), (1, 0)]:
 #             self.dfs(node, i+k, j+l, board, res, path+temp)
 #         board[i][j] = temp
 #         return res
 
+#from leetcode fastest, <100ms
 class Solution:
     def findWords(self, board: [[str]], words: [str]) -> [str]:
         # parse character and build a set 
@@ -144,13 +144,13 @@ board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]
 words = ["oath","pea","eat","rain"]
 # # Output: ["eat","oath"]
 
-board = [["a","b"],["c","d"]]
-words = ["abcb"]
-# # # # Output: []
+# board = [["a","b"],["c","d"]]
+# words = ["abcb"]
+# # # # # Output: []
 
-board = [["a","b"],["c","d"]]
-words = ["abd", "acd", "abcb"]
-# # # # Output: ["abd", "acd"]
+# board = [["a","b"],["c","d"]]
+# words = ["abd", "acd", "abcb"]
+# # # # # Output: ["abd", "acd"]
 
 sol = Solution()
 print(sol.findWords(board, words))
