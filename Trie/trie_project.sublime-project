@@ -2,6 +2,13 @@
 	"debugger_configurations":
 	[
         {
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "name": "Launch index.html",
+            "file": "^\"${workspaceFolder}/index.html\""
+        },
+        {
             "name": "Debug python",
             "type": "python",
             "request": "launch",

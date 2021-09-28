@@ -4,332 +4,124 @@
 		"selected_items":
 		[
 			[
-				"fo",
-				"foundPlus"
+				"num",
+				"num_status"
 			],
 			[
-				"m",
-				"movesToChessboard"
-			],
-			[
-				"row",
-				"row_start"
-			],
-			[
-				"col",
-				"col_end"
-			],
-			[
-				"oper",
-				"operand1"
-			],
-			[
-				"opera",
-				"operator"
-			],
-			[
-				"mi",
-				"minPatches"
-			],
-			[
-				"rec",
-				"rectangleArea"
-			],
-			[
-				"sente",
-				"sentence_list"
-			],
-			[
-				"sent",
-				"sentence_list"
-			],
-			[
-				"sen",
-				"sentence_list"
-			],
-			[
-				"Tri",
-				"TrieNode"
-			],
-			[
-				"k",
-				"keyWords"
-			],
-			[
-				"re",
-				"prefix"
-			],
-			[
-				"print",
+				"prn",
 				"print_trie"
 			],
 			[
-				"sear",
-				"searchPrefix"
+				"wor",
+				"wordIndex"
 			],
 			[
-				"con",
-				"containsKey"
+				"count",
+				"temp_count"
 			],
 			[
-				"Tir",
-				"TrieNode"
+				"dic",
+				"dic_row"
 			],
 			[
-				"un",
-				"UndirectedGraphNode"
+				"dic_a",
+				"dic_a_row"
+			],
+			[
+				"move",
+				"moves_a"
+			],
+			[
+				"max",
+				"maxNumberOfBalloons"
+			],
+			[
+				"te",
+				"temp_count"
+			],
+			[
+				"shif",
+				"shiftingLetters"
+			],
+			[
+				"job",
+				"jobScheduling"
+			],
+			[
+				"imag",
+				"imag_res"
+			],
+			[
+				"sub",
+				"sub_box_row"
+			],
+			[
+				"pri",
+				"print_trie"
+			],
+			[
+				"re",
+				"removeBoxes"
+			],
+			[
+				"sor",
+				"sorted_arr"
+			],
+			[
+				"ip",
+				"inp1"
 			],
 			[
 				"prin",
-				"print_nary"
+				"print_tree"
+			],
+			[
+				"s",
+				"Solution"
 			],
 			[
 				"key",
 				"key_node_is_right_child"
 			],
 			[
-				"no",
-				"node_above_key_node"
+				"in",
+				"insertIntoBST"
 			],
 			[
-				"va",
-				"validate"
+				"star",
+				"startColumn"
 			],
 			[
-				"rever",
-				"reversed_ll"
-			],
-			[
-				"wor",
-				"word_dic"
-			],
-			[
-				"Num",
-				"NumArray"
-			],
-			[
-				"nu",
-				"numSubarrayBoundedMax"
-			],
-			[
-				"mat",
-				"match_sum"
-			],
-			[
-				"ma",
-				"maximumUnits"
-			],
-			[
-				"num",
-				"numberOfUnitsPerBox"
-			],
-			[
-				"stone",
-				"stoneGameVII"
-			],
-			[
-				"rig",
-				"right_pre"
+				"lowe",
+				"lowestCommonAncestor"
 			],
 			[
 				"right",
-				"right_pre"
+				"right_level"
 			],
 			[
-				"lef",
-				"left_in"
+				"temp",
+				"temp_queue"
 			],
 			[
-				"let",
-				"left_pre"
+				"lvel",
+				"level_q"
 			],
 			[
-				"coun",
-				"Counter"
+				"Tree",
+				"TreeNode"
 			],
 			[
-				"nums",
-				"nums1_dict"
+				"postor",
+				"postorderTraversal"
 			],
 			[
-				"in",
-				"intersect"
+				"post",
+				"postorderTraversal"
 			],
 			[
-				"sp",
-				"speed_sum"
-			],
-			[
-				"pef",
-				"performance"
-			],
-			[
-				"deco",
-				"decodeString"
-			],
-			[
-				"cre",
-				"create_graph"
-			],
-			[
-				"sort",
-				"sorted_d"
-			],
-			[
-				"sore",
-				"sorted_d"
-			],
-			[
-				"sor",
-				"sorted_d"
-			],
-			[
-				"ev",
-				"evalRPN"
-			],
-			[
-				"curr",
-				"current_node"
-			],
-			[
-				"pso",
-				"post_beg"
-			],
-			[
-				"nex",
-				"next_head"
-			],
-			[
-				"reve",
-				"reverseString"
-			],
-			[
-				"left",
-				"left_level"
-			],
-			[
-				"leve",
-				"left_level"
-			],
-			[
-				"inor",
-				"inorderTraversal"
-			],
-			[
-				"pre",
-				"preorderTraversal"
-			],
-			[
-				"front",
-				"Front"
-			],
-			[
-				"true",
-				"True"
-			],
-			[
-				"Node",
-				"ListNode"
-			],
-			[
-				"add",
-				"addAtTail"
-			],
-			[
-				"reves",
-				"reverse_ll"
-			],
-			[
-				"revers",
-				"reverse_ll"
-			],
-			[
-				"rem",
-				"removeNthFromEnd"
-			],
-			[
-				"inpu",
-				"inputYesNo"
-			],
-			[
-				"proe",
-				"protein_type"
-			],
-			[
-				"di",
-				"findDiagonalOrder"
-			],
-			[
-				"tail",
-				"tail_column"
-			],
-			[
-				"tai",
-				"tail_row"
-			],
-			[
-				"i",
-				"i"
-			],
-			[
-				"heig",
-				"heightChecker"
-			],
-			[
-				"from",
-				"from_value"
-			],
-			[
-				"preo",
-				"preorder_print"
-			],
-			[
-				"preor",
-				"preorder_search"
-			],
-			[
-				"rot",
-				"rotated_image"
-			],
-			[
-				"win",
-				"WIN_HEIGHT"
-			],
-			[
-				"WIN",
-				"WIN_WIDTH"
-			],
-			[
-				"disp",
-				"display"
-			],
-			[
-				"has",
-				"hash_table"
-			],
-			[
-				"calculate",
-				"calculate_hash_value"
-			],
-			[
-				"Asi",
-				"Asia"
-			],
-			[
-				"Am",
-				"America"
-			],
-			[
-				"pivo",
-				"pivot_pos"
-			],
-			[
-				"piv",
-				"pivot_pos"
-			],
-			[
-				"pviot",
-				"pivot_pos"
+				"pos",
+				"postorderTraversal"
 			]
 		]
 	},
@@ -339,22 +131,6 @@
 	"build_system": "Packages/Python/Python.sublime-build",
 	"build_system_choices":
 	[
-		[
-			[
-				[
-					"Packages/C++/C++ Single File.sublime-build",
-					""
-				],
-				[
-					"Packages/C++/C++ Single File.sublime-build",
-					"Run"
-				]
-			],
-			[
-				"Packages/C++/C++ Single File.sublime-build",
-				""
-			]
-		],
 		[
 			[
 				[
@@ -370,22 +146,6 @@
 				"Packages/Python/Python.sublime-build",
 				""
 			]
-		],
-		[
-			[
-				[
-					"Packages/User/MyC++Build.sublime-build",
-					""
-				],
-				[
-					"Packages/User/MyC++Build.sublime-build",
-					"Run"
-				]
-			],
-			[
-				"Packages/User/MyC++Build.sublime-build",
-				"Run"
-			]
 		]
 	],
 	"build_varint": "",
@@ -396,7 +156,11 @@
 		"selected_items":
 		[
 			[
-				"Package Control: Install Package",
+				"Debugger: In",
+				"Debugger: Install Adapters"
+			],
+			[
+				"Package Control: Install",
 				"Package Control: Install Package"
 			]
 		],
@@ -404,7 +168,7 @@
 	},
 	"console":
 	{
-		"height": 0.0,
+		"height": 136.0,
 		"history":
 		[
 		]
@@ -420,138 +184,134 @@
 	},
 	"file_history":
 	[
-		"/D/Leetcode/Trie/findWords.py",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/27.numUniqueEmails.py",
-		"/D/Leetcode/Trie/trie_project.sublime-project",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/26.movesToChessboard.py",
-		"/D/Leetcode/Trie/palindromePairs.py",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/19.numDistinct.py",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/16.spiralOrder.py",
-		"/D/Leetcode/Trie/findMaximumXOR.py",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/12.reachableNodes.py",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/11.calculate.py",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/6.slowestKey.py",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/5.orderlyQueue.py",
-		"/D/Leetcode/Leetcode_challenge/9.September 2021/4.sumOfDistancesInTree.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/29.minPatches.py",
-		"/D/Leetcode/Trie/WordDictionary.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/21.solveSudoku.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/22.rectangleArea.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/20.isValidSudoku.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/19.maxProduct.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/18.numDecodings.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/15.minWindow.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/13.setZeroes.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/12.groupAnagrams.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/11.canReorderDoubled.py",
-		"/D/Leetcode/Trie/implement_trie.py",
-		"/D/Leetcode/Trie/replaceWords.py",
-		"/D/Leetcode/Trie/MapSum.py",
-		"/D/Leetcode/Leetcode_challenge/7.July 2021/30.MapSum.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/8.matrixRankTransform.py",
-		"/D/Leetcode/Nary Tree/levelOrder.py",
-		"/D/Leetcode/Nary Tree/serialize_deserialize_narytree.py",
-		"/D/Leetcode/Nary Tree/encodeNaryToBinary.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/4.pathSum.py",
-		"/D/Leetcode/Nary Tree/maxDepth.py",
-		"/D/Leetcode/Nary Tree/postorder.py",
-		"/D/Leetcode/Nary Tree/preorder.py",
-		"/D/Leetcode/Binary_search_tree/containsNearbyAlmostDuplicate.py",
-		"/D/Leetcode/Leetcode_challenge/8.August 2021/1.largestIsland.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/31.trap.py",
-		"/D/Leetcode/Leetcode_challenge/August 2021/1.largestIsland.py",
-		"/D/Leetcode/Binary_search_tree/isBalanced.py",
-		"/D/Leetcode/Binary_tree/binary_tree_postorder.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/25.findIntegers.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/18.reverseKGroup.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/21.pushDominoes.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/24.findLadders.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/17.threeEqualParts.py",
-		"/D/Leetcode/Binary_search_tree/KthLargestInStream.py",
-		"/D/Leetcode/Binary_search_tree/bst_iterator.py",
-		"/D/Leetcode/Binary_search_tree/deleteNode.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/11.MedianFinder.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/10.numDecodings.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/5.matrixReshape.py",
-		"/D/Leetcode/Binary_search_tree/inorder_successor_bst.py",
-		"/D/Leetcode/Binary_search_tree/isValidBST.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/4.countVowelPermutation.py",
-		"/D/Leetcode/Leetcode_challenge/July 2021/3.maxSumSubmatrix.py",
-		"/D/Leetcode/Binary_tree/lowest_common_ancestor.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/30.lowest_common_ancestor.py",
-		"/D/Leetcode/Binary_tree/binary_tree_inorder.py",
-		"/D/Leetcode/Binary_search_tree.py/isValidBST.py",
-		"/D/Leetcode/Binary_search/split_array_largest_sum.py",
-		"/D/Leetcode/Binary_search/kth_smallest_distance_pair.py",
-		"/D/Leetcode/Binary_search/min_eating_speed.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/27.candy.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/26.count_smaller_after_self.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/25.find_redundant_connection.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/24.out_of_boundary_paths.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/23.reverse_between_ll.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/22.num_matching_subsequence.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/21.pascals_triangle.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/20.swim_in_rising_water.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/19.k_inverse_pairs.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/18.num_array.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/17.num_subarrays_with_bounded_max.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/11.stonegamevii.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/16.generate_parentheses.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/15.matchsticks_to_square.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/14.maximumUnits.py",
-		"/D/Leetcode/Binary_search/median_of_two_sorted_arrays.py",
-		"/D/Codeforces/colorTheFlag.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/13.palindrome_pairs.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/5_maxPerformance.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/12.min_refueling_stops.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/2.interleaving_strings.py.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/1.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/2.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/3.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/4.py",
-		"/D/Leetcode/Binary_search/find_duplicate_number.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/10.my_calender.py",
-		"/D/Leetcode/Queue & Stack/minstack.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/9.jump_game_6.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/8.binary_tree_from_preorder_inorder.py",
-		"/D/Leetcode/Binary_tree/buildtree_preorder_inorder.py",
-		"/D/Leetcode/Binary_search/two_sum.py",
-		"/D/Leetcode/Binary_search/intersection_of_arrays2.py",
-		"/D/Leetcode/Binary_search/intersection_of_arrays.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/7.min_cost_climbing_stairs.py",
-		"/D/Leetcode/Binary_search/find_min_in_sorted_rotated_array2.py",
-		"/D/Leetcode/Binary_search/find_min_in_sorted_rotated_array.py",
-		"/D/Leetcode/Binary_search/next_greatest_letter.py",
-		"/D/Leetcode/Leetcode_challenge/June 2021/6.longest_consecutive_sequence.py",
-		"/D/Leetcode/Binary_search/is_perfect_square.py",
-		"/D/Leetcode/Binary_search/pow_x_n.py",
-		"/D/Leetcode/Binary_search/search_in_sorted_array_unknown_size.py",
-		"/D/Leetcode/Binary_search/find_k_closest_elements.py",
-		"/D/Leetcode/Queue & Stack/open_lock.py",
-		"/D/Leetcode/Binary_search/find_peak_element_unsorted_array.py",
-		"/D/Leetcode/Binary_search/search_range.py",
-		"/D/Leetcode/Binary_search/search_in_sorted_array.py",
-		"/D/Leetcode/Binary_search/first_bad_version.py",
-		"/D/Leetcode/Binary_search/binary_search_2.py",
-		"/D/Leetcode/Binary_search/guess_number.py",
-		"/D/Leetcode/Binary_search/my_sqrt.py",
-		"/D/Leetcode/Binary_search/binary_search.py",
-		"/D/Leetcode/Binary_tree/find_all_paths.py",
-		"/D/Leetcode/Queue & Stack/update_matrix.py",
-		"/D/Leetcode/Queue & Stack/canVisitAllRooms.py",
-		"/D/Leetcode/Queue & Stack/flood_fill.py",
-		"/D/Leetcode/Queue & Stack/number_of_islands.py",
-		"/D/Leetcode/Queue & Stack/num_perfect_squares.py",
-		"/D/Leetcode/Queue & Stack/decode_string.py",
-		"/D/Leetcode/Queue & Stack/queue_from_stack.py",
-		"/D/Leetcode/Queue & Stack/stack_from_queue.py",
-		"/D/Leetcode/Queue & Stack/moving_average_data_stream.py",
-		"/D/Leetcode/Queue & Stack/walls_and_gates.py",
-		"/D/Leetcode/Queue & Stack/binary_tree_inorder_traversal.py"
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/trie_project.sublime-project",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/findWords.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/trie_project.sublime-workspace",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/28.sortArrayByParityII.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/25.shortestPath.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/palindromePairs.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/24.tribonacci.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/23.breakPalindrome.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/22.maxLength.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/21.findMaxConsecutiveOnes.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/20.tictactoe.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/18.addOperators.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/17.intersect.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/15.maxTurbulenceSize.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/14.reverseOnlyLetters.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/13.maxNumberOfBalloons.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/10.numberOfArithmeticSlices.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/findMaximumXOR.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/7.reverseList.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/9.orderOfLargestPlusSign.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/8.shiftingLetters.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/6.slowestKey.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/4.sumOfDistancesInTree.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/3.outerTrees.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/2.generateTrees.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/9.September 2021/1.arrayNesting.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/31.findMin.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/30.maxCount.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/28.jobScheduling.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/27.findLUSlength.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/26.isValidSerialization.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/25.judgeSquareSum.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/WordDictionary.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/24.complexNumberMultiply.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/23.findTarget.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/lowestCommonAncestor.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/21.solveSudoku.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/20.isValidSudoku.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/19.maxProduct.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/find_all_paths.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/18.numDecodings.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/17.goodNodes.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/16.sumRange.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/14.removeBoxes.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/replaceWords.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/12.groupAnagrams.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/11.canReorderDoubled.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/10.minFlipsMonoIncr.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/MapSum.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/9.addStrings.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Trie/implement_trie.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/7.minCut.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Nary Tree/levelOrder.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Nary Tree/serialize_deserialize_narytree.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/6.levelOrder.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Nary Tree/encodeNaryToBinary.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/5.stoneGame.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Nary Tree/maxDepth.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/4.pathSum.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/3.subsetsWithDup.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/8.August 2021/2.twoSum.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/containsNearbyAlmostDuplicate.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/isBalanced.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/30.MapSum.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/29.updateMatrix.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Queue & Stack/number_of_islands.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Queue & Stack/update_matrix.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/June 2021/28.adjacent_duplicates_removal.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/28.beautifulArray.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/inorder_successor_bst.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/sortedArrayToBST.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/26.sortedArrayToBST.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/27.threeSumClosest.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/23.pruneTree.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/22.partitionDisjoint.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/20.shuffle_array.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/19.lowestCommonAncestor.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/16.fourSum.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/deleteNode.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/15.triangleNumber.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/KthLargestInStream.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/isValidBST.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/bst_iterator.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/14.customSortString.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/todo.txt",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/13.findPeakElement.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/12.isIsomorphic.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/9.lengthOfLIS.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/8.max_len_of_repeated_subarray.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/7.kth_smallest_in_matrix.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/insertIntoBST.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search_tree/search_BST.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/6.minSetSize.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/2.k_closest_elements.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_search/find_k_closest_elements.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/July 2021/1.gray_code.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/June 2021/30.lowest_common_ancestor.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/June 2021/29.longest_consecutive_ones_flipping_k_zeroes.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/June 2021/24.out_of_boundary_paths.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/June 2021/25.find_redundant_connection.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Leetcode_challenge/June 2021/2.py",
+		"/C/Users/accounts 2/Documents/GitHub/Codeforces/Suffix Array/Step1/suffix_array.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/lowest_common_ancestor.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/populate_next_right.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/has_path_sum.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/populate_next_right2.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/buildtree_preorder_inorder.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/count_univalue_subtree.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/binary_tree_preorder.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/buildtree_postorder_inorder.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Recursion/kth_symbol_in_grammar.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Recursion/merge_sorted_lists.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Recursion/pow_x_n.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Recursion/climb_stairs.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Recursion/max_depth.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Recursion/fib_number.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Recursion/reverse_ll.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Recursion/reverse_string.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/reverse_string.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/symmetric_tree.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/level_order.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/max_depth.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/binary_tree_inorder.py",
+		"/C/Users/accounts 2/Documents/GitHub/Leetcode/Binary_tree/binary_tree_postorder.py"
 	],
 	"find":
 	{
-		"height": 31.2
+		"height": 29.0
 	},
 	"find_in_files":
 	{
@@ -565,29 +325,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"root",
-			"coun",
-			"nums",
-			"numberOfUnitsPerBox",
-			"numberOfBoxes",
-			"distance_travelled",
-			"min_cost",
-			"matrix",
-			"len(matrix)",
-			"len(matrix[0])",
-			"self.s11",
-			"sself.s2",
-			"elf.s12",
-			"self.s",
-			"self.q",
-			"))\n",
-			"()\n",
-			"self.l",
-			"Node",
-			"obj.rev_print()",
-			".val",
-			"next",
-			"draw"
+			"sufix",
+			"cmp_to_key",
+			"max_",
+			"count",
+			"memo",
+			"A"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -595,24 +338,11 @@
 		"regex": false,
 		"replace_history":
 		[
-			"count",
-			"mat",
-			"matchsticks",
-			"number_of_units_per_box",
-			"number_of_boxes",
-			"fuel",
+			"suffix",
+			"maxx",
+			"coun",
 			"dp",
-			"mat",
-			"row",
-			"col",
-			"self.s1",
-			"self.s2",
-			"self.s1",
-			"self.s2",
-			"self.data",
-			"ListNode",
-			"print(obj.rev_print())",
-			"greatest"
+			"nums"
 		],
 		"reverse": false,
 		"scrollbar_highlights": true,
@@ -632,7 +362,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 31.2
+		"height": 29.0
 	},
 	"input":
 	{
@@ -663,33 +393,29 @@
 	"menu_visible": true,
 	"output.Debugger":
 	{
-		"height": 189.0
+		"height": 371.0
 	},
 	"output.Debugger: Console":
 	{
-		"height": 150.399993896
+		"height": 0.0
 	},
 	"output.Debugger: Protocol":
 	{
-		"height": 150.399993896
+		"height": 0.0
 	},
 	"output.exec":
 	{
-		"height": 168.0
+		"height": 107.0
 	},
 	"output.find_results":
 	{
 		"height": 0.0
 	},
-	"output.unsaved_changes":
-	{
-		"height": 132.0
-	},
 	"pinned_build_system": "",
 	"project": "trie_project.sublime-project",
 	"replace":
 	{
-		"height": 59.2
+		"height": 54.0
 	},
 	"save_all_on_build": true,
 	"select_file":

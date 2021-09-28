@@ -74,6 +74,8 @@ Constraints:
 #         board[i][j] = temp
 #         return res
 
+
+
 #from leetcode fastest, <100ms
 class Solution:
     def findWords(self, board: [[str]], words: [str]) -> [str]:
@@ -101,15 +103,16 @@ class Solution:
             node[stop] = stop
                 
         res = []
-        searched = set()
+        # searched = set()
+        searched = {}
         
         def dfs(i, j, node, string):
             if stop in node: # find a match word
                 res.append(string)
                 node.pop(stop, None) # avoid re-compute
-            if (i, j, string) in searched:
-                return
-            searched.add((i, j, string))
+            # if (i, j, string) in searched:
+            #     return
+            searched[(i, j, string)] = searched.setdefault((i, j, string), 0) + 1
             
             temp , board[i][j] = board[i][j], '#' # prevent for revisiting
             
@@ -126,7 +129,62 @@ class Solution:
                 if board[i][j] in root:
                     node = root
                     dfs(i, j, node[board[i][j]], board[i][j])
+        print(searched)
         return res
+
+
+
+# #from leetcode
+# from collections import Counter
+# class Solution:
+#     def findWords(self, board, words):
+#         #make trie
+#         count = Counter()
+#         for l in board:
+#             count += Counter(l)
+#         trie={}
+#         for w in words:
+#             wc = Counter(w)
+#             skip = False
+#             for c in wc:
+#                 # optimization, ignore word if there isn't enough c in board
+#                 if wc[c] > count[c]:
+#                     skip = True
+#                     break
+#             if skip:
+#                 continue
+#             t=trie
+#             for c in w:
+#                 if c not in t:
+#                     t[c]={}
+#                 t=t[c]
+#             t['#']='#'
+#         self.res=[]
+#         for i in range(len(board)):
+#             for j in range(len(board[0])):
+#                 self.find(board,i,j,trie,[])
+#         return self.res
+    
+#     def find(self,board,i,j,trie,pre):
+#         if '#' in trie:
+#             # optimization, delete for avoiding duplicated matches
+#             del trie["#"]
+#             self.res.append(''.join(pre))
+#         if i<0 or i>=len(board) or j<0 or j>=len(board[0]):
+#             return
+#         if board[i][j] in trie:
+#             tmp = board[i][j]
+#             board[i][j] = '$'
+#             pre.append(tmp)
+#             self.find(board,i+1,j,trie[tmp],pre)
+#             self.find(board,i,j+1,trie[tmp],pre)
+#             self.find(board,i-1,j,trie[tmp],pre)
+#             self.find(board,i,j-1,trie[tmp],pre)
+#             board[i][j] = tmp
+#             pre.pop()
+#             if not trie[board[i][j]]:
+#                 # nothing in trie[board[i][j]] because of matched before, delete node for optimization
+#                 del trie[board[i][j]]
 
 def print_trie(trie):
     node = trie.root
@@ -141,16 +199,16 @@ def print_trie(trie):
     return res
 
 board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
-words = ["oath","pea","eat","rain"]
+words = ["oath","pea","eat","rain", "oathf"]
 # # Output: ["eat","oath"]
 
 # board = [["a","b"],["c","d"]]
 # words = ["abcb"]
-# # # # # Output: []
+# # # # # # Output: []
 
 # board = [["a","b"],["c","d"]]
 # words = ["abd", "acd", "abcb"]
-# # # # # Output: ["abd", "acd"]
+# # # # # # Output: ["abd", "acd"]
 
 sol = Solution()
 print(sol.findWords(board, words))
