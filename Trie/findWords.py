@@ -77,60 +77,62 @@ Constraints:
 
 
 #from leetcode fastest, <100ms
-class Solution:
-    def findWords(self, board: [[str]], words: [str]) -> [str]:
-        # parse character and build a set 
-        charSet = set()
-        m, n = len(board), len(board[0])
-        for i in range(m):
-            for j in range(n):
-                charSet.add(board[i][j])
-        # build a trie
-        root = {}
-        stop = '$'
-        for word in words:
-            skip = False
-            for ch in word:
-                if ch not in charSet:
-                    skip = True
-                    break
-            if skip: # next word
-                continue
+# import pprint
+# class Solution:
+#     def findWords(self, board: [[str]], words: [str]) -> [str]:
+#         # parse character and build a set 
+#         charSet = set()
+#         m, n = len(board), len(board[0])
+#         for i in range(m):
+#             for j in range(n):
+#                 charSet.add(board[i][j])
+#         # build a trie
+#         root = {}
+#         stop = '$'
+#         for word in words:
+#             skip = False
+#             for ch in word:   
+#                 if ch not in charSet:
+#                     skip = True
+#                     break
+#             if skip: # next word
+#                 continue
             
-            node = root
-            for ch in word:
-                node = node.setdefault(ch, {}) 
-            node[stop] = stop
-                
-        res = []
-        # searched = set()
-        searched = {}
+#             node = root
+#             for ch in word:
+#                 node = node.setdefault(ch, {}) 
+#             node[stop] = stop
+#         pprint.pprint(root)
+#         res = []
+#         searched = set()
+#         # searched = {}
         
-        def dfs(i, j, node, string):
-            if stop in node: # find a match word
-                res.append(string)
-                node.pop(stop, None) # avoid re-compute
-            # if (i, j, string) in searched:
-            #     return
-            searched[(i, j, string)] = searched.setdefault((i, j, string), 0) + 1
+#         def dfs(i, j, node, string):
+#             if stop in node: # find a match word
+#                 res.append(string)
+#                 node.pop(stop, None) # avoid re-compute
+#             if (i, j, string) in searched:
+#                 return
+#             # searched[(i, j, string)] = searched.setdefault((i, j, string), 0) + 1
             
-            temp , board[i][j] = board[i][j], '#' # prevent for revisiting
+#             temp , board[i][j] = board[i][j], '#' # prevent for revisiting
             
-            for nx, ny in [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]:
-                if 0 <= nx < m and 0 <= ny < n and board[nx][ny] in node:
-                    dfs(nx, ny, node[board[nx][ny]], string + board[nx][ny])
-                    if not node[board[nx][ny]]:
-                        node.pop(board[nx][ny], None)
-            board[i][j] = temp
-            return
+#             for nx, ny in [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]:
+#                 if 0 <= nx < m and 0 <= ny < n and board[nx][ny] in node:
+#                     dfs(nx, ny, node[board[nx][ny]], string + board[nx][ny])
+#                     if not node[board[nx][ny]]:
+#                         print("before {}".format(root))
+#                         node.pop(board[nx][ny], None)
+#                         print("after {}".format(root))
+#             board[i][j] = temp
+#             return
         
-        for i in range(m):
-            for j in range(n):
-                if board[i][j] in root:
-                    node = root
-                    dfs(i, j, node[board[i][j]], board[i][j])
-        print(searched)
-        return res
+#         for i in range(m):
+#             for j in range(n):
+#                 if board[i][j] in root:
+#                     node = root
+#                     dfs(i, j, node[board[i][j]], board[i][j])
+#         return res
 
 
 
@@ -186,20 +188,117 @@ class Solution:
 #                 # nothing in trie[board[i][j]] because of matched before, delete node for optimization
 #                 del trie[board[i][j]]
 
+
+
+#from leetcode, stefan pochman, using complex numbers
+# class Solution:
+#     def findWords(self, board, words):
+
+#         root = {}
+#         for word in words:
+#             node = root
+#             for c in word:
+#                 node = node.setdefault(c, {})
+#             node[None] = True
+#         board = {i + 1j*j: c
+#                  for i, row in enumerate(board)
+#                  for j, c in enumerate(row)}
+
+#         found = []
+#         def search(node, z, word):
+#             if node.pop(None, None):
+#                 found.append(word)
+#             c = board.get(z)
+#             if c in node:
+#                 board[z] = None
+#                 for k in range(4):
+#                     search(node[c], z + 1j**k, word + c)
+#                 board[z] = c
+#         for z in board:
+#             search(root, z, '')
+
+#         return found
+
+
+#leetcode, fastest my try
+import pprint
+from collections import Counter
+class Solution:
+    def findWords(self, board, words):
+        root = {}
+        count = Counter()
+        for c in board:
+            count += Counter(c)
+        for word in words:
+            wc = Counter(word)
+            #inserting words to trie
+            for c in word:
+                skip = False
+                if wc[c] > count[c]:
+                    skip = True
+                    break
+            if skip:
+                    continue # skip word
+            node = root
+            for c in word:
+                node = node.setdefault(c, {})
+            node[None] = True
+        # pprint.pprint(root)
+        # print(print_trie(root))
+        def dfs(board, node, i, j, temp_r):
+            # print(board, node, i, j, temp_r)
+            if node.pop(None, None):
+                res.append("".join(temp_r))
+            temp = board[i][j]
+            board[i][j] = "#"
+            for ix, iy in ((i+1, j), (i-1, j), (i, j+1), (i, j-1)):
+                if 0<=ix<len(board) and 0<=iy<len(board[0]) and board[ix][iy] in node:
+                    temp_r.append(board[ix][iy])
+                    dfs(board, node[board[ix][iy]], ix, iy, temp_r)
+                    if not node[board[ix][iy]]:
+                        node.pop(board[ix][iy], None)
+                    temp_r.pop()
+            board[i][j] = temp
+
+
+        res = []
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] in root:
+                    dfs(board, root[board[i][j]], i, j, [board[i][j]])
+        return res
+
+
+# def print_trie(trie):
+#     node = trie.root
+#     res = []
+#     def dfs(node, res, temp):
+#         if node.isWord:
+#             res.append(temp)
+#         for n in node.neighbors:
+#             dfs(node.neighbors[n], res, temp+n)
+
+#     dfs(node, res, "")
+#     return res
+
 def print_trie(trie):
-    node = trie.root
+    node = trie
     res = []
     def dfs(node, res, temp):
-        if node.isWord:
+        if node.get(None, None):
+            node.pop(None)
             res.append(temp)
-        for n in node.neighbors:
-            dfs(node.neighbors[n], res, temp+n)
+        for n in node:
+            if n is None:
+                dfs(node[n], res, temp)
+            else:
+                dfs(node[n], res, temp+n)
 
     dfs(node, res, "")
     return res
 
 board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
-words = ["oath","pea","eat","rain", "oathf"]
+words = ["oath","pea","eat","rain"]
 # # Output: ["eat","oath"]
 
 # board = [["a","b"],["c","d"]]
@@ -209,6 +308,9 @@ words = ["oath","pea","eat","rain", "oathf"]
 # board = [["a","b"],["c","d"]]
 # words = ["abd", "acd", "abcb"]
 # # # # # # Output: ["abd", "acd"]
+
+board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
+words = ["oath","pea","eat","rain", "oathk"]
 
 sol = Solution()
 print(sol.findWords(board, words))
