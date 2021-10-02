@@ -420,6 +420,7 @@
 	},
 	"file_history":
 	[
+		"/D/Leetcode/Leetcode_challenge/10.October 2021/2.calculateMinimumHP.py",
 		"/D/Leetcode/Leetcode_challenge/10.October 2021/1.longestCommonSubsequence.py",
 		"/D/Leetcode/Leetcode_challenge/10.October 2021",
 		"/D/Leetcode/Trie/findWords.py",
@@ -546,12 +547,11 @@
 		"/D/Leetcode/Queue & Stack/num_perfect_squares.py",
 		"/D/Leetcode/Queue & Stack/decode_string.py",
 		"/D/Leetcode/Queue & Stack/queue_from_stack.py",
-		"/D/Leetcode/Queue & Stack/stack_from_queue.py",
-		"/D/Leetcode/Queue & Stack/moving_average_data_stream.py"
+		"/D/Leetcode/Queue & Stack/stack_from_queue.py"
 	],
 	"find":
 	{
-		"height": 31.2
+		"height": 32.0
 	},
 	"find_in_files":
 	{
@@ -632,7 +632,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 31.2
+		"height": 32.0
 	},
 	"input":
 	{
@@ -689,7 +689,7 @@
 	"project": "trie_project.sublime-project",
 	"replace":
 	{
-		"height": 59.2
+		"height": 60.8
 	},
 	"save_all_on_build": true,
 	"select_file":
