@@ -45,11 +45,6 @@ class Solution:
         res.extend(right[right_index:])
 
         return res
-
-# Bottom-up Approach merge sort
-class Solution:
-    def sortArray(self, nums: [int]) -> [int]:
-
         
 nums = [5,2,3,1]
 # # Output: [1,2,3,5]
