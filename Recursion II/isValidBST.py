@@ -40,21 +40,11 @@ class TreeNode:
 
 class Solution:
     def isValidBST(self, root) -> bool:
-
-        def helper(root):
-            if not root: return (True, float("-inf"), float("inf"))
-            if not root.left and not root.right: return (True, root.val, root.val)
-            l_ma, r_mi = float("-inf"), float("inf")
-            if root.left:
-                left_bst, l_ma, l_mi = helper(root.left)
-                left_bst = left_bst and (root.val>l_ma)
-                l_ma = min(root.val, l_ma)
-            if root.right:
-                right_bst, r_ma, r_mi = helper(root.right)
-                right_bst = right_bst and root.val < r_mi
-                r_mi = max(root.val, r_mi)
-            return (left_bst and right_bst, l_ma, r_mi)
-        return helper(root)[0]
+        def helper(root, low, high):
+            if not root: return True
+            if root.val <= low or root.val >= high: return False
+            return helper(root.left, low, root.val) and helper(root.right, root.val, high)
+        return helper(root, float("-inf"), float("inf"))
 
 def buildTree(root):
     if not root: return None
@@ -95,13 +85,13 @@ root = [2,1,3]
 # root = [5,1,4,null,null,3,6]
 # # Output: false
 
-root = [5,1,6,null,null,3,7]
-Output: False
+# root = [5,1,6,null,null,3,7]
+# Output: False
 
 # root = [5, 1, 7, null, null, 6, 8]
 # # Output: True
 
-# # root = [1,1]
+# root = [1,1]
 # # Output: False
 
 tree = buildTree(root)
