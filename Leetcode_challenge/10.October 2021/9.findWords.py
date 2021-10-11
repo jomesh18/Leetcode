@@ -49,6 +49,7 @@ class Solution:
             if node.get("#"):
                 node.pop("#")
                 res.append(temp)
+            # print(i, j, temp, searched)
             if (i, j, temp) in searched:
                 return
             searched.add((i, j, temp))
@@ -72,7 +73,6 @@ class Solution:
                     skip = True
             if not skip:
                 trie.insert(word)
-
         node = trie.root
         res = []
         m, n = len(board), len(board[0])
@@ -83,16 +83,16 @@ class Solution:
                     dfs(node[char], board, i, j, char)
         return res
 
-board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
-words = ["oath","pea","eat","rain"]
-# Output: ["eat","oath"]
+# board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
+# words = ["oath","pea","eat","rain"]
+# # Output: ["eat","oath"]
 
 # board = [["a","b"],["c","d"]]
 # words = ["abcb"]
 # # # Output: []
 
-board = [["o","a","a","o"],["e","t","a","a"],["i","a","k","t"],["i","f","l","h"]]
-words = ["oath","pea","eat","rain"]
+# board = [["o","a","a","o"],["e","t","a","a"],["i","a","k","t"],["i","f","l","h"]]
+# words = ["oath","pea","eat","rain"]
 
 board = [["a","b","c","e"],["z","z","d","z"],["z","z","c","z"],["z","a","b","z"]]
 words = ["abcdce"]

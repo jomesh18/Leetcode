@@ -78,63 +78,197 @@ Constraints:
 
 #from leetcode fastest, <100ms
 # import pprint
+# not working for the below condition
+# board = [["a","b","c","e"],["z","z","d","z"],["z","z","c","z"],["z","a","b","z"]]
+# words = ["abcdce"]
+# class Solution:
+#     def findWords(self, board: [[str]], words: [str]) -> [str]:
+#         # parse character and build a set 
+#         charSet = set()
+#         m, n = len(board), len(board[0])
+#         for i in range(m):
+#             for j in range(n):
+#                 charSet.add(board[i][j])
+#         # build a trie
+#         root = {}
+#         stop = '$'
+#         for word in words:
+#             skip = False
+#             for ch in word:   
+#                 if ch not in charSet:
+#                     skip = True
+#                     break
+#             if skip: # next word
+#                 continue
+            
+#             node = root
+#             for ch in word:
+#                 node = node.setdefault(ch, {}) 
+#             node[stop] = stop
+#         # pprint.pprint(root)
+#         res = []
+#         searched = set()
+#         # searched = {}
+        
+#         def dfs(i, j, node, string):
+#             if stop in node: # find a match word
+#                 res.append(string)
+#                 node.pop(stop, None) # avoid re-compute
+#             if (i, j, string) in searched:
+#                 return
+#             searched.add((i, j, string))
+#             # searched[(i, j, string)] = searched.setdefault((i, j, string), 0) + 1
+            
+#             temp , board[i][j] = board[i][j], '#' # prevent for revisiting
+            
+#             for nx, ny in [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]:
+#                 if 0 <= nx < m and 0 <= ny < n and board[nx][ny] in node:
+#                     dfs(nx, ny, node[board[nx][ny]], string + board[nx][ny])
+#                     if not node[board[nx][ny]]:
+#                         print("before {}".format(root))
+#                         node.pop(board[nx][ny], None)
+#                         print("after {}".format(root))
+#             board[i][j] = temp
+#             return
+        
+#         for i in range(m):
+#             for j in range(n):
+#                 if board[i][j] in root:
+#                     node = root
+#                     dfs(i, j, node[board[i][j]], board[i][j])
+#         return res
+
+
+from leetcode, another fastest
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.nodes = dict()
+        self.word = None
+
+class Trie:
+    def __init__(self, words):
+        self.root = TrieNode()
+        for w in words:
+            self.add(w)
+    
+    def add(self, word):
+        current = self.root
+        for l in word:
+            current = current.nodes.setdefault(l, TrieNode())
+        current.word = word
+
 class Solution:
     def findWords(self, board: [[str]], words: [str]) -> [str]:
-        # parse character and build a set 
-        charSet = set()
-        m, n = len(board), len(board[0])
-        for i in range(m):
-            for j in range(n):
-                charSet.add(board[i][j])
-        # build a trie
-        root = {}
-        stop = '$'
-        for word in words:
-            skip = False
-            for ch in word:   
-                if ch not in charSet:
-                    skip = True
-                    break
-            if skip: # next word
-                continue
-            
-            node = root
-            for ch in word:
-                node = node.setdefault(ch, {}) 
-            node[stop] = stop
-        # pprint.pprint(root)
-        res = []
-        searched = set()
-        # searched = {}
+        trie = Trie(words)
+        visited_char = "$$"
+        found = [] 
+        R, C = len(board), len(board[0])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        hashmap = defaultdict(int)
+        frequency_bound = 3**4 # TODO: derive correct upper bound
         
-        def dfs(i, j, node, string):
-            if stop in node: # find a match word
-                res.append(string)
-                node.pop(stop, None) # avoid re-compute
-            if (i, j, string) in searched:
+        def neighbors(r,c):
+            for (dx, dy) in directions:
+                nx, ny = r + dx, c + dy
+                if 0 <= nx < R and 0 <= ny < C:
+                    yield (nx, ny)
+
+        def dfs(r, c, node):
+            if hashmap[(r, c, node)] >= frequency_bound:
                 return
-            searched[(i, j, string)] = searched.setdefault((i, j, string), 0) + 1
+            hashmap[(r,c,node)] += 1
+            print(hashmap)
+            letter = board[r][c]
+            current = node.nodes[letter]
+            if current.word:
+                found.append(current.word)
+                current.word = None
+
+            board[r][c] = visited_char
+            for (nx, ny) in neighbors(r, c):
+                if board[nx][ny] in current.nodes:
+                    dfs(nx, ny, current)
+            board[r][c] = letter
+            if len(current.nodes) == 0:
+                node.nodes.pop(letter)
             
-            temp , board[i][j] = board[i][j], '#' # prevent for revisiting
-            
-            for nx, ny in [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]:
-                if 0 <= nx < m and 0 <= ny < n and board[nx][ny] in node:
-                    dfs(nx, ny, node[board[nx][ny]], string + board[nx][ny])
-                    if not node[board[nx][ny]]:
-                        print("before {}".format(root))
-                        node.pop(board[nx][ny], None)
-                        print("after {}".format(root))
-            board[i][j] = temp
-            return
+        for r in range(R):
+            for c in range(C):
+                if board[r][c] in trie.root.nodes:
+                    dfs(r, c, trie.root)
+        return found
+
+# def print_trie(trie):
+#     node = trie.root
+#     res = []
+#     def dfs(node, res):
+#         if node.word:
+#             res.append(node.word)
+#             node.word = None
+#         for n in node.nodes:
+#             dfs(node.nodes[n], res)
+
+#     dfs(node, res)
+#     return res
+
+
+# from collections import defaultdict
+
+# class Trie:
+#     def __init__(self, words):
+#         self.root = {}
+#         for w in words:
+#             self.add(w)
+    
+#     def add(self, word):
+#         current = self.root
+#         for l in word:
+#             current = current.setdefault(l, {})
+#         current["#"] = word
+
+# class Solution:
+#     def findWords(self, board: [[str]], words: [str]) -> [str]:
+#         trie = Trie(words)
+#         print(trie.root)
+#         visited_char = "$$"
+#         found = [] 
+#         R, C = len(board), len(board[0])
+#         directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+#         hashmap = defaultdict(int)
+#         frequency_bound = 3**4 # TODO: derive correct upper bound
         
-        for i in range(m):
-            for j in range(n):
-                if board[i][j] in root:
-                    node = root
-                    dfs(i, j, node[board[i][j]], board[i][j])
-        return res
+#         def neighbors(r,c):
+#             for (dx, dy) in directions:
+#                 nx, ny = r + dx, c + dy
+#                 if 0 <= nx < R and 0 <= ny < C:
+#                     yield (nx, ny)
 
+#         def dfs(r, c, node):
+#             # if hashmap[(r, c, node)] >= frequency_bound:
+#             #     return
+#             # hashmap[(r,c,node)] += 1
+            
+#             letter = board[r][c]
+#             current = node[letter]
+#             if current.get("#"):
+#                 found.append(current["#"])
+#                 current.pop("#", None)
 
+#             board[r][c] = visited_char
+#             for (nx, ny) in neighbors(r, c):
+#                 if board[nx][ny] in current:
+#                     dfs(nx, ny, current)
+#             board[r][c] = letter
+#             if len(current) == 0:
+#                 node.pop(letter)
+#             print(trie.root)
+            
+#         for r in range(R):
+#             for c in range(C):
+#                 if board[r][c] in trie.root:
+#                     dfs(r, c, trie.root)
+#         return found
 
 # #from leetcode
 # from collections import Counter
@@ -281,21 +415,21 @@ class Solution:
 #     dfs(node, res, "")
 #     return res
 
-def print_trie(trie):
-    node = trie
-    res = []
-    def dfs(node, res, temp):
-        if node.get(None, None):
-            node.pop(None)
-            res.append(temp)
-        for n in node:
-            if n is None:
-                dfs(node[n], res, temp)
-            else:
-                dfs(node[n], res, temp+n)
+# def print_trie(trie):
+#     node = trie
+#     res = []
+#     def dfs(node, res, temp):
+#         if node.get(None, None):
+#             node.pop(None)
+#             res.append(temp)
+#         for n in node:
+#             if n is None:
+#                 dfs(node[n], res, temp)
+#             else:
+#                 dfs(node[n], res, temp+n)
 
-    dfs(node, res, "")
-    return res
+#     dfs(node, res, "")
+#     return res
 
 board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
 words = ["oath","pea","eat","rain"]
@@ -311,6 +445,9 @@ words = ["oath","pea","eat","rain"]
 
 board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
 words = ["oath","pea","eat","rain", "oathk"]
+
+board = [["a","b","c","e"],["z","z","d","z"],["z","z","c","z"],["z","a","b","z"]]
+words = ["abcdce"]
 
 sol = Solution()
 print(sol.findWords(board, words))

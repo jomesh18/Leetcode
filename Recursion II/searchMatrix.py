@@ -31,50 +31,26 @@ Constraints:
     -109 <= target <= 109
 
 '''
-# class Solution:
-#     def searchMatrix(self, matrix: [[int]], target: int) -> bool:
-#         print(matrix)
-#         if not matrix or not matrix[0]: return False
-#         m, n = len(matrix), len(matrix[0])
-#         if m == 1 and n == 1:
-#              return True if matrix[0][0] == target else False
-#         column = n//2
-#         row = 0
-#         # print(m, n, column, matrix)
-#         if matrix[0][column] >= target:
-#             return self.searchMatrix([matrix[0][:column+1]], target)
-#         if matrix[-1][column] < target:
-#             return self.searchMatrix(matrix[:][column+1:], target)
-#         for i in range(m):
-#             if matrix[i][column] >= target:
-#                 row = i
-#                 break
-#         if matrix[row][column] == target:
-#             return True
-#         upper_right_mat = [p[column+1:] for p in matrix[:row]]
-#         lower_left_mat = [p[:column] for p in matrix[row:]]
-        # return self.searchMatrix(upper_right_mat, target) or self.searchMatrix(lower_left_mat, target)
 
-#naive divide and conquer, taking mid as pivot
+# divide and conquer
 class Solution:
     def searchMatrix(self, matrix: [[int]], target: int) -> bool:
         m, n = len(matrix), len(matrix[0])
-        def search(from_row, to_row, from_column, to_column):
-            print(from_row, to_row, from_column, to_column)
-            if 
-            if from_row > to_row or from_column > to_column: return False
-            if from_row == to_row and from_column == to_column: return target == matrix[from_row][from_column]
-            i, j = from_row+(to_row-from_row)//2, from_column+(to_column-from_column)//2
-            pivot = matrix[i][j]
-            
-            if pivot > target:
-                return search(from_row, i-1, from_column, to_column) or search(i, to_row, j, to_column)
-            elif pivot < target:
-                return search(from_row, to_row, j+1, to_column) or search(i+1, to_row, from_column, j)
-            else:
-                return True
 
-        return search(0, m-1, 0, n-1)
+        def search(left, right, up, down):
+            if left>right or up>down:
+                return False
+            elif matrix[up][left] > target or matrix[down][right] < target:
+                return False
+            mid = left + ((right-left)>>2)
+            row = up
+            while row<=down and matrix[row][mid] <= target:
+                if matrix[row][mid] == target:
+                    return True
+                row += 1
+            return search(left, mid-1, row, down) or search(mid+1, right, up, row-1)
+
+        return search(0, n-1, 0, m-1)
 
 
 #from leetcode
