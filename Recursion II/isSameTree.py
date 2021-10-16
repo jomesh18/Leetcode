@@ -47,24 +47,46 @@ class TreeNode:
 #             return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
 #         return False
 
-#iterative
-class Solution:
-    def isSameTree(self, p, q) -> bool:
-        def check_pq(p, q):
-            if not p and not q: return True
-            if not p or not q: return False
-            if p.val != q.val: return False
-            return True
+#iterative, using external stack
+# class Solution:
+#     def isSameTree(self, p, q):
+#         stack = [(p, q)]
+#         while stack:
+#             (p, q) = stack.pop()
+#             if p and q and p.val == q.val:
+#                 stack.extend([
+#                     (p.left,  q.left),
+#                     (p.right, q.right)
+#                 ])
+#             elif p or q:
+#                 return False
+#         return True
 
-        deq = deque([(p, q)])
-        while deq:
-            p, q = deq.popleft()
-            if not check_pq(p, q):
-                return False
-            if p:
-                deq.append((p.left, q.left))
-                deq.append((p.right, q.right))
-        return True
+#iterative
+# class Solution:
+#     def isSameTree(self, p, q) -> bool:
+#         def check_pq(p, q):
+#             if not p and not q: return True
+#             if not p or not q: return False
+#             if p.val != q.val: return False
+#             return True
+
+#         deq = deque([(p, q)])
+#         while deq:
+#             p, q = deq.popleft()
+#             if not check_pq(p, q):
+#                 return False
+#             if p:
+#                 deq.append((p.left, q.left))
+#                 deq.append((p.right, q.right))
+#         return True
+
+#from leetcode
+class Solution:
+    def isSameTree(self, p, q):
+        if p and q:
+            return p.val == q.val and self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+        return p is q
 
 def build_tree(l):
     if not l: return []
