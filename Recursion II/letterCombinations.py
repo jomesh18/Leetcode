@@ -29,26 +29,38 @@ Constraints:
 0 <= digits.length <= 4
 digits[i] is a digit in the range ['2', '9'].
 '''
+# class Solution:
+#     def letterCombinations(self, digits: str) -> [str]:
+#         if not digits: return []
+#         mappings = {"2": "abc", "3": "def", "4": "ghi", "5": "jkl", "6": "mno", "7": "pqrs", "8": "tuv", "9": "wxyz"}
+#         res = []
+#         def backtrack(temp, pos):
+#             if pos == len(digits):
+#                 res.append("".join(temp))
+#                 return
+#             d = digits[pos]
+#             chars = mappings[d]
+#             for c in chars:
+#                 backtrack(temp+[c], pos+1)
+#         backtrack([], 0)
+#         return res
+
+#from leetcode iterative
 class Solution:
-    def letterCombinations(self, digits: str) -> [str]:
-        if not digits: return []
-        mappings = {"2": "abc", "3": "def", "4": "ghi", "5": "jkl", "6": "mno", "7": "pqrs", "8": "tuv", "9": "wxyz"}
-        res = []
-        def backtrack(temp, pos):
-            if pos == len(digits):
-                res.append("".join(temp))
-                return
-            d = digits[pos]
-            chars = mappings[d]
-            for c in chars:
-                backtrack(temp+[c], pos+1)
-        backtrack([], 0)
-        return res
+    # @param {string} digits
+    # @return {string[]}
+    def letterCombinations(self, digits):
+        dict = {'2':"abc", '3':"def", '4':"ghi", '5':"jkl", '6':"mno", '7': "pqrs", 
+            '8':"tuv", '9':"wxyz"}
+        cmb = [''] if digits else []
+        for d in digits:
+            cmb = [p + q for p in cmb for q in dict[d]]
+        return cmb
 
 digits = "23"
 # Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
-
-digits = ""
+    
+# digits = ""
 # Output: []
 
 # digits = "2"
