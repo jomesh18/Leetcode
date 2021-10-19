@@ -40,15 +40,35 @@ Constraints:
     buildings is sorted by lefti in non-decreasing order.
 
 '''
+#memory exceeded
+# class Solution:
+#     def getSkyline(self, buildings: [[int]]) -> [[int]]:
+#         lower, upper = buildings[0][0], buildings[-1][1]
+#         res = [0] * (upper-lower)
+#         for b in buildings:
+#             left, right, height = b
+#             for i in range(left-lower, right-lower):
+#                 res[i] = height if height > res[i] else res[i]
+#         ans = [[lower, res[0]]]
+#         for i in range(1, len(res)):
+#             if res[i] != res[i-1]:
+#                 ans.append([i+lower, res[i]])
+#         ans.append([upper, 0])
+#         return ans
+
+
 class Solution:
     def getSkyline(self, buildings: [[int]]) -> [[int]]:
-        res = [buildings[0]]
-        for b in buildings[1:]:
-            left, right, height = b
-            for old_b in res:
-                old_left, old_right, old_height = old_b
-                if old_left<=left<=old_right:
-                    if right<=old_right:
-                        
 
-        return res
+
+buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
+# Output: [[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]
+
+buildings = [[0,2,3],[2,5,3]]
+# Output: [[0,3],[5,0]]
+
+buildings = [[0,2147483647,2147483647]]
+# Output: 
+
+sol = Solution()
+print(sol.getSkyline(buildings))
