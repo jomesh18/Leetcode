@@ -56,19 +56,39 @@ Constraints:
 #         ans.append([upper, 0])
 #         return ans
 
-
+#using heapq
+import heapq
 class Solution:
     def getSkyline(self, buildings: [[int]]) -> [[int]]:
-
+        res = []
+        building_points = []
+        for b in buildings:
+            building_points.extend([(b[0], b[2], 1), (b[1], b[2], 0)])
+        building_points.sort(key=lambda x: (x[0], -x[1] if x[2] else x[0], x[1]))
+        # print(building_points)
+        l = [0]
+        for b in building_points:
+            old_max = -l[0]
+            x, y, is_start = b
+            if is_start:
+                heapq.heappush(l, -y)
+            else:
+                l.remove(-y)
+                heapq.heapify(l)
+            if -l[0] != old_max:
+                res.append((x, -l[0]))
+        return res
 
 buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
 # Output: [[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]
 
-buildings = [[0,2,3],[2,5,3]]
-# Output: [[0,3],[5,0]]
+# buildings = [[0,2,3],[2,5,3]]
+# # Output: [[0,3],[5,0]]
 
-buildings = [[0,2147483647,2147483647]]
-# Output: 
+# buildings = [[0,2147483647,2147483647]]
+# # Output: 
+
+buildings =  [(0, 1, 2), (0, 2, 3), (3, 5, 3), (4, 5, 2), (6, 7, 2), (7, 8, 3)]
 
 sol = Solution()
 print(sol.getSkyline(buildings))
