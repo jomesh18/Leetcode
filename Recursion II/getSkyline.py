@@ -57,27 +57,51 @@ Constraints:
 #         return ans
 
 #using heapq
-import heapq
+# import heapq
+# class Solution:
+#     def getSkyline(self, buildings: [[int]]) -> [[int]]:
+#         res = []
+#         building_points = []
+#         for b in buildings:
+#             building_points.extend([(b[0], b[2], 1), (b[1], b[2], 0)])
+#         building_points.sort(key=lambda x: (x[0], -x[1] if x[2] else x[0], x[1]))
+#         # print(building_points)
+#         l = [0]
+#         for b in building_points:
+#             old_max = -l[0]
+#             x, y, is_start = b
+#             if is_start:
+#                 heapq.heappush(l, -y)
+#             else:
+#                 l.remove(-y)
+#                 heapq.heapify(l)
+#             if -l[0] != old_max:
+#                 res.append((x, -l[0]))
+#         return res
+
+from heapq import heappush, heappop
 class Solution:
-    def getSkyline(self, buildings: [[int]]) -> [[int]]:
-        res = []
-        building_points = []
-        for b in buildings:
-            building_points.extend([(b[0], b[2], 1), (b[1], b[2], 0)])
-        building_points.sort(key=lambda x: (x[0], -x[1] if x[2] else x[0], x[1]))
-        # print(building_points)
-        l = [0]
-        for b in building_points:
-            old_max = -l[0]
-            x, y, is_start = b
-            if is_start:
-                heapq.heappush(l, -y)
-            else:
-                l.remove(-y)
-                heapq.heapify(l)
-            if -l[0] != old_max:
-                res.append((x, -l[0]))
-        return res
+    def getSkyline(self, buildings):
+        # add start-building events
+        # also add end-building events(acts as buildings with 0 height)
+        # and sort the events in left -> right order
+        events = [(L, -H, R) for L, R, H in buildings]
+        events += list({(R, 0, 0) for _, R, _ in buildings})
+        events.sort()
+
+        # res: result, [x, height]
+        # live: heap, [-height, ending position]
+        res = [[0, 0]]
+        live = [(0, float("inf"))]
+        for pos, negH, R in events:
+            # 1, pop buildings that are already ended
+            # 2, if it's the start-building event, make the building alive
+            # 3, if previous keypoint height != current highest height, edit the result
+            while live[0][1] <= pos: heappop(live)
+            if negH: heappush(live, (negH, R))
+            if res[-1][1] != -live[0][0]:
+                res += [ [pos, -live[0][0]] ]
+        return res[1:]
 
 buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
 # Output: [[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]
@@ -88,7 +112,8 @@ buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
 # buildings = [[0,2147483647,2147483647]]
 # # Output: 
 
-buildings =  [(0, 1, 2), (0, 2, 3), (3, 5, 3), (4, 5, 2), (6, 7, 2), (7, 8, 3)]
+buildings = [[0, 1, 2], [0, 2, 3], [3, 5, 3], [4, 5, 2], [6, 7, 2], [7, 8, 3]]
+# Output: [[0, 3], [2, 0], [3, 3], [5, 0], [6, 2], [7, 3], [8, 0]]
 
 sol = Solution()
 print(sol.getSkyline(buildings))
