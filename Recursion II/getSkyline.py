@@ -56,7 +56,7 @@ Constraints:
 #         ans.append([upper, 0])
 #         return ans
 
-#using heapq
+#using heapq, youtube tushar's explanation
 # import heapq
 # class Solution:
 #     def getSkyline(self, buildings: [[int]]) -> [[int]]:
@@ -79,40 +79,37 @@ Constraints:
 #                 res.append((x, -l[0]))
 #         return res
 
-from heapq import heappush, heappop
+import heapq
 class Solution:
     def getSkyline(self, buildings):
-        # add start-building events
-        # also add end-building events(acts as buildings with 0 height)
-        # and sort the events in left -> right order
-        events = [(L, -H, R) for L, R, H in buildings]
-        events += list({(R, 0, 0) for _, R, _ in buildings})
-        events.sort()
+        def draw_to_sky(t, h):
+            if sky[-1][1] != h:
+                sky.append([t, h])
 
-        # res: result, [x, height]
-        # live: heap, [-height, ending position]
-        res = [[0, 0]]
-        live = [(0, float("inf"))]
-        for pos, negH, R in events:
-            # 1, pop buildings that are already ended
-            # 2, if it's the start-building event, make the building alive
-            # 3, if previous keypoint height != current highest height, edit the result
-            while live[0][1] <= pos: heappop(live)
-            if negH: heappush(live, (negH, R))
-            if res[-1][1] != -live[0][0]:
-                res += [ [pos, -live[0][0]] ]
-        return res[1:]
+        positions = set([b[0] for b in buildings]+[b[1] for b in buildings])
+        sky = [[-1, 0]]
+        live = []
+        i = 0
+        for t in sorted(positions):
+            while i < len(buildings) and buildings[i][0] <= t:
+                heapq.heappush(live, (-buildings[i][2], buildings[i][1]))
+                i += 1
+            while live and live[0][1] <= t:
+                heapq.heappop(live)
+            h = -live[0][0] if live else 0
+            draw_to_sky(t, h)
+        return sky[1:]
 
 buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
 # Output: [[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]
 
-# buildings = [[0,2,3],[2,5,3]]
+buildings = [[0,2,3],[2,5,3]]
 # # Output: [[0,3],[5,0]]
 
-# buildings = [[0,2147483647,2147483647]]
+buildings = [[0,2147483647,2147483647]]
 # # Output: 
 
-buildings = [[0, 1, 2], [0, 2, 3], [3, 5, 3], [4, 5, 2], [6, 7, 2], [7, 8, 3]]
+# buildings = [[0, 1, 2], [0, 2, 3], [3, 5, 3], [4, 5, 2], [6, 7, 2], [7, 8, 3]]
 # Output: [[0, 3], [2, 0], [3, 3], [5, 0], [6, 2], [7, 3], [8, 0]]
 
 sol = Solution()
