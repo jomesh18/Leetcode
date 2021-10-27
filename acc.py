@@ -20,6 +20,13 @@ d = {'a21s': 1,
 
 from tkinter import *
 from tkinter import ttk
+import shelve
+
+shelffile = shelve.open('acc_box')
+# shelffile['d'] = d
+d = shelffile['d']
+print(d)
+# shelffile.close()
 
 class FindAccBox:
 
@@ -29,41 +36,83 @@ class FindAccBox:
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
         mainframe = ttk.Frame(root, padding="3 3 12 12", width = 500, height = 200)
-        mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+        # mainframe.grid(row=0, column=0, sticky=(N, W, E, S))
 
         self.item = StringVar()
-        item_entry = ttk.Entry(mainframe, width=7, textvariable=self.item)
-        item_entry.grid(column=3, row=1, sticky=(W, E))
-
         self.box = StringVar()
-        ttk.Label(mainframe, textvariable=self.box).grid(column=2, row=2, sticky=(W, E))
 
-        ttk.Button(mainframe, text="Search", command=self.get_box).grid(column=3, row=3, sticky=W)
+        ttk.Label(mainframe, text="Enter model number").grid(row=0, column=0, columnspan=2, sticky='ew')
+        item_entry = ttk.Entry(mainframe, width=7, textvariable=self.item)
+        item_entry.grid(row=0, column=2, sticky='ew', columnspan=2)
+        ttk.Button(mainframe, text="Search", command=self.get_box).grid(row=0, column=4, sticky='ew')
+        ttk.Label(mainframe, text="Box").grid(row=1, column=0, columnspan=2, sticky=E)
+        ttk.Label(mainframe, textvariable=self.box).grid(row=1, column=2, sticky=(W, E))
 
-        # ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
-        ttk.Label(mainframe, text="is in box").grid(column=1, row=2, sticky=E)
-        # ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
+        ttk.Button(mainframe, text="Add model", command=self.add_button_window).grid(row=3, column=0, sticky='ew')        
+        ttk.Button(mainframe, text="Delete model", command=self.delete_button_window).grid(row=3, column=2, sticky='ew')
 
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
 
         item_entry.focus()
         root.bind("<Return>", self.get_box)
+        mainframe.pack(expand=True)
 
+    def add_button_window(self):
+        new = Toplevel(root)
+        new.title("Add models")
+        new.geometry("500x200")
+        new.columnconfigure(0, weight=1)
+        new.rowconfigure(0, weight=1)
+        mainframe1 = ttk.Frame(new, padding="3 3 12 12", width = 500, height = 200)
+
+        ttk.Label(mainframe1, text="Enter model number").grid(row=0, column=0, columnspan=2, sticky='ew')
+        model_entry = ttk.Entry(mainframe1, width=10, textvariable=self.item)
+        model_entry.grid(row=1, column=0, sticky='ew', columnspan=2)
+        key_entry = ttk.Entry(mainframe1, width=10, textvariable=self.box)
+        key_entry.grid(row=1, column=2, sticky='ew', columnspan=1)
+
+        ttk.Button(mainframe1, text="Add", command=self.add_to_dictionary).grid(row=2, column=0, sticky='ew')
+        mainframe1.pack(expand=True)
+
+    def delete_button_window(self):
+        new = Toplevel(root)
+        new.title("Delete models")
+        new.geometry("500x200")
+        new.columnconfigure(0, weight=1)
+        new.rowconfigure(0, weight=1)
+        mainframe1 = ttk.Frame(new, padding="3 3 12 12", width = 500, height = 200)
+
+        ttk.Label(mainframe1, text="Enter model number").grid(row=0, column=0, columnspan=2, sticky='ew')
+        model_entry = ttk.Entry(mainframe1, width=10, textvariable=self.item)
+        model_entry.grid(row=1, column=0, sticky='ew', columnspan=2)
+
+        ttk.Button(mainframe1, text="Delete", command=self.add_to_dictionary).grid(row=2, column=0, sticky='ew')
+        mainframe1.pack(expand=True)
 
     def get_box(self, *args):
         key = self.item.get().lower()
         if key in d:
             return self.box.set(d[key])
 
-    def add_to_dictionary(self):
-        key, box = input()
+    def add_to_dictionary(self, *args):
+        key, box = self.item.get().lower(), self.box.get()
+        print(key, box)
         d[key] = box
+        shelffile['d'] = d
+        shelffile.close()
+        shelffile = shelve.open('acc_box')
+        d = shelffile['d']
 
-    def delete_from_dictionary(self):
-        key = input()
+
+    def delete_from_dictionary(self, *args):
+        key = self.item.get().lower()
         if key in d:
             del d[key]
+        shelffile['d'] = d
+        shelffile.close()
+        shelffile = shelve.open('acc_box')
+        d = shelffile['d']
 
 root = Tk()
 FindAccBox(root)
