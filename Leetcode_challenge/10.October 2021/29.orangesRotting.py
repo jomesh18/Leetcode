@@ -47,20 +47,24 @@ Submissions
 '''
 class Solution:
     def orangesRotting(self, grid: [[int]]) -> int:
-        fresh = set()
+        fresh, rotten = set(), set()
         m, n = len(grid), len(grid[0])
         for i in range(m):
             for j in range(n):
-                fresh.add((i, j))
-        level = 0
+                if grid[i][j] == 1:
+                    fresh.add((i, j))
+                elif grid[i][j] == 2:
+                    rotten.add((i, j))
+        self.level = 0
         visited = set()
-        def bfs(i, j, level):
+        def bfs():
             if not fresh: return
-            q = [(i, j)]
-            visited.add((i, j))
-            while q:
+            q = list(rotten)
+            visited.update(rotten)
+            while q and fresh:
+                # print(q, fresh, self.level, visited)
                 siz = len(q)
-                level += 1
+                self.level += 1
                 temp = []
                 for _ in range(siz):
                     x, y = q.pop()
@@ -73,23 +77,25 @@ class Solution:
                                     break
                             temp.append((u, v))
                 q = temp             
-        
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j] == 2:
-                    bfs(i, j, level)
-                    break
-            break
-        return level if not fresh else -1
+
+        bfs()
+        # print(fresh, self.level)
+        return self.level if not fresh else -1
 
 grid = [[2,1,1],[1,1,0],[0,1,1]]
 # Output: 4
 
-# grid = [[2,1,1],[0,1,1],[1,0,1]]
-# # Output: -1
+grid = [[2,1,1],[0,1,1],[1,0,1]]
+# # # Output: -1
 
-# grid = [[0,2]]
-# # Output: 0
+grid = [[0,2]]
+# # # Output: 0
+
+grid = [[1],[2]]
+# # Output: 1
+
+grid = [[2,1,1],[1,1,1],[0,1,2]]
+# # Output: 2
 
 sol = Solution()
 print(sol.orangesRotting(grid))
