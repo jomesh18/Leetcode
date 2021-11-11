@@ -150,11 +150,58 @@ From the top left corner, its position is two rows below and three columns right
 #        Clean the current cell.
 #        :rtype void
 #        """
+
 class Solution:
     """
     :type robot: Robot
     :rtype: None
     """
     def cleanRoom(self, robot):
-        #write your code here
+        # write your code here
+        visited = {(0, 0)}
+        directions = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+        def backtrack(x, y, d):
+            robot.clean()
+            for i in range(4):
+                nd = (d+i)%4
+                u, v = x+directions[nd][0], y+directions[nd][1]
+                print("Outside {} {} {}".format(u, v, visited))
+                if (u, v) not in visited and robot.move():
+                    print("Inside {} {} {}".format(u, v, visited))
+                    visited.add((u, v))
+                    backtrack(u, v, nd)
+                    robot.turnLeft()
+                    robot.turnLeft()
+                    robot.move()
+                    robot.turnLeft()
+                    robot.turnLeft()
+                robot.turnLeft()
+        backtrack(0, 0, 0)
+
+# #from lintcode
+# class Solution:
+#     """
+#     :type robot: Robot
+#     :rtype: None
+#     """
+#     def cleanRoom(self, robot):
+#         #write your code here
+#         s = set((0, 0))
+#         NESW = [[0, 1], [1, 0], [0, -1], [-1, 0]]
         
+#         def dfs(x, y, d):
+#             robot.clean()
+#             for i in range(4):
+#                 nd = (d + i) % 4
+#                 nx, ny = x + NESW[nd][0], y + NESW[nd][1]
+#                 if (nx, ny) not in s and robot.move():
+#                     print(nx, ny)
+#                     s.add((nx, ny))
+#                     dfs(nx, ny, nd)
+#                     robot.turnRight()
+#                     robot.turnRight()
+#                     robot.move()
+#                     robot.turnRight()
+#                     robot.turnRight()
+#                 robot.turnRight()
+#         dfs(0, 0, 0)
