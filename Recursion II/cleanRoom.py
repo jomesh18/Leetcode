@@ -165,9 +165,9 @@ class Solution:
             for i in range(4):
                 nd = (d+i)%4
                 u, v = x+directions[nd][0], y+directions[nd][1]
-                print("Outside {} {} {}".format(u, v, visited))
+                # print("Outside {} {} {}".format(u, v, visited))
                 if (u, v) not in visited and robot.move():
-                    print("Inside {} {} {}".format(u, v, visited))
+                    # print("Inside {} {} {}".format(u, v, visited))
                     visited.add((u, v))
                     backtrack(u, v, nd)
                     robot.turnLeft()
