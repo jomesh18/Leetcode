@@ -80,7 +80,7 @@ class Solution:
         trees = collections.defaultdict(list)
         treeid = collections.defaultdict()
         treeid.default_factory = treeid.__len__
-        # getid(root)
+        getid(root)
         # print(trees)
         # print(treeid)
         return [roots[0] for roots in trees.values() if roots[1:]]
