@@ -66,26 +66,55 @@ Follow up: Your algorithm's time complexity must be better than O(n log n), wher
 
 
 #leetcode fastest my try
-import heapq
-from collections import Counter
+# import heapq
+# from collections import Counter
+# class Solution:
+#     def topKFrequent(self, nums: [int], k: int) -> [int]:
+#         count = Counter(nums)
+#         l = []
+#         heapq.heapify(l)
+#         i = 0
+#         for num, count_ in count.items():
+#             if i < k:
+#                 i += 1
+#                 heapq.heappush(l, (count_,num))
+#             else:
+#                 if l[0][0] < count_:
+#                     heapq.heappop(l)
+#                     heapq.heappush(l, (count_, num))
+#         # print(l)
+#         return [elem[1] for elem in l]
+
+'''
+Python] 5 lines O(n) buckets solution, explained.
+313
+DBabichev's avatar
+DBabichev
+24731
+
+July 17, 2020 12:59 PM
+
+15.3K VIEWS
+
+There are solution, using quickselect with O(n) complexity in average, but I think they are overcomplicated: actually, there is O(n) solution, using bucket sort. The idea, is that frequency of any element can not be more than n. So, the plan is the following:
+
+    Create list of empty lists for bucktes: for frequencies 1, 2, ..., n.
+    Use Counter to count frequencies of elements in nums
+    Iterate over our Counter and add elements to corresponding buckets.
+    buckets is list of lists now, create one big list out of it.
+    Finally, take the k last elements from this list, these elements will be top K frequent elements.
+
+Complexity: time complexity is O(n), because we first iterate over nums once and create buckets, then we flatten list of lists with total number of elements O(n) and finally we return last k elements. Space complexity is also O(n).
+'''
 class Solution:
-    def topKFrequent(self, nums: [int], k: int) -> [int]:
-        count = Counter(nums)
-        l = []
-        heapq.heapify(l)
-        i = 0
-        for num, count_ in count.items():
-            if i < k:
-                i += 1
-                heapq.heappush(l, (count_,num))
-            else:
-                if l[0][0] < count_:
-                    heapq.heappop(l)
-                    heapq.heappush(l, (count_, num))
-        # print(l)
-        return [elem[1] for elem in l]
+    def topKFrequent(self, nums, k):
+        bucket = [[] for _ in range(len(nums) + 1)]
+        Count = Counter(nums).items()  
+        for num, freq in Count: bucket[freq].append(num) 
+        flat_list = list(chain(*bucket))
+        return flat_list[::-1][:k]
 
-
+If you have any questions, feel free to ask. If you like solution and explanations, please Upvote!
 nums = [3,0,1,0]
 k = 1
 
