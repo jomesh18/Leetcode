@@ -53,18 +53,37 @@ Accepted
 Submissions
 258,874
 '''
+# class Solution:
+#     def allPathsSourceTarget(self, graph: [[int]]) -> [[int]]:
+#         def dfs(formed):
+#             if formed[-1] == n - 1:
+#                 sol.append(formed)
+#                 return      
+#             for child in graph[formed[-1]]:
+#                 dfs(formed + [child])
+                
+#         sol, n = [], len(graph)            
+#         dfs([0])
+#         return sol
+
 class Solution:
     def allPathsSourceTarget(self, graph: [[int]]) -> [[int]]:
-        def dfs(formed):
-            if formed[-1] == n - 1:
-                sol.append(formed)
-                return      
-            for child in graph[formed[-1]]:
-                dfs(formed + [child])
-                
-        sol, n = [], len(graph)            
-        dfs([0])
-        return sol
+        self.res = []
+        # visited = {0}
+        def dfs(i, path_list):
+            # visited.add(i)
+            if i == len(graph)-1:
+                self.res.append(path_list)
+                return
+            indexes = graph[i]
+            for index in indexes:
+                # if index not in visited:
+                dfs(index, path_list+[index])
+        
+        for i in graph[0]:
+            dfs(i, [0, i])
+        
+        return self.res
 
 graph = [[1,2],[3],[3],[]]
 # Output: [[0,1,3],[0,2,3]]
