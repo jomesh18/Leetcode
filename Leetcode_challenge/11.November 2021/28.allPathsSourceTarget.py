@@ -69,15 +69,12 @@ Submissions
 class Solution:
     def allPathsSourceTarget(self, graph: [[int]]) -> [[int]]:
         self.res = []
-        # visited = {0}
         def dfs(i, path_list):
-            # visited.add(i)
             if i == len(graph)-1:
                 self.res.append(path_list)
                 return
             indexes = graph[i]
             for index in indexes:
-                # if index not in visited:
                 dfs(index, path_list+[index])
         
         for i in graph[0]:
