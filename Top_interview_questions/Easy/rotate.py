@@ -38,15 +38,34 @@ Follow up:
     Could you do it in-place with O(1) extra space?
 
 '''
+#using reversal of array
+# class Solution:
+#     def rotate(self, nums: List[int], k: int) -> None:
+#         """
+#         Do not return anything, modify nums in-place instead.
+#         """
+#         def reverse(i, j):
+#             while i < j:
+#                 nums[i], nums[j] = nums[j], nums[i]
+#                 i += 1
+#                 j -= 1
+
+#         n = len(nums)
+#         k %= n
+#         old_pos = 0
+#         reverse(0, n-k-1)
+#         reverse(n-k, n-1)
+#         reverse(0, n-1)
+
+#based on correct position, not working
 class Solution:
-    def rotate(self, nums: List[int], k: int) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        k %= len(nums)
-        old_pos = 0
-        for _ in range(len(nums)):
-            pos = (old_pos + k) % len(nums)
-            temp = nums[pos]
-            nums[pos] = nums[old_pos]
-            old_pos = pos
+    def rotate(self, nums: [int], k: int) -> None:
+
+
+nums = [-1,-100,3,99]
+k = 2
+
+sol = Solution()
+# print(nums)
+sol.rotate(nums, k)
+# print(nums)
