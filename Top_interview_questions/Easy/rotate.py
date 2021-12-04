@@ -52,20 +52,37 @@ Follow up:
 
 #         n = len(nums)
 #         k %= n
-#         old_pos = 0
 #         reverse(0, n-k-1)
 #         reverse(n-k, n-1)
 #         reverse(0, n-1)
 
-#based on correct position, not working
+#using cyclic replacements
 class Solution:
     def rotate(self, nums: [int], k: int) -> None:
+        start = 0
+        k %= len(nums)
+        count = 0
+        while count < len(nums):
+            current = start
+            prev = nums[current]
+            while True:
+                pos = (current+k)%len(nums)
+                temp = nums[pos]
+                nums[pos] = prev
+                current = pos
+                prev = temp
+                count += 1
+
+                if current == start:
+                    start += 1
+                    break
+
 
 
 nums = [-1,-100,3,99]
 k = 2
 
 sol = Solution()
-# print(nums)
+print(nums)
 sol.rotate(nums, k)
-# print(nums)
+print(nums)
