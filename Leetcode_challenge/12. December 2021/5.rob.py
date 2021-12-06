@@ -42,6 +42,8 @@ The number of nodes in the tree is in the range [1, 104].
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+#from leetcode
 class Solution:
     def rob(self, root) -> int:
         def dfs(root):
@@ -49,6 +51,51 @@ class Solution:
             L, R = dfs(root.left), dfs(root.right)
             return (max(L) + max(R), root.val + L[0] + R[0])
         return max(dfs(root))
+
+
+#recursive, brute force
+class Solution:
+    def rob(self, root) -> int:
+        def helper(root, canRob):
+            if not root: return 0
+            robbing_current = root.val + helper(root.left, False) + helper(root.right, False) if canRob else -1
+            not_robbing_current = helper(root.left, True) + helper(root.right, True)
+            return max(robbing_current, not_robbing_current)
+        helper(root, True)
+
+#recursive, brute force
+class Solution:
+    def rob(self, root) -> int:
+        if not root: return 0
+        robbing_current, not_robbing_current = root.val, self.rob(root.left) + self.rob(root.right)
+        if root.left: robbing_current += self.rob(root.left.left) + self.rob(root.left.right)
+        if root.right: robbing_current += self.rob(root.right.left) + self.rob(root.right.right)
+        return max(robbing_current, not_robbing_current)
+
+#first with memo
+class Solution:
+    def rob(self, root) -> int:
+        d = {}
+        def helper(root, canRob):
+            if not root: return 0
+            if (root, canRob) in d: return d[(root, canRob)]
+            robbing_current = root.val + helper(root.left, False) + helper(root.right, False) if canRob else -1
+            not_robbing_current = helper(root.left, True) + helper(root.right, True)
+            d[(root, canRob)] = max(robbing_current, not_robbing_current)
+            return d[(root, canRob)]
+        return helper(root, True)
+
+class Solution:
+    def __init__(self):
+        self.d = {}
+    def rob(self, root) -> int:
+        if not root: return 0
+        if root in self.d: return self.d[root]
+        robbing_current, not_robbing_current = root.val, self.rob(root.left) + self.rob(root.right)
+        if root.left: robbing_current += self.rob(root.left.left) + self.rob(root.left.right)
+        if root.right: robbing_current += self.rob(root.right.left) + self.rob(root.right.right)
+        self.d[root] = max(robbing_current, not_robbing_current)
+        return self.d[root]
 
 null = None
 
