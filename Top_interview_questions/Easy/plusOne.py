@@ -48,13 +48,71 @@ Constraints:
     digits does not contain any leading 0's.
 
 '''
+# recursive
 class Solution:
     def plusOne(self, digits: [int]) -> [int]:
         res = []
-        def helper(i):
-            if i < 0: return 
+        def helper(i, carry):
+            if i < 0: 
+                if carry:
+                    res.append(1)
+                return
             digit = digits[i]
-            digit += 1
-            if digits == 10:
+            digit += carry
+            if digit == 10:
                 res.append(0)
-                helper(i-1)
+                helper(i-1, 1)
+            else:
+                res.append(digit)
+                helper(i-1, 0)
+        
+        helper(len(digits)-1, 1)
+        return res[::-1]
+
+#leetcode fastest
+class Solution:
+    def plusOne(self, digits: [int]) -> [int]:
+        i = len(digits) - 1
+        while True:
+            if i == -1:
+                digits.insert(0, 1)
+                return digits
+            elif digits[i] == 9:
+                digits[i] = 0
+            else:
+                digits[i] += 1
+                break
+            i -= 1
+        return digits
+
+
+#2nd fastest
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        for i in range(1,len(digits)+1):
+            if digits[-1*i] !=9:
+                digits[-1*i] +=1
+                return digits
+
+            else:
+                digits[-1*i] = 0
+           
+        digits.insert(0,1)
+     
+        return digits
+
+        
+digits = [1,2,3]
+# Output: [1,2,4]
+
+digits = [4,3,2,1]
+# # Output: [4,3,2,2]
+
+digits = [0]
+# # Output: [1]
+
+digits = [9]
+# Output: [1,0]
+
+sol = Solution()
+print(sol.plusOne(digits))
