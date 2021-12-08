@@ -52,26 +52,50 @@ Constraints:
     board[i][j] is a digit 1-9 or '.'.
 
 '''
+# class Solution:
+#     def isValidSudoku(self, board: [[str]]) -> bool:
+#         def isValid(item):
+#             d = set()
+#             for elem in item:
+#                 if elem != "." and elem in d:
+#                     return False
+#                 d.add(elem)
+#             return True
+
+#         for row in board:
+#             if not isValid(row):
+#                 return False
+#         for col in zip(*board):
+#             if not isValid(col):
+#                 return False
+#         for i in (0, 3, 6):
+#             for j in (0, 3, 6):
+#                 square = [board[l][m] for l in range(i, i+3) for m in range(j, j+3)]
+#                 if not isValid(square):
+#                     return False
+#         return True
+
 class Solution:
     def isValidSudoku(self, board: [[str]]) -> bool:
-        for row in board:
-            if not isValid(row):
-                return False
-        for col in board:
-            if not isValid(col):
-                return False
-        for i in range(3):
-            row, col = (i / 3)*3, (i/3)*3+i
+        rows = [set() for _ in range(9)]
+        cols = [set() for _ in range(9)]
+        squares = [set() for _ in range(9)]
 
-        for square in board:
-            if not isValid(square):
-                return False
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != '.':
+                    digit = board[i][j]
+                    if digit in rows[i]: return False
+                    rows[i].add(digit)
+                    if digit in cols[j]: return False
+                    cols[j].add(digit)
+                    square = (i // 3) * 3 + (j // 3)
+                    if digit in squares[square]: return False
+                    squares[square].add(digit)
         return True
 
-        def isValid(item):
-            d = set()
-            for elem in item:
-                if elem != "." and elem in d:
-                    return False
-                d.add(elem)
-            return True
+board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
+Output = True
+
+sol = Solution()
+print(sol.isValidSudoku(board))
