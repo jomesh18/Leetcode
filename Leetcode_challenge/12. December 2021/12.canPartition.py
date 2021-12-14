@@ -67,6 +67,39 @@ Submissions
 #         return total_sum & 1 == 0 or subsetSum(total_sum//2)
 
 
+#tabulation 2d approach
+class Solution:
+    def canPartition(self, nums: [int]) -> bool:
+        s = sum(nums)
+        if s & 1 == 1: return False
+        s >>= 1
+        dp = [[False for _ in range(s+1)] for _ in range(len(nums)+1)]
+        dp[0][0] = True
+        # for i in range(s+1):
+        #     dp[0][i] = False
+        for i in range(len(nums)+1):
+            dp[i][0] = True
+        for i in range(1, len(nums)+1):
+            for j in range(1, s+1):
+                dp[i][j] = dp[i-1][j]
+                if j >= nums[i-1]:
+                    dp[i][j] |= dp[i-1][j-nums[i-1]]
+        return dp[len(nums)][s]
+
+#tabulation 1d approach
+class Solution:
+    def canPartition(self, nums: [int]) -> bool:
+        s = sum(nums)
+        if s & 1: return False
+        s >>= 1
+        dp = [True] + [False for _ in range(s)]
+
+        for num in nums:
+            for j in range(s+1):
+                dp[j] |= dp[j-num]
+        return dp[s]
+
+
 nums = [1,5,11,5]
 # Output: true
 
