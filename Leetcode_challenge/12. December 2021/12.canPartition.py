@@ -68,43 +68,57 @@ Submissions
 
 
 #tabulation 2d approach
-class Solution:
-    def canPartition(self, nums: [int]) -> bool:
-        s = sum(nums)
-        if s & 1 == 1: return False
-        s >>= 1
-        dp = [[False for _ in range(s+1)] for _ in range(len(nums)+1)]
-        dp[0][0] = True
-        # for i in range(s+1):
-        #     dp[0][i] = False
-        for i in range(len(nums)+1):
-            dp[i][0] = True
-        for i in range(1, len(nums)+1):
-            for j in range(1, s+1):
-                dp[i][j] = dp[i-1][j]
-                if j >= nums[i-1]:
-                    dp[i][j] |= dp[i-1][j-nums[i-1]]
-        return dp[len(nums)][s]
+# class Solution:
+#     def canPartition(self, nums: [int]) -> bool:
+#         s = sum(nums)
+#         if s & 1 == 1: return False
+#         s >>= 1
+#         dp = [[False for _ in range(s+1)] for _ in range(len(nums)+1)]
+#         dp[0][0] = True
+#         # for i in range(s+1):
+#         #     dp[0][i] = False
+#         for i in range(len(nums)+1):
+#             dp[i][0] = True
+#         for i in range(1, len(nums)+1):
+#             for j in range(1, s+1):
+#                 dp[i][j] = dp[i-1][j]
+#                 if j >= nums[i-1]:
+#                     dp[i][j] |= dp[i-1][j-nums[i-1]]
+#         return dp[len(nums)][s]
 
 #tabulation 1d approach
+# class Solution:
+#     def canPartition(self, nums: [int]) -> bool:
+#         s = sum(nums)
+#         if s & 1: return False
+#         s >>= 1
+#         dp = [True] + [False for _ in range(s)]
+
+#         for num in nums:
+#             for j in range(s, 0, -1):
+#                 dp[j] |= dp[j-num]
+#         return dp[s]
+
+
+
+# Dynamic Programming using bitmask
 class Solution:
     def canPartition(self, nums: [int]) -> bool:
         s = sum(nums)
         if s & 1: return False
         s >>= 1
-        dp = [True] + [False for _ in range(s)]
-
+        dp = 1
         for num in nums:
-            for j in range(s+1):
-                dp[j] |= dp[j-num]
-        return dp[s]
-
+            dp |= dp<<num
+        return bool(dp & 1<<s)
 
 nums = [1,5,11,5]
 # Output: true
 
-# nums = [1,2,3,5]
+nums = [1,2,3,5]
 # Output: false
+
+nums = [0,1,2,5]
 
 nums = [i for i in range(1, 201)]
 
