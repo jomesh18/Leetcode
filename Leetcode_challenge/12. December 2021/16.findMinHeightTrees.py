@@ -108,7 +108,7 @@ class Solution:
             g[start].add(end)
             g[end].add(start)
 
-        path = dfs(0)
+        path = dfs(1)
         print(path)
         leaf = path[0]
         ans = dfs(leaf)
@@ -116,7 +116,6 @@ class Solution:
         if len(ans) & 1:
             return [ans[len(ans)//2]]
         return [ans[len(ans)//2], ans[(len(ans)//2)-1]]
-
 
 n = 4
 edges = [[1,0],[1,2],[1,3]]
