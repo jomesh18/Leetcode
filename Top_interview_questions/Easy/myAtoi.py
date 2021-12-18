@@ -217,16 +217,86 @@ Constraints:
 #                 break
 
 #         return q.get_integer()
+
+
+
+
+
+
+
+
+class StateMachine:
+
+    def __init__(self):
+        self.state = 'q0'
+        self.INT_MAX = (1<<31)-1
+        self.INT_MIN = -(1<<31)
+        self.sign = 1
+        self.ans = 0
+
+    def to_state1(self, ch):
+        if ch == '-': self.sign = -1
+        self.state = 'q1'
+
+    def to_state2(self, ch):
+        self.state = 'q2'
+        self.append_digit(ch)
+
+    def to_stated(self):
+        self.state = 'qd'
+
+    def transition(self, ch):
+        if self.state == 'q0':
+            if ch == ' ':
+                return
+            elif ch == "+" or ch == "-":
+                self.to_state1(ch)
+            elif ch.isdigit():
+                self.to_state2(int(ch))
+            else:
+                self.to_stated()
+        elif self.state == 'q1' or self.state == 'q2':
+            if ch.isdigit():
+                self.to_state2(int(ch))
+            else:
+                self.to_stated()
+
+    def get_integer(self):
+        return self.sign*self.ans
+
+    def get_state(self):
+        return self.state
+
+    def append_digit(self, digit):
+        if (self.ans > self.INT_MAX//10) or (self.ans == self.INT_MAX//10 and digit > self.INT_MAX%10):
+            if self.sign == 1:
+                self.ans = self.INT_MAX
+            else:
+                self.ans = self.INT_MIN
+                self.sign = 1
+            self.to_stated()
+        else:
+            self.ans = self.ans * 10 + digit
+
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        state = StateMachine()
+        for ch in s:
+            state.transition(ch)
+            if state.get_state() == 'qd':
+                break
+        return state.get_integer()
+
 s = "42"
 # Output: 42
 
-s = "   -42"
+# s = "   -42"
 # Output: -42
 
-s = "4193 with words"
+# s = "4193 with words"
 # Output: 4193
 
-s = "words and 987"
+# s = "words and 987"
 # Output: 0
 
 # s = "-91283472332"
