@@ -50,6 +50,80 @@ Accepted
 Submissions
 63,561
 '''
+
+#tle
+# class Solution:
+#     def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
+#         # self.ans = []
+#         self.count = 0
+#         d = {}
+#         def helper(i, temp=0):
+#             for i in range(len(digits)):
+#                 temp1 = temp*10 + int(digits[i])
+#                 if temp1 > n: break
+#                 # self.ans.append(temp1)
+#                 self.count += 1
+#                 # print(self.ans, self.count)
+#                 helper(i, temp1)
+
+#         helper(0)
+#         return self.count
+
+# class Solution:
+#     def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
+#         s, N, M = str(n), len(str(n)), len(digits)
+#         count = sum((M**i for i in range(1, N)))
+#         for i in range(N):
+#             j = 0
+#             while j < M and digits[j][0] < s[i]:
+#                 count += M**(N-1-i)
+#                 j += 1
+#             if j >= M or digits[j][0] != s[i]: return count
+#         return count + 1
+
+
+
 class Solution:
     def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
-        
+        dig_len, s, n_len, count = len(digits), str(n), len(str(n)), 0
+
+        for i in range(1, n_len):
+            count += dig_len**i
+        for i in range(n_len):
+            j = 0
+            while j < dig_len and digits[j][0] < s[i]:
+                count += dig_len**(n_len-1-i)
+                j += 1
+            if j>=dig_len or digits[j][0] != s[i]: return count
+
+        return count + 1
+
+# digits = ["1","3"]
+# n = 100
+# Output: 
+
+digits = ["1","3","5","7"]
+n = 100
+# # Output: 20
+
+digits = ["1","3","5","7"]
+n = 156
+# # Output: 31
+
+digits = ["1","3","5"]
+n = 137
+# # Output: 18
+
+# digits = ["1","4","9"]
+# n = 1000000000
+# # Output: 29523
+
+# digits = ["7"]
+# n = 8
+# # Output: 1
+
+# digits = [str(i) for i in range(1, 10)]
+# n = 10**9
+
+sol = Solution()
+print(sol.atMostNGivenDigitSet(digits, n))
