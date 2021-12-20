@@ -48,7 +48,7 @@ Accepted
 Submissions
 759,293
 '''
-# not working 
+
 # class Solution:
 #     def decodeString(self, s: str) -> str:
 #         stack = []
@@ -62,57 +62,103 @@ Submissions
 #                 digit = ""
 #                 while stack and stack[-1].isdigit():
 #                     digit += stack.pop()
-#                 stack.append("".join(temp)[::-1]*int(digit[::-1]))
+#                 stack.append("".join(temp[::-1])*int(digit[::-1]))
 #             else:
 #                 stack.append(c)
 #         return "".join(stack)
 
+# #leetcode, fastest recursive
+# class Solution:
+#     def decodeString(self, s: str) -> str:
+#         def recursiveHelper(idx):
+#             newIdx = idx + 1
+#             while newIdx < len(s)-1 and s[newIdx].isnumeric():
+#                 newIdx += 1
+#             num = int(s[idx:newIdx])
+#             res = ""
+            
+#             idx = newIdx + 1
+            
+#             while s[idx] != ']':
+#                 if s[idx].isnumeric():
+#                     subStr, newIdx = recursiveHelper(idx)
+#                     res += subStr
+#                     idx = newIdx + 1
+#                 else:
+#                     res += s[idx]
+#                     idx += 1
+            
+#             return (num * res, idx)
+            
+            
+#         s = "1[" + s + "]"
 
+#         return recursiveHelper(0)[0]
+
+#recurisve, my try
 class Solution:
     def decodeString(self, s: str) -> str:
-        stack = []
+
+        def recursiveHelper(num_idx):
+            num = 0
+            while num_idx<len(s) and s[num_idx].isdigit():
+                num = num*10+int(s[num_idx])
+                num_idx += 1
+            num_idx += 1
+            string = []
+            while num_idx < len(s) and s[num_idx] != ']':
+                if s[num_idx].isdigit():
+                    strin, i = recursiveHelper(num_idx)
+                    string.append(strin)
+                    num_idx = i
+                else:
+                    string.append(s[num_idx])
+                    num_idx += 1
+            num_idx += 1
+            return ("".join(string)*num, num_idx)
+
+        ans = []
         i = 0
         while i < len(s):
             if s[i].isdigit():
-                start = i
-                while s[i].isdigit():
-                    i += 1
-                stack.append(s[start: i])
-                i -= 1
-            elif s[i] == ']':
-                temp = []
-                while stack[-1] != '[':
-                    temp.append(stack.pop())
-                stack.pop()
-                if stack:
-                    if stack[-1].isdigit():
-                        temp *= int(stack.pop())
-                # print(temp, stack)
-                temp.reverse()
-                stack.extend(temp)
+                stri, i = recursiveHelper(i)
+                ans.append(stri)
             else:
-                stack.append(s[i])
-            i += 1
-        res = []
-        while stack:
-            res.append(stack.pop())
-        res.reverse()
-        return ''.join(res)
+                ans.append(s[i])
+                i += 1
+        return "".join(ans)
+
+
+class Solution:
+    def decodeString(self, s):
+        stk, ans, n = [], "", ""
+        for c in s:
+            if c.isalpha():   ans += c
+            elif c.isdigit(): n += c
+            elif c == '[': 
+                stk.append((n, ans))
+                n, ans = "", ""
+            else:
+                cnt, prev = stk.pop()
+                ans = prev + ans * int(cnt)
+        return ans
 
 s = "3[a]2[bc]"
-# Output: "aaabcbc"
+Output = "aaabcbc"
 
 s = "3[a2[c]]"
-# # Output: "accaccacc"
+Output = "accaccacc"
 
 s = "2[abc]3[cd]ef"
-# # Output: "abcabccdcdcdef"
+Output = "abcabccdcdcdef"
 
 s = "abc3[cd]xyz"
-# Output: "abccdcdcdxyz"
+Output = "abccdcdcdxyz"
 
 s = "3[z]2[2[y]pq4[2[jk]e1[f]]]ef"
-# Output: "zzzyypqjkjkefjkjkefjkjkefjkjkefyypqjkjkefjkjkefjkjkefjkjkefef"
+Output = "zzzyypqjkjkefjkjkefjkjkefjkjkefyypqjkjkefjkjkefjkjkefjkjkefef"
 
 sol = Solution()
-print(sol.decodeString(s))
+ans=sol.decodeString(s)
+print(ans)
+print(Output == ans)

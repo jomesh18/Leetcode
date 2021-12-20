@@ -83,21 +83,33 @@ Submissions
 
 
 
+# class Solution:
+#     def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
+#         dig_len, s, n_len, count = len(digits), str(n), len(str(n)), 0
+
+#         for i in range(1, n_len):
+#             count += dig_len**i
+#         for i in range(n_len):
+#             j = 0
+#             while j < dig_len and digits[j][0] < s[i]:
+#                 count += dig_len**(n_len-1-i)
+#                 j += 1
+#             if j>=dig_len or digits[j][0] != s[i]: return count
+
+#         return count + 1
+
+
 class Solution:
-    def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
-        dig_len, s, n_len, count = len(digits), str(n), len(str(n)), 0
-
-        for i in range(1, n_len):
-            count += dig_len**i
+    def atMostNGivenDigitSet(self, digits: List[str], n: int) -> int:
+        n_len = len(str(n))
+        no_of_digits = len(digits)
+        count = sum(no_of_digits**i for i in range(1, n_len))
+        #finding the valid counts from msb of n onwards
         for i in range(n_len):
-            j = 0
-            while j < dig_len and digits[j][0] < s[i]:
-                count += dig_len**(n_len-1-i)
-                j += 1
-            if j>=dig_len or digits[j][0] != s[i]: return count
-
-        return count + 1
-
+            curr_dig = int(str(n)[i])
+            for j in range(no_of_digits):
+                if curr_dig 
+        
 # digits = ["1","3"]
 # n = 100
 # Output: 
