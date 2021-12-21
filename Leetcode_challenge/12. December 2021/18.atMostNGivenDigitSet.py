@@ -100,39 +100,49 @@ Submissions
 
 
 class Solution:
-    def atMostNGivenDigitSet(self, digits: List[str], n: int) -> int:
+    def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
         n_len = len(str(n))
         no_of_digits = len(digits)
         count = sum(no_of_digits**i for i in range(1, n_len))
         #finding the valid counts from msb of n onwards
         for i in range(n_len):
             curr_dig = int(str(n)[i])
-            for j in range(no_of_digits):
-                if curr_dig 
+            j = 0
+            while j < no_of_digits and curr_dig > int(digits[j]):
+                count += no_of_digits**(n_len-i-1)
+                j += 1
+            if j < no_of_digits and curr_dig < int(digits[j]):
+                return count
+        return count+1
+
         
-# digits = ["1","3"]
-# n = 100
-# Output: 
+digits = ["1","3"]
+n = 100
+# # Output: 6
 
 digits = ["1","3","5","7"]
 n = 100
-# # Output: 20
+# # # Output: 20
 
 digits = ["1","3","5","7"]
 n = 156
-# # Output: 31
+# # # Output: 31
 
 digits = ["1","3","5"]
 n = 137
-# # Output: 18
+# # # Output: 18
+
+digits = ["1","3","5"]
+n = 135
+# Output: 
 
 # digits = ["1","4","9"]
 # n = 1000000000
-# # Output: 29523
+# # # Output: 29523
 
 # digits = ["7"]
 # n = 8
-# # Output: 1
+# # # Output: 1
 
 # digits = [str(i) for i in range(1, 10)]
 # n = 10**9
