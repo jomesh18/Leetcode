@@ -69,6 +69,7 @@ Submissions
 #         helper(0)
 #         return self.count
 
+# math solution
 # class Solution:
 #     def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
 #         s, N, M = str(n), len(str(n)), len(digits)
@@ -81,60 +82,85 @@ Submissions
 #             if j >= M or digits[j][0] != s[i]: return count
 #         return count + 1
 
-
-
+# #above, my try
 # class Solution:
 #     def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
-#         dig_len, s, n_len, count = len(digits), str(n), len(str(n)), 0
-
-#         for i in range(1, n_len):
-#             count += dig_len**i
+#         n_len = len(str(n))
+#         no_of_digits = len(digits)
+#         count = sum(no_of_digits**i for i in range(1, n_len))
+#         #finding the valid counts from msb of n onwards
 #         for i in range(n_len):
+#             curr_dig = int(str(n)[i])
 #             j = 0
-#             while j < dig_len and digits[j][0] < s[i]:
-#                 count += dig_len**(n_len-1-i)
+#             while j < no_of_digits and curr_dig > int(digits[j]):
+#                 count += no_of_digits**(n_len-i-1)
 #                 j += 1
-#             if j>=dig_len or digits[j][0] != s[i]: return count
+#             if j < no_of_digits and curr_dig < int(digits[j]):
+#                 return count
+#         return count+1
 
-#         return count + 1
+
+#dp+math
+# class Solution:
+#     def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
+#         s = str(n)
+#         l = len(s)
+#         dig_len = len(digits)
+#         dp = [0]*l+[1]
+
+#         for i in range(l-1, -1, -1):
+#             for d in digits:
+#                 if d < s[i]:
+#                     dp[i] += dig_len**(l-1-i)
+#                 elif d == s[i]:
+#                     dp[i] += dp[i+1]
+#                 else:
+#                     break
+
+#         return dp[0] + sum(dig_len**i for i in range(1, l))
 
 
+# Theory: https://codeforces.com/blog/entry/53960
 class Solution:
-    def atMostNGivenDigitSet(self, digits: [str], n: int) -> int:
-        n_len = len(str(n))
-        no_of_digits = len(digits)
-        count = sum(no_of_digits**i for i in range(1, n_len))
-        #finding the valid counts from msb of n onwards
-        for i in range(n_len):
-            curr_dig = int(str(n)[i])
-            j = 0
-            while j < no_of_digits and curr_dig > int(digits[j]):
-                count += no_of_digits**(n_len-i-1)
-                j += 1
-            if j < no_of_digits and curr_dig < int(digits[j]):
-                return count
-        return count+1
+    def atMostNGivenDigitSet(self, D: [str], N: int) -> int:
+        D = list(map(int, D))
+        N = list(map(int, str(N)))
 
-        
+        dic = {}
+        def dp(i, isPrefix, isBigger):
+            if i == len(N):
+                return not isBigger
+            if (i, isPrefix, isBigger) in dic: return dic[(i, isPrefix, isBigger)]
+            if not isPrefix and not isBigger:
+                ans = 1 + len(D) * dp(i + 1, False, False)
+                dic[(i, isPrefix, isBigger)] = ans
+                return ans
+
+            ans = 1 + sum(dp(i + 1, isPrefix and d == N[i], isBigger or (isPrefix and d > N[i])) for d in D)
+            dic[(i, isPrefix, isBigger)] = ans
+            return ans
+
+        return dp(0, True, False) - 1
+
 digits = ["1","3"]
 n = 100
 # # Output: 6
 
-digits = ["1","3","5","7"]
-n = 100
+# digits = ["1","3","5","7"]
+# n = 100
 # # # Output: 20
 
-digits = ["1","3","5","7"]
-n = 156
+# digits = ["1","3","5","7"]
+# n = 156
 # # # Output: 31
 
-digits = ["1","3","5"]
-n = 137
+# digits = ["1","3","5"]
+# n = 137
 # # # Output: 18
 
 digits = ["1","3","5"]
 n = 135
-# Output: 
+# Output: 18
 
 # digits = ["1","4","9"]
 # n = 1000000000
@@ -146,6 +172,7 @@ n = 135
 
 # digits = [str(i) for i in range(1, 10)]
 # n = 10**9
+# # Output = 435848049
 
 sol = Solution()
 print(sol.atMostNGivenDigitSet(digits, n))
