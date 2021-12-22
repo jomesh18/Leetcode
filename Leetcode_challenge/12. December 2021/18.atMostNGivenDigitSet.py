@@ -136,7 +136,11 @@ class Solution:
                 dic[(i, isPrefix, isBigger)] = ans
                 return ans
 
-            ans = 1 + sum(dp(i + 1, isPrefix and d == N[i], isBigger or (isPrefix and d > N[i])) for d in D)
+            ans = 0
+            for d in D:
+                ans += dp(i+1, isPrefix and d == N[i], isBigger or (isPrefix and d>N[i]))
+            ans += 1
+            # ans = 1 + sum(dp(i + 1, isPrefix and d == N[i], isBigger or (isPrefix and d > N[i])) for d in D)
             dic[(i, isPrefix, isBigger)] = ans
             return ans
 
