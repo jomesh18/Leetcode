@@ -46,59 +46,108 @@ Accepted
 Submissions
 1,160,222
 '''
-class Solution:
-    def findOrder(self, numCourses: int, prerequisites: [[int]]) -> [int]:
 from collections import defaultdict
+# class Solution:
+
+#     WHITE = 1
+#     GRAY = 2
+#     BLACK = 3
+#    def findOrder(self, numCourses: int, prerequisites: [[int]]) -> [int]:
+#         """
+#         :type numCourses: int
+#         :type prerequisites: List[List[int]]
+#         :rtype: List[int]
+#         """
+
+#         # Create the adjacency list representation of the graph
+#         adj_list = defaultdict(list)
+
+#         # A pair [a, b] in the input represents edge from b --> a
+#         for dest, src in prerequisites:
+#             adj_list[src].append(dest)
+
+#         topological_sorted_order = []
+#         is_possible = True
+
+#         # By default all vertces are WHITE
+#         color = {k: Solution.WHITE for k in range(numCourses)}
+#         def dfs(node):
+#             nonlocal is_possible
+
+#             # Don't recurse further if we found a cycle already
+#             if not is_possible:
+#                 return
+
+#             # Start the recursion
+#             color[node] = Solution.GRAY
+
+#             # Traverse on neighboring vertices
+#             if node in adj_list:
+#                 for neighbor in adj_list[node]:
+#                     if color[neighbor] == Solution.WHITE:
+#                         dfs(neighbor)
+#                     elif color[neighbor] == Solution.GRAY:
+#                          # An edge to a GRAY vertex represents a cycle
+#                         is_possible = False
+
+#             # Recursion ends. We mark it as black
+#             color[node] = Solution.BLACK
+#             topological_sorted_order.append(node)
+
+#         for vertex in range(numCourses):
+#             # If the node is unprocessed, then call dfs on it.
+#             if color[vertex] == Solution.WHITE:
+#                 dfs(vertex)
+
+#         return topological_sorted_order[::-1] if is_possible else []
+
+
+#my try of above
 class Solution:
-
-    WHITE = 1
-    GRAY = 2
-    BLACK = 3
-   def findOrder(self, numCourses: int, prerequisites: [[int]]) -> [int]:
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: List[int]
-        """
-
-        # Create the adjacency list representation of the graph
+    WHITE = 0
+    GRAY = 1
+    BLACK = 2
+    def findOrder(self, numCourses: int, prerequisites: [[int]]) -> [int]:
         adj_list = defaultdict(list)
+        for end, start in prerequisites:
+            adj_list[start].append(end)
 
-        # A pair [a, b] in the input represents edge from b --> a
-        for dest, src in prerequisites:
-            adj_list[src].append(dest)
-
+        color = {k: Solution.WHITE for k in range(numCourses)}
         topological_sorted_order = []
         is_possible = True
 
-        # By default all vertces are WHITE
-        color = {k: Solution.WHITE for k in range(numCourses)}
-        def dfs(node):
+        def dfs(vertex):
             nonlocal is_possible
-
-            # Don't recurse further if we found a cycle already
             if not is_possible:
                 return
-
-            # Start the recursion
-            color[node] = Solution.GRAY
-
-            # Traverse on neighboring vertices
-            if node in adj_list:
-                for neighbor in adj_list[node]:
+            color[vertex] = Solution.GRAY
+            if vertex in adj_list:
+                for neighbor in adj_list[vertex]:
                     if color[neighbor] == Solution.WHITE:
                         dfs(neighbor)
                     elif color[neighbor] == Solution.GRAY:
-                         # An edge to a GRAY vertex represents a cycle
                         is_possible = False
-
-            # Recursion ends. We mark it as black
-            color[node] = Solution.BLACK
-            topological_sorted_order.append(node)
+                        return
+            color[vertex] = Solution.BLACK
+            topological_sorted_order.append(vertex)
 
         for vertex in range(numCourses):
-            # If the node is unprocessed, then call dfs on it.
             if color[vertex] == Solution.WHITE:
                 dfs(vertex)
 
         return topological_sorted_order[::-1] if is_possible else []
+
+numCourses = 2
+prerequisites = [[1,0]]
+# Output: [0,1]
+
+# numCourses = 4
+# prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+# Output: [0,2,1,3]
+
+# numCourses = 1
+# prerequisites = []
+# Output: [0]
+
+sol = Solution()
+print(sol.findOrder(numCourses, prerequisites))
