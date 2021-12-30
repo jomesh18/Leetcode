@@ -70,28 +70,69 @@ The answer is guaranteed to fit in a 32-bit integer.
 #         return res
 
 #O(1) space, O(n) time
+# class Solution:
+#     def calculate(self, s: str) -> int:
+#         last_num, curr_num, res, operation = 0, 0, 0, "+"
+#         for i in range(len(s)):
+#             c = s[i]
+#             if c.isdigit():
+#                 curr_num = curr_num*10+int(c)
+#             if not c.isdigit() and c != " " or i == len(s)-1:
+#                 if operation == "+":
+#                     res += last_num
+#                     last_num = curr_num
+#                 elif operation == "-":
+#                     res += last_num
+#                     last_num = -curr_num
+#                 elif operation == "/":
+#                     last_num = int(last_num/curr_num)
+#                 elif operation == "*":
+#                     last_num = last_num*curr_num
+#                 operation = c
+#                 curr_num = 0
+#             # print(i, last_num, curr_num, res, operation)
+#         return res+last_num
+
+
+#using postfix conversion
 class Solution:
-    def calculate(self, s: str) -> int:
-        last_num, curr_num, res, operation = 0, 0, 0, "+"
-        for i in range(len(s)):
-            c = s[i]
+    def calculate(self, s):
+        def precedence(c):
+            return c == '*' or c == '/'
+
+        def to_postfix(s):
+            op, postfix_string = [], ""
+            for c in s:
+                if c.isdigit():
+                    postfix_string += c
+                elif c == " ":
+                    continue
+                else:
+                    postfix_string += '|'
+                    if op and precedence(c) <= precedence(op[-1]):
+                        postfix_string += op.pop()
+                    op.append(c)
+            return postfix_string + "|" + "".join(op[::-1])
+
+        postfix_string = to_postfix(s)
+        i = 0
+        res = []
+        while i < len(postfix_string):
+            c = postfix_string[i]
             if c.isdigit():
-                curr_num = curr_num*10+int(c)
-            if not c.isdigit() and c != " " or i == len(s)-1:
-                if operation == "+":
-                    res += last_num
-                    last_num = curr_num
-                elif operation == "-":
-                    res += last_num
-                    last_num = -curr_num
-                elif operation == "/":
-                    last_num = int(last_num/curr_num)
-                elif operation == "*":
-                    last_num = last_num*curr_num
-                operation = c
-                curr_num = 0
-            # print(i, last_num, curr_num, res, operation)
-        return res+last_num
+                j = c.find("|", i+1)
+                num = int(postfix_string[i:j])
+                res.append(num)
+                i = j
+            else:
+                num2, num1 = res.pop(), res.pop()
+                if c == "+": postfix_string.append(num1 + num2)
+                if c == "-": postfix_string.append(num1 - num2)
+                if c == "/": postfix_string.append(int(num1 / num2))
+                if c == "*": postfix_string.append(num1 * num2)
+            i += 1
+        return res.pop()
+
 
 s = "3+2*2"
 # Output: 7
@@ -107,6 +148,8 @@ s = "0-2147483647"
 
 s = "14-3/2"
 # # # Output: 13
+
+s = '2+3*5-4*10/5+3'
 
 sol = Solution()
 print(sol.calculate(s))
