@@ -79,8 +79,8 @@ Submissions
 
 #         return merged
 
-
 #O(n*n)
+from collections import defaultdict
 class Solution:
     def overlap(self, a, b):
         return a[0] <= b[1] and b[0] <= a[1]
@@ -88,7 +88,7 @@ class Solution:
     # generate graph where there is an undirected edge between intervals u
     # and v iff u and v overlap.
     def buildGraph(self, intervals):
-        graph = collections.defaultdict(list)
+        graph = defaultdict(list)
 
         for i, interval_i in enumerate(intervals):
             for j in range(i+1, len(intervals)):
@@ -108,7 +108,7 @@ class Solution:
     def getComponents(self, graph, intervals):
         visited = set()
         comp_number = 0
-        nodes_in_comp = collections.defaultdict(list)
+        nodes_in_comp = defaultdict(list)
 
         def markComponentDFS(start):
             stack = [start]
@@ -135,11 +135,33 @@ class Solution:
         # all intervals in each connected component must be merged.
         return [self.mergeNodes(nodes_in_comp[comp]) for comp in range(number_of_comps)]
 
+#counting sort
+# O(N+R) where R is the range of intervals determined by start value
+# class Solution:
+#     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+#         def counting_sort():
+#             ends, j = defaultdict(list), 0
+#             for interval in intervals:
+#                 ends[interval[0]].append(interval[1])
+#             for i in range(max(intervals)[0]+1):
+#                 for end in ends[i]:
+#                     intervals[j] = [i, end]
+#                     j += 1
+
+#         counting_sort()
+
+#         res = [intervals[0]]
+#         for interval in intervals:
+#             if res[-1][1] >= interval[0]:
+#                 res[-1][1] = max(interval[1], res[-1][1])
+#             else:
+#                 res.append(interval)
+#         return res
 
 intervals = [[1,3],[2,6],[8,10],[15,18]]
 # Output: [[1,6],[8,10],[15,18]]
 
-intervals = [[1,4],[4,5]]
+# intervals = [[1,4],[4,5]]
 # Output: [[1,5]]
 
 sol = Solution()

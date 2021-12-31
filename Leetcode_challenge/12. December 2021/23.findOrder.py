@@ -2,13 +2,6 @@
 210. Course Schedule II
 Medium
 
-5487
-
-208
-
-Add to List
-
-Share
 There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
 For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
@@ -103,39 +96,62 @@ from collections import defaultdict
 
 
 #my try of above
+# class Solution:
+#     WHITE = 0
+#     GRAY = 1
+#     BLACK = 2
+#     def findOrder(self, numCourses: int, prerequisites: [[int]]) -> [int]:
+#         adj_list = defaultdict(list)
+#         for end, start in prerequisites:
+#             adj_list[start].append(end)
+
+#         color = {k: Solution.WHITE for k in range(numCourses)}
+#         topological_sorted_order = []
+#         is_possible = True
+
+#         def dfs(vertex):
+#             nonlocal is_possible
+#             if not is_possible:
+#                 return
+#             color[vertex] = Solution.GRAY
+#             if vertex in adj_list:
+#                 for neighbor in adj_list[vertex]:
+#                     if color[neighbor] == Solution.WHITE:
+#                         dfs(neighbor)
+#                     elif color[neighbor] == Solution.GRAY:
+#                         is_possible = False
+#                         return
+#             color[vertex] = Solution.BLACK
+#             topological_sorted_order.append(vertex)
+
+#         for vertex in range(numCourses):
+#             if color[vertex] == Solution.WHITE:
+#                 dfs(vertex)
+
+#         return topological_sorted_order[::-1] if is_possible else []
+
+
+#using node indegree, Kahn's algorithm
+from collections import deque, defaultdict
 class Solution:
-    WHITE = 0
-    GRAY = 1
-    BLACK = 2
     def findOrder(self, numCourses: int, prerequisites: [[int]]) -> [int]:
-        adj_list = defaultdict(list)
-        for end, start in prerequisites:
-            adj_list[start].append(end)
-
-        color = {k: Solution.WHITE for k in range(numCourses)}
+        adj_list, indegree = defaultdict(list), defaultdict(int)
+        for dest, src in prerequisites:
+            adj_list[src].append(dest)
+            indegree[dest] += 1
+        zero_indegree_queue = deque([i for i in range(numCourses) if i not in indegree])
         topological_sorted_order = []
-        is_possible = True
-
-        def dfs(vertex):
-            nonlocal is_possible
-            if not is_possible:
-                return
-            color[vertex] = Solution.GRAY
+        while zero_indegree_queue:
+            vertex = zero_indegree_queue.popleft()
+            topological_sorted_order.append(vertex)
             if vertex in adj_list:
                 for neighbor in adj_list[vertex]:
-                    if color[neighbor] == Solution.WHITE:
-                        dfs(neighbor)
-                    elif color[neighbor] == Solution.GRAY:
-                        is_possible = False
-                        return
-            color[vertex] = Solution.BLACK
-            topological_sorted_order.append(vertex)
+                    indegree[neighbor] -= 1
+                    if indegree[neighbor] == 0:
+                        zero_indegree_queue.append(neighbor)
+        return topological_sorted_order if len(topological_sorted_order) == numCourses else []
 
-        for vertex in range(numCourses):
-            if color[vertex] == Solution.WHITE:
-                dfs(vertex)
 
-        return topological_sorted_order[::-1] if is_possible else []
 
 numCourses = 2
 prerequisites = [[1,0]]
@@ -143,10 +159,10 @@ prerequisites = [[1,0]]
 
 # numCourses = 4
 # prerequisites = [[1,0],[2,0],[3,1],[3,2]]
-# Output: [0,2,1,3]
+# # Output: [0,2,1,3]
 
-# numCourses = 1
-# prerequisites = []
+numCourses = 1
+prerequisites = []
 # Output: [0]
 
 sol = Solution()
