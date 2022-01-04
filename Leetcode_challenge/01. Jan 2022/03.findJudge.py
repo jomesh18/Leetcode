@@ -64,4 +64,15 @@ class Solution:
                 judges = judges.intersection(sets)
         print(judges, none)
         return none.pop()+1 if none and len(none) == 1 and none == judges else -1
-        
+
+# O(t+n) time, O(n) space
+class Solution:
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        degree = [0] * (n+1)
+        for u, v in trust:
+            degree[u] -= 1
+            degree[v] += 1
+        for i in range(1, n+1):
+            if degree[i] == n-1:
+                return i
+        return -1
