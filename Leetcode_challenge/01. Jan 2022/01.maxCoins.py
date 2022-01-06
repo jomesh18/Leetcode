@@ -40,6 +40,42 @@ Accepted
 Submissions
 288,586
 '''
+#naive, backtracking
+# class Solution:
+#     def maxCoins(self, nums: List[int]) -> int:
+#         self.score = 0
+#         def dfs(balloons, curr_score):
+#             if len(balloons) == 2:
+#                 self.score = max(self.score, curr_score)
+#             for i in range(1, len(balloons)-1):
+#                 temp = balloons[i]*balloons[i-1]*balloons[i+1]
+#                 curr_score += temp
+#                 dfs(balloons[:i]+balloons[i+1:], curr_score)
+#                 curr_score -= temp
+#         dfs([1]+nums+[1], 0)
+#         return self.score
+
+#divide and conquer with memoization
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        new_nums = []
+        n = 1
+        for x in nums:
+            if x > 0:
+                new_nums[n] = x
+                n += 1
+        memo = [[0]*n for _ in range(n)]
+
+        def burst(left, right):
+            if left + 1 == right: return 0
+            if memo[left][right] > 0 : return memo[left][right]
+            ans = 0
+            for i in range(left+1, right):
+                ans = max(ans, num[left]*nums[i]*nums[right]) + burst(left, i) + burst(i, right)
+            memo[left][right] = ans
+            return ans
+        return burst(0, n-1)    
+
 
 class Solution:
     def maxCoins(self, nums: List[int]) -> int:
