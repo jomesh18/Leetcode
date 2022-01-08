@@ -79,6 +79,13 @@ class Solution:
             return ans
         return burst(0, n-1)    
 
+#dp
+class Solution:
+    def maxCoins(self, nums: [int]) -> int:
+        nums = [1] + [i for i in nums if i] + [1]
+        dp = [[0]*len(nums) for _ in range(len(nums))]
+
+
 
 # class Solution:
 #     def maxCoins(self, nums: List[int]) -> int:
