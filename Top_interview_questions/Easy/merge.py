@@ -43,8 +43,28 @@ nums2.length == n
 Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 '''
 class Solution:
-    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+    def merge(self, nums1: [int], m: int, nums2: [int], n: int) -> None:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        
+        if not nums1 or not nums2: return nums1 or nums2
+        pos1, pos2 = 0, 0
+        while pos2 < n:
+            if nums1[pos1] > nums2[pos2]:
+                temp = nums1[pos1]
+                nums1[pos1] = nums2[pos2]
+            pos1 += 1
+        while pos1 < m+n:
+            nums1[pos1] = nums2[pos1-m]
+            pos1 += 1
+
+
+nums1 = [4,5,6,0,0,0]
+m = 3
+nums2 = [1,2,3]
+n = 3
+
+sol = Solution()
+print(nums1)
+sol.merge(nums1, m, nums2, n)
+print(nums1)
