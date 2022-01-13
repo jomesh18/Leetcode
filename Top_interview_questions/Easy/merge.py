@@ -47,22 +47,68 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        if not nums1 or not nums2: return nums1 or nums2
-        pos1, pos2 = 0, 0
-        while pos2 < n:
+        for i in range(m):
+            nums1[n+m-1-i] = nums1[m-1-i]
+        print(nums1)
+        pos1, pos2 = n, 0
+        i = 0
+        while pos1 < m+n and pos2 < n:
             if nums1[pos1] > nums2[pos2]:
-                temp = nums1[pos1]
-                nums1[pos1] = nums2[pos2]
-            pos1 += 1
-        while pos1 < m+n:
-            nums1[pos1] = nums2[pos1-m]
-            pos1 += 1
+                nums1[i] = nums2[pos2]
+                pos2 += 1
+                i += 1
+            else:
+                nums1[i] = nums1[pos1]
+                pos1 += 1
+                i += 1
+        while pos2 < n:
+            nums1[i] = nums2[pos2]
+            i += 1
+            pos2 += 1
+
+#start filling from last
+class Solution:
+    def merge(self, nums1: [int], m: int, nums2: [int], n: int) -> None:
+        while m>0 and n>0:
+            if nums1[m-1] >= nums2[n-1]:
+                nums1[m+n-1] = nums1[m-1]
+                m -= 1
+            else:
+                nums1[m+n-1] = nums2[n-1]
+                n -= 1
+        if n > 0:
+            nums1[:n] = nums2[:n]
 
 
-nums1 = [4,5,6,0,0,0]
+nums1 = [1,2,3,0,0,0]
 m = 3
-nums2 = [1,2,3]
+nums2 = [2,5,6]
 n = 3
+Output = [1,2,2,3,5,6]
+
+# nums1 = [1]
+# m = 1
+# nums2 = []
+# n = 0
+# Output = [1]
+
+# nums1 = [0]
+# m = 0
+# nums2 = [1]
+# n = 1
+# Output = [1]
+
+# nums1 = [4,5,6,0,0,0]
+# m = 3
+# nums2 = [1,2,3]
+# n = 3
+# Output = [1, 2, 3, 4, 5, 6]
+
+# nums1 = [1,2,4,5,6,0]
+# m = 5
+# nums2 = [3]
+# n = 1
+# Output = [1,2,3,4,5,6]
 
 sol = Solution()
 print(nums1)
