@@ -29,7 +29,7 @@ Constraints:
 0 <= prices[i] <= 104
 '''
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
+    def maxProfit(self, prices: [int]) -> int:
         biggest = float("-inf")                        
         ans = 0
         for i in range(len(prices)-1, -1, -1):
@@ -39,3 +39,23 @@ class Solution:
                 ans = max(ans, biggest-prices[i])
         return ans
 
+
+#kadane's algorithm
+class Solution:
+    def maxProfit(self, prices: [int]) -> int:
+        curr_max = 0
+        max_so_far = 0
+        for i in range(1, len(prices)):
+            curr_max += prices[i] - prices[i-1]
+            curr_max = max(curr_max, 0)
+            max_so_far = max(curr_max, max_so_far)
+        return max_so_far
+
+prices = [7,1,5,3,6,4]
+# Output: 5
+
+# prices = [7,6,4,3,1]
+# Output: 0
+
+sol = Solution()
+print(sol.maxProfit(prices))
