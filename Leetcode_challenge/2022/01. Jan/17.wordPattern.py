@@ -42,30 +42,40 @@ Accepted
 Submissions
 769,066
 '''
+# class Solution:
+#     def wordPattern(self, pattern: str, s: str) -> bool:
+#         s = s.split()
+#         if len(pattern) != len(s): return False
+#         patt_to_s = {}
+#         s_set = set()
+#         for i in range(len(pattern)):
+#             if pattern[i] not in patt_to_s:
+#                 if s[i] in s_set: return False
+#                 patt_to_s[pattern[i]] = s[i]
+#                 s_set.add(s[i])
+#             else:
+#                 if patt_to_s[pattern[i]] != s[i]:
+#                     return False
+#         return True
+
 class Solution:
     def wordPattern(self, pattern: str, s: str) -> bool:
         s = s.split()
-        if len(pattern) != len(s): return False
-        patt_to_s = {}
-        s_set = ()
-        for i in range(len(pattern)):
-            
-            if pattern[i] not in patt_to_s:
-                if s[i] in s_set: return False
-                patt_to_s[pattern[i]] = s[i]
-                s_set.add(pattern[i])
-            else:
-                if patt_to_s[pattern[i]] != s[i]:
-                    return False
-        return True
-
+        ls = len(set(s))
+        lp = len(set(pattern))
+        return len(s) == len(pattern) and ls == lp and lp = len(set(zip(s, pattern)))
 
 pattern = "abba"
-s = "dog dog dog dog"
-#Output: false
+s = "dog cat cat dog"
+# Output: true
 
-pattern = "abc"
-s = "b c a"
+# pattern = "abba"
+# s = "dog dog dog dog"
+# #Output: false
+
+# pattern = "abc"
+# s = "b c a"
 #Output: true
 
-sol = 
+sol = Solution()
+print(sol.wordPattern(pattern, s))
