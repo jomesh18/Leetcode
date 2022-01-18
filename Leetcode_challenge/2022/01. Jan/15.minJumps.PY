@@ -74,6 +74,8 @@ class Solution:
                             q.append((same, count+1))
                     del d[arr[i]]
 
+# also with bidirectional bfs
+
 
 arr = [100,-23,-23,404,100,23,23,23,3,404]
 # Output: 3
