@@ -33,28 +33,80 @@ Constraints:
 1 <= nums.length <= 2 * 104
 1 <= nums[i] <= 104
 '''
-from collections import defaultdict, Counter
+
+# #dp
+# from collections import defaultdict, Counter
+# class Solution:
+#     def deleteAndEarn(self, nums: [int]) -> int:
+#         d = Counter(nums)
+#         new_nums = [0] * (max(d.keys())+1)
+#         for k in d:
+#             new_nums[k] = d[k]*k
+#         dp = [0] * len(new_nums)
+#         dp[0] = new_nums[0]
+#         dp[1] = new_nums[1]
+#         for i in range(2, len(new_nums)):
+#             dp[i] = max(dp[i-2] + new_nums[i], dp[i-1])
+#         return dp[-1]
+
+
+#top down memo
+# class Solution:
+#     def deleteAndEarn(self, nums: [int]) -> int:
+#         dp = [0]*len(nums)
+#         def helper(i):
+#             if i == len(nums): return 0
+#             if dp[i] != 0: return dp[i]
+#             num = nums[i]
+#             s = 0
+#             next_index = i
+#             while next_index < len(nums) and nums[next_index] == num:
+#                 s += num
+#                 next_index += 1
+#             # skipping num+1
+
+#             while next_index < len(nums) and nums[next_index] == num + 1:
+#                 next_index += 1
+#             ans = max(s+helper(next_index), helper(i+1))
+#             dp[i] = ans
+#             return ans
+
+#         nums.sort()
+#         return helper(0)
+
 class Solution:
     def deleteAndEarn(self, nums: [int]) -> int:
-        d = Counter(nums)
-        new_nums = [0] * (max(d.keys())+1)
-        for k in d:
-            new_nums[k] = d[k]*k
-        dp = [0] * len(new_nums)
-        dp[0] = new_nums[0]
-        dp[1] = new_nums[1]
-        for i in range(2, len(new_nums)):
-            dp[i] = max(dp[i-2] + new_nums[i], dp[i-1])
-        return dp[-1]
+        dp = [0]*len(nums)
+        def helper(i):
+            if i == len(nums): return 0
+            if dp[i] != 0: return dp[i]
+            k = i
+            num = nums[k]
+            s = 0
+            while k < len(nums) and nums[k] == num:
+                s += num
+                k += 1
+            # skipping num+1
+            next_index = k
+            while k < len(nums) and nums[k] == num + 1:
+                k += 1
+            ans = max(s+helper(k), helper(next_index)) if k != next_index else s+helper(k)
+            dp[i] = ans
+            return ans
 
+        nums.sort()
+        return helper(0)
 nums = [3,4,2]
 # Output: 6
 
-nums = [2,2,3,3,3,4]
-# # Output: 9
+# nums = [2,2,3,3,3,4]
+# # # Output: 9
 
 nums = [12,32,93,17,100,72,40,71,37,92,58,34,29,78,11,84,77,90,92,35,12,5,27,92,91,23,65,91,85,14,42,28,80,85,38,71,62,82,66,3,33,33,55,60,48,78,63,11,20,51,78,42,37,21,100,13,60,57,91,53,49,15,45,19,51,2,96,22,32,2,46,62,58,11,29,6,74,38,70,97,4,22,76,19,1,90,63,55,64,44,90,51,36,16,65,95,64,59,53,93]
-# # Output: 
+# # # Output: 3451
+
+# nums = [1,1,2,2,2,3]
+# Output: 6
 
 # print(len(nums))
 
