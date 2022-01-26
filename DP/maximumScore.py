@@ -45,7 +45,7 @@ m <= n <= 105
 import sys
 sys.setrecursionlimit(3000)
 import random
-#top down
+#top down, tle
 # class Solution:
 #     def maximumScore(self, nums: [int], multipliers: [int]) -> int:
 #         n, m = len(nums), len(multipliers)
