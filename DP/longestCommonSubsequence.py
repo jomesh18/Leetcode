@@ -35,4 +35,40 @@ text1 and text2 consist of only lowercase English characters.
 '''
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        
+        len1, len2 = len(text1), len(text2)
+        dp = [[0]*len2 for _ in range(len1)]
+        dp[0][0] = 1 if text1[0] == text2[0] else 0
+        for i in range(1, len1):
+            dp[i][0] = max(1 if text1[i] == text2[0] else 0, dp[i-1][0])
+        for j in range(1, len2):
+            dp[0][j] = max(dp[0][j-1], 1 if text1[0] == text2[j] else 0)
+        for i in range(1, len1):
+            for j in range(1, len2):
+                if text1[i] == text2[j]:
+                    dp[i][j] = dp[i-1][j-1] + 1
+                else:
+                    dp[i][j] = max(dp[i][j-1], dp[i-1][j])
+        return dp[-1][-1]
+
+text1 = "abcde"
+text2 = "ace" 
+# Output: 3  
+
+# text1 = "abc"
+# text2 = "abc"
+# # Output: 3
+
+# text1 = "abc"
+# text2 = "def"
+# Output: 0
+
+text1 = "ezupkr"
+text2 = "ubmrapg"
+# Output: 2
+
+text1 = "baaabababbaabbbaabaabaabbbabbbaabbbbbbbbbbaaaaabaabababbbababbbbabbabbbababaaababaabababbaaabaaaaabbaabbbbabaaaaaaabbaabbaaaaabaaaaaaaabaaabaababababa"
+text2 = "ababababaabaaabaaaaaaaabaaaaabbaabbaaaaaaababbbbaabbaaaaabaaabbababaababaaabababbbabbabbbbababbbababaabaaaaabbbbbbbbbbaabbbabbbaabaabaabbbaabbababaaab"
+#Output: 112
+
+sol = Solution()
+print(sol.longestCommonSubsequence(text1, text2))
