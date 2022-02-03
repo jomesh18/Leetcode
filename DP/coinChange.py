@@ -31,23 +31,60 @@ Constraints:
 1 <= coins[i] <= 231 - 1
 0 <= amount <= 104
 '''
-# tle on [1,2,5], 100
+# tle on coins = [186,419,83,408], amount = 6249
+# class Solution:
+#     def coinChange(self, coins: [int], amount: int) -> int:
+#         coins.sort(reverse=True)
+#         self.ans = float("inf")
+#         self.found = False
+#         def dfs(total, count):
+#             print(total, count)
+#             if total > amount: return
+#             if total == amount:
+#                 self.ans = min(count, self.ans)
+#                 self.found = True
+#                 return
+#             for i in coins:
+#                 if not self.found:
+#                     dfs(total+i, count+1)
+
+#         dfs(0, 0)
+#         return self.ans if self.ans != float("inf") else -1
+        
 class Solution:
     def coinChange(self, coins: [int], amount: int) -> int:
-        self.ans = float("inf")
-        memo = {}
-        def dfs(total, count):
-            print(total, count)
-            if total > amount: return
-            if total == amount:
-                self.ans = min(count, self.ans)
-            for i in coins:
-                dfs(total+i, count+1)
-        dfs(0, 0)
-        return self.ans if self.ans != float("inf") else -1
+        dp = [float("inf")]*(amount+1)
+        dp[0] = 0
+        curr = amount
+        count = 1
+        i = 0
+        for i in range(1, amount+1):
+            for coin in coins:
+                if i - coin < 0: continue
+                else: dp[i] = min(dp[i], dp[i-coin] + 1)
+
+        return dp[amount] if dp[amount] != float("inf") else -1
+
+
+coins = [1,2,5,7, 9, 11, 13, 17, 19, 23, 29, 31]
+amount = 10000
+# Output: 324
+
+coins = [186,419,83,408]
+amount = 6249
+# Output: 20
 
 coins = [1,2,5]
-amount = 100
+amount = 11
+# # Output: 3
+
+coins = [2]
+amount = 3
+# # Output: -1
+
+coins = [1]
+amount = 0
+# Output: 0
 
 sol = Solution()
 print(sol.coinChange(coins, amount))
