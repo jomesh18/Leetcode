@@ -33,37 +33,65 @@ Constraints:
 s and wordDict[i] consist of only lowercase English letters.
 All the strings of wordDict are unique.
 '''
+#dp solution
+# class Solution:
+#     def wordBreak(self, s: str, wordDict: [str]) -> bool:
+#         dp = [False] * len(s)
+
+#         for i in range(len(s)):
+#             for word in wordDict:
+#                 if s[i] == word[-1]:
+#                     l = len(word)
+#                     if i - l >= -1 and s[i-l+1:i+1] == word:
+#                         if i - l == -1:
+#                             dp[i] = True
+#                         else:
+#                             dp[i] = dp[i] or dp[i-l]
+#         print(dp)
+#         return dp[-1]
+
+#memoization
 class Solution:
     def wordBreak(self, s: str, wordDict: [str]) -> bool:
-        dp = [False] * len(s)
-
-        for i in range(len(s)):
+        memo = {}
+        def helper(i):
+            if i < -1:
+                return False
+            if i in memo: return memo[i]
+            ans = False
             for word in wordDict:
+                l = len(word)
                 if s[i] == word[-1]:
-                    l = len(word)
                     if i - l >= -1 and s[i-l+1:i+1] == word:
-                        if i - l == -1:
-                            dp[i] = True
+                        if i-l == -1:
+                            return True
                         else:
-                            dp[i] = dp[i] or dp[i-l]
-        print(dp)
-        return dp[-1]
+                            ans = ans or helper(i-l)
+            memo[i] = ans
+            return ans
+            
+        return helper(len(s)-1)
 
 s = "leetcode"
 wordDict = ["leet","code"]
 # Output: true
 
-s = "applepenapple"
-wordDict = ["apple","pen"]
+# s = "applepenapple"
+# wordDict = ["apple","pen"]
+# # Output: true
+
+# s = "catsandog"
+# wordDict = ["cats","dog","sand","and","cat"]
+# # # Output: false
+
+# s = "dogs"
+# wordDict = ["dog","s","gs"]
 # Output: true
 
-s = "catsandog"
-wordDict = ["cats","dog","sand","and","cat"]
-# # Output: false
+s = "baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+wordDict = ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"]
+# False
 
-s = "dogs"
-wordDict = ["dog","s","gs"]
-# Output: true
 
 sol = Solution()
 print(sol.wordBreak(s, wordDict))
