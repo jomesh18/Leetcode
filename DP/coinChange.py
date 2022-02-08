@@ -51,19 +51,60 @@ Constraints:
 #         dfs(0, 0)
 #         return self.ans if self.ans != float("inf") else -1
         
+#dp
+# class Solution:
+#     def coinChange(self, coins: [int], amount: int) -> int:
+#         dp = [float("inf")]*(amount+1)
+#         dp[0] = 0
+#         curr = amount
+#         count = 1
+#         i = 0
+#         for i in range(1, amount+1):
+#             for coin in coins:
+#                 if i - coin < 0: continue
+#                 else: dp[i] = min(dp[i], dp[i-coin] + 1)
+
+#         return dp[amount] if dp[amount] != float("inf") else -1
+
+
+
+#memo, tle due to not using lru cache [186,419,83,408] 6249
+import sys
+sys.setrecursionlimit(5000)
+# class Solution:
+#     def coinChange(self, coins: [int], amount: int) -> int:
+#         dp = [float("inf")] * (amount+1)
+#         def helper(total):
+#             if total == 0: return 0
+#             if dp[total] < float('inf'): return dp[total]
+#             score = float("inf")
+#             for c in coins:
+#                 if total - c >= 0:
+#                     score = min(score, 1 + helper(total-c))
+#             dp[total] = score
+#             return score
+            
+#         ans = helper(amount)
+#         return ans if ans != float("inf") else -1
+
+
 class Solution:
     def coinChange(self, coins: [int], amount: int) -> int:
-        dp = [float("inf")]*(amount+1)
-        dp[0] = 0
-        curr = amount
-        count = 1
-        i = 0
-        for i in range(1, amount+1):
+        @lru_cache(None)
+        # dp_ = [float("inf")] * (amount+1)
+        def dp(amount):
+            if amount == 0:
+                return 0
+            # if dp_[amount] != float("inf"): return dp_[amount]
+            ans = float("inf")
             for coin in coins:
-                if i - coin < 0: continue
-                else: dp[i] = min(dp[i], dp[i-coin] + 1)
-
-        return dp[amount] if dp[amount] != float("inf") else -1
+                if amount >= coin:
+                    ans = min(ans, dp(amount - coin) + 1)
+            # dp_[amount] = ans
+            return ans
+        
+        ans = dp(amount)
+        return ans if ans != math.inf else -1
 
 
 coins = [1,2,5,7, 9, 11, 13, 17, 19, 23, 29, 31]
@@ -74,16 +115,16 @@ coins = [186,419,83,408]
 amount = 6249
 # Output: 20
 
-coins = [1,2,5]
-amount = 11
-# # Output: 3
+# coins = [1,2,5]
+# amount = 11
+# # # Output: 3
 
-coins = [2]
-amount = 3
-# # Output: -1
+# coins = [2]
+# amount = 3
+# # # Output: -1
 
-coins = [1]
-amount = 0
+# coins = [1]
+# amount = 0
 # Output: 0
 
 sol = Solution()
