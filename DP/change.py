@@ -39,5 +39,49 @@ Constraints:
 All the values of coins are unique.
 0 <= amount <= 5000
 '''
+#top down memo
 class Solution:
     def change(self, amount: int, coins: [int]) -> int:
+        dp = [[-1]*(amount+1) for _ in range(len(coins))]
+        def helper(i, amount):
+            # print(i, amount)
+            if amount < 0: return 0
+            if i < 0 : return 0
+            if amount == 0: return 1
+            if dp[i][amount] != -1: return dp[i][amount]
+            if amount-coins[i] >= 0:
+                dp[i][amount] = helper(i, amount-coins[i])+helper(i-1, amount)
+            else:
+                dp[i][amount] = helper(i-1, amount)
+            return dp[i][amount]
+
+        ans = helper(len(coins)-1, amount)
+        # print(dp)
+        return ans
+
+#bottom up dp
+# class Solution:
+#     def change(self, amount: int, coins: [int]) -> int:
+#         dp = [1]+[0]*(amount)
+#         for c in coins:
+#             for i in range(amount+1):
+#                 if i-c >= 0:
+#                     dp[i] += dp[i-c]
+#         print(dp)
+#         return dp[amount]
+
+
+amount = 5
+coins = [1,2,5]
+# Output: 4
+
+# amount = 3
+# coins = [2]
+# # # # Output: 0
+
+# amount = 10
+# coins = [10]
+# # # Output: 1
+
+sol = Solution()
+print(sol.change(amount, coins))

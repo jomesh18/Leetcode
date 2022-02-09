@@ -41,67 +41,77 @@ Constraints:
 
 1 <= s.length <= 100
 s contains only digits and may contain leading zero(s).
-'''
-#accepted, memoization
-class Solution:
-    def numDecodings(self, s: str) -> int:
-        l = len(s)
-        if s[0] == "0": return 0
-        dp = [0]*(len(s)+1)
-        def helper(i):
-            if i >= l : return 1
-            if dp[i] != 0: return dp[i]
-            count = 0
-            if i+1 < l and 0 < int(s[i:i+2]) <= 26 and s[i] != "0" :
-                count += helper(i+2)
-            if 0 < int(s[i]) <= 26:                
-                count += helper(i+1)
-            dp[i] = count
-            return count
+# '''
+# #accepted, memoization
+# class Solution:
+#     def numDecodings(self, s: str) -> int:
+#         l = len(s)
+#         if s[0] == "0": return 0
+#         dp = [0]*(len(s)+1)
+#         def helper(i):
+#             if i >= l : return 1
+#             if dp[i] != 0: return dp[i]
+#             count = 0
+#             if i+1 < l and 0 < int(s[i:i+2]) <= 26 and s[i] != "0" :
+#                 count += helper(i+2)
+#             if 0 < int(s[i]) <= 26:                
+#                 count += helper(i+1)
+#             dp[i] = count
+#             return count
         
-        ans = helper(0)
-        print(dp)
-        return ans
+#         ans = helper(0)
+#         print(dp)
+#         return ans
 
 #dp
 class Solution:
     def numDecodings(self, s: str) -> int:
         l = len(s)
         if s[0] == "0": return 0
-        dp = [0]*(len(s)+1)
+        dp = [0]*(len(s))+ [1]
         for i in range(l-1, -1, -1):
-            
-
-        def helper(i):
-            if i >= l : return 1
-            if dp[i] != 0: return dp[i]
-            count = 0
-            if i+1 < l and 0 < int(s[i:i+2]) <= 26 and s[i] != "0" :
-                count += helper(i+2)
-            if 0 < int(s[i]) <= 26:                
-                count += helper(i+1)
-            dp[i] = count
-            return count
-        
-        ans = helper(0)
+            if i+1 < l and 0 < int(s[i:i+2]) <= 26 and s[i] != '0':
+                dp[i] += dp[i+2]
+            if 0 < int(s[i]) <= 26:
+                dp[i] += dp[i+1]
         print(dp)
-        return ans
+        return dp[0]
+        
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        if not s:
+            return 0
+
+        dp = [0 for x in range(len(s) + 1)] 
+        
+        # base case initialization
+        dp[0] = 1 
+        dp[1] = 0 if s[0] == "0" else 1   #(1)
+
+        for i in range(2, len(s) + 1): 
+            # One step jump
+            if 0 < int(s[i-1:i]) <= 9:    #(2)
+                dp[i] += dp[i - 1]
+            # Two step jump
+            if 10 <= int(s[i-2:i]) <= 26: #(3)
+                dp[i] += dp[i - 2]
+        return dp[len(s)]
 
 
 s = "12"
 # Output: 2
 
-s = "226"
-# # Output: 3
+# s = "226"
+# # # Output: 3
 
 # s = "06"
 # Output: 0
 
-s = "".join([str(i) for i in range(1, 10)])
-#
+# s = "".join([str(i) for i in range(1, 10)])
+# #3
 
-s = "2101"
-#Output: 1
+# s = "2101"
+# #Output: 1
 
 sol = Solution()
 print(sol.numDecodings(s))
