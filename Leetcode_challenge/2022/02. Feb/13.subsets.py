@@ -1,0 +1,54 @@
+'''
+78. Subsets
+Medium
+
+8742
+
+138
+
+Add to List
+
+Share
+Given an integer array nums of unique elements, return all possible subsets (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+Example 2:
+
+Input: nums = [0]
+Output: [[],[0]]
+ 
+
+Constraints:
+
+1 <= nums.length <= 10
+-10 <= nums[i] <= 10
+All the numbers of nums are unique.
+Accepted
+987,326
+Submissions
+1,408,017
+'''
+class Solution:
+    def subsets(self, nums: [int]) -> [[int]]:
+        res = [[]]
+        
+        def backtrack(i, curr_len, arr):
+            if len(arr) == curr_len:
+                res.append(arr)
+                return
+            if i >= len(nums): return
+
+            for j in range(i, len(nums)):
+                backtrack(j+1, curr_len, arr+[nums[j]])
+
+        for i in range(1, len(nums)+1):
+            backtrack(0, i, [])
+        return res
+
