@@ -1,3 +1,9 @@
+disjoint set
+    graph valid tree
+    number of connected components in an undirected graph
+    the earliest moment when everyone becomes friends
+    optimize water distribution
+
 minimum spanning tree
     cut property
     kruskal's algorithm
