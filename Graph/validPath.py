@@ -45,64 +45,85 @@ There are no duplicate edges.
 There are no self edges.
 '''
 # DFS
+# class Solution:
+#     def validPath(self, n: int, edges: List[List[int]], start: int, end: int) -> bool:
+        
+#         adjacency_list = [[] for _ in range(n)]
+#         for a, b in edges:
+#             adjacency_list[a].append(b)
+#             adjacency_list[b].append(a)
+        
+#         stack = [start]
+#         seen = set()
+        
+#         while stack:
+#             # Get the current node.
+#             node = stack.pop()
+            
+#             # Check if we have reached the target node.
+#             if node == end:
+#                 return True
+            
+#             # Check if we've already visited this node.
+#             if node in seen:
+#                 continue
+#             seen.add(node)
+            
+#             # Add all neighbors to the stack.
+#             for neighbor in adjacency_list[node]:
+#                 stack.append(neighbor)
+        
+#         # Our stack is empty and we did not reach the end node.
+#         return False
+
+
+# # bfs
+# class Solution:
+#     def validPath(self, n: int, edges: List[List[int]], start: int, end: int) -> bool:
+        
+#         adjacency_list = [[] for _ in range(n)]
+#         for a, b in edges:
+#             adjacency_list[a].append(b)
+#             adjacency_list[b].append(a)
+        
+#         queue = collections.deque([start])
+#         seen = set([start])
+        
+#         while queue:
+#             # Get the current node.
+#             node = queue.popleft()
+            
+#             # Check if we have reached the target node.
+#             if node == end:
+#                 return True
+            
+#             # Add all neighbors to the queue.
+#             for neighbor in adjacency_list[node]:
+#                 # Check if neighbor has been added to the queue before.
+#                 if neighbor not in seen:
+#                     seen.add(neighbor)
+#                     queue.append(neighbor)
+        
+#         # Our queue is empty and we did not reach the end node.
+#         return False
+
+#my try
 class Solution:
-    def validPath(self, n: int, edges: List[List[int]], start: int, end: int) -> bool:
-        
-        adjacency_list = [[] for _ in range(n)]
-        for a, b in edges:
-            adjacency_list[a].append(b)
-            adjacency_list[b].append(a)
-        
-        stack = [start]
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        G = defaultdict(set)
+        for v1, v2 in edges:
+            G[v1].add(v2)
+            G[v2].add(v1)
+            
         seen = set()
         
-        while stack:
-            # Get the current node.
-            node = stack.pop()
-            
-            # Check if we have reached the target node.
-            if node == end:
+        def dfs(i):
+            if i == destination:
                 return True
-            
-            # Check if we've already visited this node.
-            if node in seen:
-                continue
-            seen.add(node)
-            
-            # Add all neighbors to the stack.
-            for neighbor in adjacency_list[node]:
-                stack.append(neighbor)
-        
-        # Our stack is empty and we did not reach the end node.
-        return False
-
-
-# bfs
-class Solution:
-    def validPath(self, n: int, edges: List[List[int]], start: int, end: int) -> bool:
-        
-        adjacency_list = [[] for _ in range(n)]
-        for a, b in edges:
-            adjacency_list[a].append(b)
-            adjacency_list[b].append(a)
-        
-        queue = collections.deque([start])
-        seen = set([start])
-        
-        while queue:
-            # Get the current node.
-            node = queue.popleft()
-            
-            # Check if we have reached the target node.
-            if node == end:
-                return True
-            
-            # Add all neighbors to the queue.
-            for neighbor in adjacency_list[node]:
-                # Check if neighbor has been added to the queue before.
-                if neighbor not in seen:
-                    seen.add(neighbor)
-                    queue.append(neighbor)
-        
-        # Our queue is empty and we did not reach the end node.
-        return False
+            for vertex in G[i]:
+                if vertex not in seen:
+                    seen.add(vertex)
+                    if dfs(vertex): return True
+            return False
+        seen.add(source)  
+        return dfs(source)
