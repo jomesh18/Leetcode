@@ -46,4 +46,30 @@ Submissions
 '''
 class Solution:
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
-        
+        adj_list = defaultdict(list)
+        for s, d in tickets:
+            adj_list[s].append(d)
+        for key in adj_list:
+            adj_list[key].sort(reverse=True)
+        stack, res = ["JFK"], []
+        while stack:
+            airport = stack[-1]
+            if airport in adj_list and len(adj_list[airport]) > 0:
+                stack.append(adj_list[airport].pop())
+            else:
+                res.append(stack.pop())
+        return res[::-1]
+
+#from leetcode stefan
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        targets = defaultdict(list)
+        for s, d in sorted(tickets)[::1]:
+            targets[s] += d,
+        route = []
+        def visit(airport):
+            while targets[airport]:
+                visit(targets[airport].pop())
+            route.append(airport)
+        visit("JFK")
+        return route[::-1]
