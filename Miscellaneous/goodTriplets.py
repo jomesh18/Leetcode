@@ -42,6 +42,33 @@ Accepted
 Submissions
 7,023
 '''
+from sortedcontainers import SortedList
 class Solution:
     def goodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
+        l = len(nums1)
+        nums2_idx = {nums2[i]: i for i in range(l)}
         
+        nums = []
+        for i in range(l):
+            nums.append(nums2_idx[nums1[i]])
+     
+        def find_smaller(nums):
+            output, sorted_list = [], SortedList()
+            for i in range(l):
+                idx = sorted_list.bisect_left(nums[i])
+                output.append(idx)
+                sorted_list.add(nums[i])
+            return output
+
+        def find_bigger(nums):
+            output, sorted_list = [0]*l, SortedList()
+            for i in range(l-1, -1, -1):
+                idx = sorted_list.bisect_left(nums[i])
+                output[i] = len(sorted_list)-idx
+                sorted_list.add(nums[i])
+            return output
+        smaller, bigger = find_smaller(nums), find_bigger(nums)
+        print(smaller)
+        print(bigger)
+
+        return sum(i*j for i, j in zip(smaller, bigger))
