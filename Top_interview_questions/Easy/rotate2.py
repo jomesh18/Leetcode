@@ -42,4 +42,19 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        
+        n = len(matrix)
+        lt, rt, rb, lb = (0, 0), (0, n-1), (n-1, n-1), (n-1, 0)
+        k = n
+        while k >= 2:
+            for i in range(k-1):
+                temp = matrix[lt[0]][lt[1]+i]
+                matrix[lt[0]][lt[1]+i] = matrix[lb[0]-i][lb[1]]
+                matrix[lb[0]-i][lb[1]] = matrix[rb[0]][rb[1]-i]
+                matrix[rb[0]][rb[1]-i] = matrix[rt[0]+i][rt[1]]
+                matrix[rt[0]+i][rt[1]] = temp
+                # print(matrix)
+            k -= 2
+            lt = (lt[0]+1, lt[1]+1)
+            rt = (rt[0]+1, rt[1]-1)
+            rb = (rb[0]-1, rb[1]-1)
+            lb = (lb[0]-1, lb[1]+1)
