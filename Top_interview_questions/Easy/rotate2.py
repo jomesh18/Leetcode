@@ -79,4 +79,24 @@ class Solution:
         transpose(matrix)
         reflect(matrix)
 
-
+#transpose on anti diagonal and reflect from top to bottom
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        n = len(matrix)
+        def transpose(mat):
+            for i in range(n-1):
+                for j in range(i+1, n):
+                    mat[i][n-1-j], mat[j][n-1-i] = mat[j][n-1-i], mat[i][n-1-j]
+                    
+        def reflect(mat):
+            for j in range(n):
+                for i in range(n//2):
+                    mat[i][j], mat[n-1-i][j] = mat[n-1-i][j], mat[i][j]
+            
+        transpose(matrix)
+        print(matrix)
+        reflect(matrix)
+        print(matrix)
