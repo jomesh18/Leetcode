@@ -47,3 +47,20 @@ Submissions
 class Solution:
     def search(self, nums: List[int], target: int) -> bool:
         
+
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        self.ans = float("inf")
+        def helper(i, curr_sum, curr_max, rem):
+            if not rem:
+                self.ans = min(curr_max, curr_sum+sum(nums[i:]))
+                return
+            if i == len(nums)-1-rem:
+                curr_max = max(curr_max, nums[i:])
+                self.ans = min(curr_max, self.ans)
+                return
+            add_to_curr = helper(i+1, curr_sum+nums[i], max(curr_max, curr_sum+nums[i], rem)
+            add_to_next = helper(i+1, nums[i], max(curr_max, nums[i]), rem-1)
+
+        helper(0, 0, 0, m)
+        return self.ans
