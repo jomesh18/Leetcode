@@ -44,4 +44,32 @@ Accepted
 Submissions
 1,167,088
 '''
-
+#O(n) worst or O(logn) best
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        lo, hi = 0, len(nums)
+        
+        def elem_in_first(start, elem):
+            return nums[start] <= elem
+        
+        while lo < hi:
+            # print(lo, hi)
+            mid = lo + ((hi-lo)>>1)
+            if nums[mid] == target: return True
+            if nums[lo] == nums[mid]:
+                lo += 1
+                continue
+            mid_pos = elem_in_first(lo, nums[mid])
+            target_pos = elem_in_first(lo, target)
+            # print(mid_pos, target_pos)
+            if mid_pos ^ target_pos:
+                if target_pos:
+                    hi = mid
+                elif mid_pos:
+                    lo = mid + 1
+            else:
+                if target < nums[mid]:
+                    hi = mid
+                else:
+                    lo = mid + 1
+        return False
