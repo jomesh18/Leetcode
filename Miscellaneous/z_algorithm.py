@@ -1,66 +1,150 @@
-'''
-z algorithm
-'''
+# '''
+# z algorithm
+# '''
 
-class ZAlgorithm:
 
-    def calculateZ(self, inp):
+#from gf https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/
+# Python3 program that implements Z algorithm
+# for pattern searching
 
-        z = [0]*len(inp)
-        left, right = 0, 0
-        for k in range(1, len(inp)):
-            if k > right:
-                left = right = k
-                while right < len(inp) and inp[right] == inp[right-left]:
-                    right += 1
-                z[k] = right - left
-                right -= 1
+# Fills Z array for given string str[]
+def getZarr(string, z):
+    n = len(string)
+
+    # [L,R] make a window which matches
+    # with prefix of s
+    l, r, k = 0, 0, 0
+    for i in range(1, n):
+
+        # if i>R nothing matches so we will calculate.
+        # Z[i] using naive way.
+        if i > r:
+            l, r = i, i
+
+            # R-L = 0 in starting, so it will start
+            # checking from 0'th index. For example,
+            # for "ababab" and i = 1, the value of R
+            # remains 0 and Z[i] becomes 0. For string
+            # "aaaaaa" and i = 1, Z[i] and R become 5
+            while r < n and string[r - l] == string[r]:
+                r += 1
+            z[i] = r - l
+            r -= 1
+        else:
+
+            # k = i-L so k corresponds to number which
+            # matches in [L,R] interval.
+            k = i - l
+
+            # if Z[k] is less than remaining interval
+            # then Z[i] will be equal to Z[k].
+            # For example, str = "ababab", i = 3, R = 5
+            # and L = 2
+            if z[k] < r - i + 1:
+                z[i] = z[k]
+
+            # For example str = "aaaaaa" and i = 2,
+            # R is 5, L is 0
             else:
-                # we are operating inside box
-                k1 = k - left
-                # if value does not stretches till right bound then just copy it.
-                if z[k1] < right - k + 1 :
-                    z[k] = z[k1]
-                else: #otherwise try to see if there are more matches.
-                    left = k
-                    while right < len(inp) and inp[right] == inp[right - left]:
-                        right += 1
-                    z[k] = right - left
-                    right -= 1
-        return z
+
+                # else start from R and check manually
+                l = i
+                while r < n and string[r - l] == string[r]:
+                    r += 1
+                z[i] = r - l
+                r -= 1
+
+# prints all occurrences of pattern
+# in text using Z algo
+def search(text, pattern):
+
+    # Create concatenated string "P$T"
+    concat = pattern + "$" + text
+    l = len(concat)
+
+    # Construct Z array
+    z = [0] * l
+    getZarr(concat, z)
+
+    # now looping through Z array for matching condition
+    for i in range(l):
+
+        # if Z[i] (matched region) is equal to pattern
+        # length we got the pattern
+        if z[i] == len(pattern):
+            print("Pattern found at index",
+                    i - len(pattern) - 1)
+
+# Driver Code
+if __name__ == "__main__":
+    text = "GEEKS FOR GEEKS"
+    pattern = "GEEK"
+    search(text, pattern)
+
+# This code is contributed by
+# sanjeev2552
+
+
+#from tushar roy youtube
+# class ZAlgorithm:
+
+#     def calculateZ(self, inp):
+
+#         z = [0]*len(inp)
+#         left, right = 0, 0
+#         for k in range(1, len(inp)):
+#             if k > right:
+#                 left = right = k
+#                 while right < len(inp) and inp[right] == inp[right-left]:
+#                     right += 1
+#                 z[k] = right - left
+#                 right -= 1
+#             else:
+#                 # we are operating inside box
+#                 k1 = k - left
+#                 # if value does not stretches till right bound then just copy it.
+#                 if z[k1] < right - k + 1 :
+#                     z[k] = z[k1]
+#                 else: #otherwise try to see if there are more matches.
+#                     left = k
+#                     while right < len(inp) and inp[right] == inp[right - left]:
+#                         right += 1
+#                     z[k] = right - left
+#                     right -= 1
+#         return z
     
-    # Returns list of all indices where pattern is found in text.
-    def matchPattern(self, text, pattern):
-        newString = [0]*(len(text)+len(pattern)+1)
-        i = 0
-        for c in pattern:
-            newString[i] = c
-            i += 1
-        newString[i] = '$'
-        i += 1
-        for c in text:
-            newString[i] = c
-            i += 1
+#     # Returns list of all indices where pattern is found in text.
+#     def matchPattern(self, text, pattern):
+#         newString = [0]*(len(text)+len(pattern)+1)
+#         i = 0
+#         for c in pattern:
+#             newString[i] = c
+#             i += 1
+#         newString[i] = '$'
+#         i += 1
+#         for c in text:
+#             newString[i] = c
+#             i += 1
         
-        result = []
-        z = self.calculateZ(newString)
-        print(z)
+#         result = []
+#         z = self.calculateZ(newString)
+#         print(z)
         
-        for i in range(len(z)):
-            if z[i] == len(pattern):
-                result.append(i - len(pattern) - 1)
+#         for i in range(len(z)):
+#             if z[i] == len(pattern):
+#                 result.append(i - len(pattern) - 1)
 
-        return result
+#         return result
 
-text = "aaabcxyzaaaabczaaczabbaaaaaabc"
-pattern = "aaabc"
+# text = "aaabcxyzaaaabczaaczabbaaaaaabc"
+# pattern = "aaabc"
 
-# text = "aabxaabxcaacxaabxay"
-# pattern = "aa"
+# # text = "aabxaabxcaacxaabxay"
+# # pattern = "aa"
 
-# text = 'xabcabzabc'
-# pattern = 'abc'
+# # text = 'xabcabzabc'
+# # pattern = 'abc'
 
-obj = ZAlgorithm()
-res = obj.matchPattern(text, pattern)
-print(res)
+# obj = ZAlgorithm()
+# res = obj.matchPattern(text, pattern)
+# print(res)
