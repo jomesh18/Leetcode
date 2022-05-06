@@ -103,3 +103,24 @@ class Solution:
             else:
                 lo = mid+1
         return lo
+
+#dijikstra
+class Solution:
+    def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        m, n = len(heights), len(heights[0])
+        minheap = [(0, 0, 0)] #distance, r, c
+        distance = [[10**6]*n for _ in range(m)]
+        distance[0][0] = 0
+        neighbours = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+
+        while minheap:
+            d, r, c = heapq.heappop(minheap)
+            if r == m-1 and c ==  n-1: return d
+            if d > distance[r][c]: continue
+            for dx, dy in neighbours:
+                nr, nc = r+dx, c+dy
+                if 0<= nr < m and 0<=nc<n:
+                    nd = max(d, abs(heights[nr][nc]-heights[r][c]))
+                    if distance[nr][nc] > nd:
+                        distance[nr][nc] = nd
+                        heapq.heappush(minheap, (nd, nr, nc))
