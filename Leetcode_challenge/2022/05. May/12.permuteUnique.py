@@ -35,8 +35,9 @@ Accepted
 Submissions
 1,139,117
 '''
+from collections import Counter
 class Solution:
-    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+    def permuteUnique(self, nums: [int]) -> [[int]]:
         res = []
         
         count = Counter(nums)
@@ -52,3 +53,10 @@ class Solution:
                     count[key] += 1
         dfs([], count)
         return res
+
+nums = [1, 2, 1, 2, 2]
+
+sol = Solution()
+ans = sol.permuteUnique(nums)
+print(len(ans))
+print(ans)
