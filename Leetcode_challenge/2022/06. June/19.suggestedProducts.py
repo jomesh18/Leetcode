@@ -84,3 +84,38 @@ class Solution:
                     res.append([])
                 break
         return res
+
+class Trie:
+    def __init__(self):
+        self.sub = {}
+        self.suggestions = []
+                
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        trie = Trie()
+        products.sort()
+        for p in products:
+            curr = trie
+            for c in p:
+                curr = curr.sub.setdefault(c, Trie())
+                if len(curr.suggestions) < 3: curr.suggestions.append(p)
+        
+        res = []
+        curr = trie
+        for c in searchWord:
+            if curr:
+                curr = curr.sub.get(c)
+            res.append(curr.suggestions if curr else [])
+        return res
+            
+
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        products.sort()
+        res = []
+        prefix = ""
+        for c in searchWord:
+            prefix += c
+            i = bisect_left(products, prefix)
+            res.append([w for w in products[i: i+3] if w.startswith(prefix)])
+        return res
