@@ -62,3 +62,4 @@ class Solution:
             curr %= total
             total += curr
             heappush(heap, -curr)
+            
