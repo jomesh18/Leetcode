@@ -60,3 +60,34 @@ class Solution:
                         break
                     c += 1
         return c
+
+class Solution:
+    def minDeletions(self, s: str) -> int:
+        freq = list(Counter(s).values())
+        freq.sort(reverse=True)
+        max_allowable_freq = len(s)
+        count = 0
+        # print(freq)
+        for f in freq:
+            # print(f, max_allowable_freq, count)
+            if f > max_allowable_freq:
+                count += f-max_allowable_freq
+            max_allowable_freq = min(max_allowable_freq, f) - 1
+            if max_allowable_freq < 0: max_allowable_freq = 0
+            # print(f, max_allowable_freq, count)
+        return count
+
+class Solution:
+    def minDeletions(self, s: str) -> int:
+        freq = [0]*26
+        for c in s:
+            freq[ord(c)-ord('a')] += 1
+        freq.sort(reverse=True)
+        max_allowable_freq = len(s)
+        count = 0
+        for f in freq:
+            if f > max_allowable_freq:
+                count += f-max_allowable_freq
+                f = max_allowable_freq
+            max_allowable_freq = max(0, f-1)
+        return count
