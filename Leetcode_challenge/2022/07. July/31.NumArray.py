@@ -88,6 +88,64 @@ class NumArray:
                 s += self.nums[i]
         return s
 
+
+#segment tree
+class Node:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.total = 0
+        self.left = None
+        self.right = None
+        
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        def create_tree(l, r):
+            if l > r: return None
+            node = Node(l, r)
+            if l == r:
+                node.total = nums[l]
+            else:
+                mid = (l+r)//2
+                node.left = create_tree(l, mid)
+                node.right = create_tree(mid+1, r)
+                node.total = node.left.total + node.right.total
+            return node
+        self.root = create_tree(0, len(nums)-1)
+
+    def update(self, index: int, val: int) -> None:
+        def update_tree(node, i, v):
+            if node.start == node.end:
+                node.total = v
+                return 
+            
+            mid = (node.start+node.end)//2
+            if i <= mid:
+                update_tree(node.left, i, v)
+            else:
+                update_tree(node.right, i, v)
+            node.total = node.left.total + node.right.total
+            
+        update_tree(self.root, index, val)
+
+    def sumRange(self, left: int, right: int) -> int:
+        def sum_range_tree(node, l, r):
+            if l <= node.start and r >= node.end:
+                return node.total
+            elif l > node.end or r < node.start:
+                return 0
+            else:
+                return sum_range_tree(node.left, l, r) + sum_range_tree(node.right, l, r)
+            
+        return sum_range_tree(self.root, left, right)
+
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
 # Your NumArray object will be instantiated and called as such:
 # obj = NumArray(nums)
 # obj.update(index,val)
