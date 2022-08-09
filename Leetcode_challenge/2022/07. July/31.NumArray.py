@@ -140,7 +140,46 @@ class NumArray:
             
         return sum_range_tree(self.root, left, right)
 
+#binary indexed tree(bit) or fenwick tree
+class BITree:
+    def __init__(self, n):
+        self.bitree = [0]*(n+1)
+    
+    def update_tree(self, i, v):
+        i += 1
+        while i < len(self.bitree):
+            self.bitree[i] += v
+            i = i + (i & (-i))
+            
+    def sum(self, i):
+        i += 1
+        s = 0
+        while i > 0:
+            s += self.bitree[i]
+            i = i - (i & (-i))
+        return s
+    
+class NumArray:
 
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+        self.bit = BITree(len(nums))
+        for i in range(len(nums)):
+            self.bit.update_tree(i, nums[i])
+        
+    def update(self, index: int, val: int) -> None:
+        diff = val - self.nums[index]
+        self.nums[index] = val
+        self.bit.update_tree(index, diff)
+
+    def sumRange(self, left: int, right: int) -> int:
+        return self.bit.sum(right) - self.bit.sum(left-1)
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
 
 # Your NumArray object will be instantiated and called as such:
 # obj = NumArray(nums)
