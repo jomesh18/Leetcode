@@ -37,3 +37,20 @@ class Solution:
                 heappush(heap, num)
         return heap[0]
         
+#quick select O(n)
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        if not nums: return 
+        pivot = random.choice(nums)
+        greater_than_pivot = [x for x in nums if x > pivot]
+        equal_to_pivot = [x for x in nums if x == pivot]
+        less_than_pivot = [x for x in nums if x < pivot]
+
+        greater_len, equal_len = len(greater_than_pivot), len(equal_to_pivot)
+        if k <= greater_len:
+            return self.findKthLargest(greater_than_pivot, k)
+        elif k > greater_len + equal_len:
+            return self.findKthLargest(less_than_pivot, k-greater_len-equal_len)
+        else:
+            return equal_to_pivot[0]
+        
