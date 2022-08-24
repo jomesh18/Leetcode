@@ -80,3 +80,26 @@ class Solution:
                                 q.append(k)
                                 done[k] = True
         return ans[::-1] if all(done) else []
+
+
+class Solution:
+    def movesToStamp(self, stamp: str, target: str) -> List[int]:
+        slen, tlen = len(stamp), len(target)
+        s_covers = set()
+        
+        for i in range(slen):
+            for j in range(slen-i):
+                s_covers.add('#'*i+stamp[i:slen-j]+'#'*j)
+        
+        done = '#'*tlen
+        ans = []
+        while target != done:
+            found = False
+            for i in range(tlen-slen, -1, -1):
+                if target[i:i+slen] in s_covers:
+                    found = True
+                    ans.append(i)
+                    target = target[:i]+'#'*slen+target[i+slen:]
+            if not found:
+                return []
+        return ans[::-1]
