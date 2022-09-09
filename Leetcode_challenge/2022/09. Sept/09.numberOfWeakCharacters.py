@@ -51,3 +51,18 @@ class Solution:
             else:
                 curr_max = d
         return count
+
+class Solution:
+    def numberOfWeakCharacters(self, properties: List[List[int]]) -> int:
+        d = defaultdict(list)
+        for a, df in properties:
+            d[a].append(df)
+        ans = 0
+        max_df = -1
+        for a in sorted(list(d.keys()))[::-1]:
+            for df in d[a]:
+                if df < max_df:
+                    ans += 1
+            for df in d[a]:
+                max_df = max(df, max_df)
+        return ans
