@@ -69,4 +69,27 @@ class Solution:
         
         dfs(root, {})
         return self.count
+
+#using mask and xor
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
+        self.count = 0
+        def dfs(node, path):
+            if not node: return
+            path ^= (1<<node.val)
+            if not node.left and not node.right:
+                if not path & (path-1): self.count += 1
+            else:
+                dfs(node.left, path)
+                dfs(node.right, path)
+            path ^= (1<<node.val)
+        
+        dfs(root, 0)
+        return self.count
     
