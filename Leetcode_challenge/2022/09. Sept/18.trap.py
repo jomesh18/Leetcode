@@ -35,6 +35,7 @@ Accepted
 Submissions
 2,272,703
 '''
+#two iteration(find left_max, right_max, min, diff)
 class Solution:
     def trap(self, height: List[int]) -> int:
         left = [height[0]]
@@ -46,4 +47,38 @@ class Solution:
             r = max(height[i], r)
             left[i] = min(r, left[i])
             s += (left[i]-height[i])
+        return s
+
+#stack, one iteration
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        stack = []
+        ans = 0
+        for i, h in enumerate(height):
+            while stack and height[stack[-1]] < h:
+                top = stack.pop()
+                if stack:
+                    bounded_h = min(height[stack[-1]], h)-height[top]
+                    bounded_d = i-stack[-1]-1
+                    ans += bounded_h*bounded_d
+            stack.append(i)
+        return ans
+
+#two pointers
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        left, right, left_max, right_max, s = 0, len(height)-1, 0, 0, 0
+        while left < right:
+            if height[left] <= height[right]:
+                if height[left] >= left_max:
+                    left_max = height[left]
+                else:
+                    s += left_max-height[left]
+                left += 1
+            else:
+                if height[right] >= right_max:
+                    right_max = height[right]
+                else:
+                    s += right_max-height[right]
+                right -= 1
         return s
