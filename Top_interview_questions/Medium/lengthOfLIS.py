@@ -1,5 +1,5 @@
 '''
-ongest Increasing Subsequence
+Longest Increasing Subsequence
 
 Solution
 Given an integer array nums, return the length of the longest strictly increasing subsequence.
