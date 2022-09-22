@@ -47,3 +47,11 @@ class Solution:
             zeroes += n//mul_of_five
             mul_of_five *= 5
         return zeroes
+
+class Solution:
+    def trailingZeroes(self, n: int) -> int:
+        zeroes = 0
+        while n:
+            n //= 5
+            zeroes += n
+        return zeroes
