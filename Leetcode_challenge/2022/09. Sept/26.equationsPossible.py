@@ -62,3 +62,43 @@ class Solution:
             if dfs(node, node, set()):
                 return False
         return True
+
+#union find
+class Solution:
+    def equationsPossible(self, equations: List[str]) -> bool:
+        class UF:
+            def __init__(self):
+                self.root = [i for i in range(26)]
+                self.rank = [0]*26
+                
+            def find(self, x):
+                if self.root[x] != x:
+                    self.root[x] = self.find(self.root[x])
+                return self.root[x]
+            
+            def union(self, x, y):
+                px, py = self.find(x), self.find(y)
+                
+                if px != py:
+                    if self.rank[px] > self.rank[py]:
+                        self.root[py] = px
+                    else:
+                        self.root[px] = py
+                        if self.rank[py] == self.rank[px]:
+                            self.rank[py] != 1
+
+        uf = UF()
+        ne = []
+        for e in equations:
+            a = ord('a')-ord(e[0])
+            b = ord('a')-ord(e[-1])
+            if e[1:3] == '==':
+                uf.union(a, b)
+            else:
+                ne.append([a, b])
+        # print(uf.root)
+        for a, b in ne:
+            if uf.find(a) == uf.find(b):
+                return False
+        return True
+                
