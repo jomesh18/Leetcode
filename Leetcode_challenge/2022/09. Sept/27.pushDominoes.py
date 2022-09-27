@@ -94,3 +94,24 @@ class Solution:
         ans = ''.join(res)
         # print(ans)
         return ans
+
+
+class Solution:
+    def pushDominoes(self, dominoes: str) -> str:
+        n = len(dominoes)
+        symbols = [(-1, 'L')] + [(i, x) for i, x in enumerate(dominoes) if x != '.'] + [(len(dominoes), 'R')]
+        ans = list(dominoes)
+        
+        for (i, x), (j, y) in zip(symbols, symbols[1:]):
+            if x == y:
+                for k in range(i+1, j):
+                    ans[k] = x
+            elif x > y:
+                for k in range(i+1, j):
+                    if k-i < j-k:
+                        ans[k] = x
+                    elif k-i > j-k:
+                        ans[k] = y
+                    else:
+                        ans[k] = '.'
+        return ''.join(ans)
