@@ -41,6 +41,7 @@ The depth of the tree is in the range [1, 104].
 -105 <= val <= 105
 1 <= depth <= the depth of tree + 1
 '''
+#bfs
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -69,3 +70,31 @@ class Solution:
             new_node.right = node.right
             node.right = new_node
         return root
+
+#dfs
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def addOneRow(self, root: Optional[TreeNode], val: int, depth: int) -> Optional[TreeNode]:
+        def dfs(node, d):
+            if not node: return
+            if d == depth-1:
+                new_node = TreeNode(val)
+                new_node.left = node.left
+                node.left = new_node
+                new_node = TreeNode(val)
+                new_node.right = node.right
+                node.right = new_node
+            else:
+                dfs(node.left, d+1)
+                dfs(node.right, d+1)
+            return node
+                
+        if depth == 1:
+            return TreeNode(val, root, None)
+        else:
+            return dfs(root, 1)
