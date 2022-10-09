@@ -54,8 +54,8 @@ class SegmentTree:
         if self.lazy[pos] != 0:
             self.tree[pos] += self.lazy[pos]
             if left != right:
-                self.lazy[2*pos+1] = self.lazy[pos]
-                self.lazy[2*pos+2] = self.lazy[pos]
+                self.lazy[2*pos+1] += self.lazy[pos]
+                self.lazy[2*pos+2] += self.lazy[pos]
             self.lazy[pos] = 0
 
         if qleft <= left and qright >= right:
