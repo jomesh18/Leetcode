@@ -87,3 +87,28 @@ class MyCalendarThree:
 # param_1 = obj.book(start,end)
 
 
+#using segment tree
+from sortedcontainers import SortedDict
+class MyCalendarThree:
+
+    def __init__(self):
+        self.seg = collections.defaultdict(int)
+        self.lazy = collections.defaultdict(int)
+        
+    def book(self, start, end):
+        def update(s, e, l = 0, r = 10**9, ID = 0):
+            if r <= s or e <= l: return 
+            if s <= l and r <= e:
+                self.seg[ID] += 1
+                self.lazy[ID] += 1
+            else:
+                m = (l + r) // 2
+                update(s, e, l, m, 2 * ID + 1)
+                update(s, e, m, r, 2*ID+2)
+                self.seg[ID] = self.lazy[ID] + max(self.seg[2*ID+1], self.seg[2*ID+2])
+        update(start, end)
+        return self.seg[0]
+
+# Your MyCalendarThree object will be instantiated and called as such:
+# obj = MyCalendarThree()
+# param_1 = obj.book(start,end)
