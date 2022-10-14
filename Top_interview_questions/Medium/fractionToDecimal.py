@@ -1,4 +1,5 @@
-  Fraction to Recurring Decimal
+'''
+Fraction to Recurring Decimal
 
 Solution
 Given two integers representing the numerator and denominator of a fraction, return the fraction in string format.
@@ -43,13 +44,11 @@ class Solution:
         if numerator: 
             ans += '.' if ans else '0.'
             numerator *= 10
-            pos, oldr = len(ans), dict()
+            oldr = dict()
             while True:
                 while numerator < denominator:
                     ans += '0'
-                    pos += 1
                     numerator *= 10
-                pos += 1
                 q, r = divmod(numerator, denominator)
                 ans += str(q)
                 if r == 0:
@@ -58,6 +57,6 @@ class Solution:
                     p = oldr[r]
                     ans = ans[:p]+'('+ans[p:]+')'
                     break
-                oldr[r] = pos
+                oldr[r] = len(ans)
                 numerator = r*10
         return ans if not isNeg else '-'+ans
