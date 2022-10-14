@@ -60,3 +60,41 @@ class Solution:
                 oldr[r] = len(ans)
                 numerator = r*10
         return ans if not isNeg else '-'+ans
+
+class Solution:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        sign = (numerator > 0) ^ (denominator > 0) if numerator else 0
+        n, d = abs(numerator), abs(denominator)
+        q, r = divmod(n, d)
+        ans = str(q) if not r else str(q)+'.'
+        n = r*10
+        rems = {}
+        while n:
+            q, r = divmod(n, d)
+            ans += str(q)
+            if r == 0: break
+            elif r in rems:
+                pos = rems[r]
+                ans = ans[:pos]+'('+ans[pos:]+')'
+                break
+            rems[r] = len(ans)
+            n = r*10
+        return ans if not sign else '-'+ans
+            
+
+class Solution:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        sign = (numerator > 0) ^ (denominator > 0) if numerator else 0
+        n, d = abs(numerator), abs(denominator)
+        q, r = divmod(n, d)
+        ans = str(q) if not r else str(q)+'.'
+        rems = {}
+        while r>0 and r not in rems:
+            rems[r] = len(ans)
+            q, r = divmod(r*10, d)
+            ans += str(q)
+        if r in rems:
+            pos = rems[r]
+            ans = ans[:pos] + '(' + ans[pos:] + ')'
+        return ans if not sign else '-'+ans
+            
