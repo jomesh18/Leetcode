@@ -64,3 +64,22 @@ class Solution:
             memo[(i, rem, prev, l)] = ans
             return ans
         return helper(0, k, None, 0)
+
+class Solution:
+    def getLengthOfOptimalCompression(self, s: str, k: int) -> int:
+        memo = {}
+        def helper(i, prev, l, rem):
+            if (i, prev, l, rem) in memo: return memo[(i, prev, l, rem)]
+            if rem < 0: return float('inf')
+            if i == len(s):
+                return 0
+            if s[i] == prev:
+                incr = 1 if l == 1 or l == 9 or l == 99 else 0
+                ans = incr + helper(i+1, prev, l+1, rem)
+            else:
+                keep = 1 + helper(i+1, s[i], 1, rem)
+                delete = helper(i+1, prev, l, rem-1)
+                ans = min(keep, delete)
+            memo[(i, prev, l, rem)] = ans
+            return ans
+        return helper(0, '', 0, k)
