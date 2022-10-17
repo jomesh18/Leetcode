@@ -37,3 +37,7 @@ class Solution:
         for c in sentence:
             mask |= (1<<(ord(c)-ord('a')))
         return mask == full
+
+class Solution:
+    def checkIfPangram(self, sentence: str) -> bool:
+        return len(set(sentence)) == 26
