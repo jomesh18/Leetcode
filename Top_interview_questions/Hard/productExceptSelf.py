@@ -41,3 +41,16 @@ class Solution:
         for i in range(n):
             res[i] = pref[i]*suff[i]
         return res
+
+#O(1) space
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        pref = [1]*n
+        for i in range(1, n):
+            pref[i] = pref[i-1]*nums[i-1]
+        cumu = 1
+        for i in range(n-2, -1, -1):
+            cumu *= nums[i+1]
+            pref[i] *= cumu
+        return pref
