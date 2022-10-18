@@ -54,3 +54,22 @@ class Solution:
         available_tasks = len(tasks)-no_of_maxs*max_occurance
         idles = max(0, total_gaps-available_tasks)
         return idles+len(tasks)
+
+
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        time, heap = 0, []
+        for k, v in Counter(tasks).items():
+            heappush(heap, (-v, k))
+        while heap:
+            temp = []
+            for _ in range(n+1):
+                if heap:
+                    occur, eve = heappop(heap)
+                    if occur != -1:
+                        temp.append((occur+1, eve))
+                time += 1
+                if not heap and not temp: break
+            for item in temp:
+                heappush(heap, item)
+        return time
