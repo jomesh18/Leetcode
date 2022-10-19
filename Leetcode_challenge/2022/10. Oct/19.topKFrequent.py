@@ -59,4 +59,11 @@ class Word:
         return self.count < obj.count or (self.count == obj.count and self.word > obj.word)
     
     def __eq__(self, word):
-        return self.count == obj.count and self.word == obj.word    
+        return self.count == obj.count and self.word == obj.word
+
+
+# nsmallest
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        h = heapq.nsmallest(k, Counter(words).items(), key=lambda x:(-x[1], x[0]))
+        return [w for w, _ in h]
