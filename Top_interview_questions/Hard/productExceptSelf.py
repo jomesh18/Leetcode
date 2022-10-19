@@ -54,3 +54,14 @@ class Solution:
             cumu *= nums[i+1]
             pref[i] *= cumu
         return pref
+
+#One pass
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        pref, suff, res = 1, 1, [1]*len(nums)
+        for i in range(len(nums)):
+            res[i] *= pref
+            pref *= nums[i]
+            res[-i-1] *= suff
+            suff *= nums[-i-1]
+        return res
