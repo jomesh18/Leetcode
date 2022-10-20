@@ -30,6 +30,7 @@ Constraints:
 1 <= nums.length <= 105
 -231 <= nums[i] <= 231 - 1
 '''
+# replacing the ith value to its correct position
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         n = len(nums)
@@ -39,6 +40,19 @@ class Solution:
                 temp = nums[correct_pos]
                 nums[correct_pos] = nums[i]
                 nums[i] = temp
+                
+        for i in range(n):
+            if nums[i] != i+1:
+                return i+1
+        return n+1
+
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n = len(nums)
+        for i in range(len(nums)):
+            while nums[i] > 0 and nums[i] < n+1 and nums[nums[i]-1] != nums[i]:
+                correct_pos = nums[i] - 1
+                nums[i], nums[correct_pos] = nums[correct_pos], nums[i]
                 
         for i in range(n):
             if nums[i] != i+1:
