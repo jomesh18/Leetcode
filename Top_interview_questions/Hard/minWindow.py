@@ -98,3 +98,28 @@ class Solution:
                         ans = (j-1, i)
                 
         return '' if not ans else s[ans[0]: ans[1]+1]
+
+
+#using filtered_s
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        tcount = Counter(t)
+        scount = Counter()
+        filtered_s = [(c, i) for i, c in enumerate(s) if c in tcount]
+        required = len(tcount)
+        formed = 0
+        ans = (float('inf'), 0, len(s))
+        j = 0
+        for i in range(len(filtered_s)):
+            c, r = filtered_s[i]
+            scount[c] = scount.get(c, 0) + 1
+            if scount[c] == tcount[c]: formed += 1
+            while formed == required:
+                c, l = filtered_s[j]
+                if r-l+1 < ans[0]:
+                    ans = (r-l+1, l, r)
+                scount[c] -= 1
+                if scount[c] < tcount[c]:
+                    formed -= 1
+                j += 1
+        return s[ans[1]:ans[2]+1] if ans[0] != float('inf') else ''
