@@ -56,3 +56,18 @@ class Solution:
             if i >= k-1:
                 res.append(-heap[0][0])
         return res
+
+#deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        q = deque([])
+        n = len(nums)
+        ans = []
+        for i in range(n):
+            while q and q[0] <= i-k:
+                q.popleft()
+            while q and nums[q[-1]] <= nums[i]:
+                q.pop()
+            q.append(i)
+            ans.append(nums[q[0]])
+        return ans[k-1:]
