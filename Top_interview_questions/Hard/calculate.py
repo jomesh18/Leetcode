@@ -69,3 +69,50 @@ class Solution:
             else:
                 stack.append(op1-op2)
         return stack.pop()
+
+
+#consise
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack = []
+        n = len(s)
+        operator = '+'
+        num = 0
+        for i in range(n):
+            if s[i].isnumeric():
+                num = num * 10 + int(s[i])
+            if (not s[i].isnumeric() and s[i] != ' ') or i == n-1:
+                if operator == '+':
+                    stack.append(num)
+                elif operator == '-':
+                    stack.append(-num)
+                elif operator == '/':
+                    stack.append(int(stack.pop()/num))
+                elif operator == '*':
+                    stack.append(stack.pop()*num)
+                num = 0
+                operator = s[i]
+        return sum(stack)
+
+#O(1) space
+class Solution:
+    def calculate(self, s: str) -> int:
+        n = len(s)
+        last_number = 0
+        curr_number = 0
+        res = 0
+        operator = '+'
+        for i in range(n):
+            if s[i].isnumeric():
+                curr_number = curr_number * 10 + int(s[i])
+            if (not s[i].isnumeric() and s[i] != ' ') or i == n-1:
+                if operator == '+' or operator == '-':
+                    res += last_number
+                    last_number = curr_number if operator == '+' else -curr_number
+                elif operator == '*':
+                    last_number *= curr_number
+                elif operator == '/':
+                    last_number = int(last_number / curr_number)
+                curr_number = 0
+                operator = s[i]
+        return res + last_number
