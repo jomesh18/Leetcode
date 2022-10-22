@@ -58,3 +58,44 @@ class Solution:
             curr = curr.next
             lists[pos] = t.next
         return dummy.next
+
+
+#sort, nlogn
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        s = []
+        for l in lists:
+            while l:
+                s.append(l.val)
+                l = l.next
+        s.sort()
+        dummy = curr = ListNode()
+        for v in s:
+            curr.next = ListNode(v)
+            curr = curr.next
+        return dummy.next
+
+#using heaps
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        heap = []
+        curr = dummy = ListNode()
+        for i, l in enumerate(lists):
+            if l:
+                heappush(heap, (l.val, i, l))
+        while heap:
+            val, i, node = heappop(heap)
+            curr.next, node = node, node.next
+            curr = curr.next
+            if node: heappush(heap, (node.val, i, node))
+        return dummy.next
