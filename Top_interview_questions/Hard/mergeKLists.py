@@ -99,3 +99,34 @@ class Solution:
             curr = curr.next
             if node: heappush(heap, (node.val, i, node))
         return dummy.next
+
+
+#using divide and conquer
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        k = len(lists)
+        interval = 1
+        while interval < k:
+            for i in range(0, k-interval, interval*2):
+                lists[i] = self.merge2(lists[i], lists[i+interval])
+            interval *= 2
+        return lists[0] if k else None
+    def merge2(self, l1, l2):
+        dummy = ListNode()
+        curr = dummy
+        while l1 and l2:
+            if l1.val < l2.val:
+                curr.next = l1
+                l1 = l1.next
+            else:
+                curr.next = l2
+                l2 = l2.next
+            curr = curr.next
+        curr.next = l1 or l2
+        return dummy.next
+        
