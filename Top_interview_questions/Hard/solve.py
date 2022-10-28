@@ -38,6 +38,8 @@ n == board[i].length
 1 <= m, n <= 200
 board[i][j] is 'X' or 'O'.
 '''
+# start from the boundaries and find the connected components, 
+# dont change them, change others
 class Solution:
     def solve(self, board: List[List[str]]) -> None:
         """
@@ -74,4 +76,34 @@ class Solution:
             for j in range(n):
                 if board[i][j] == 0:
                     board[i][j] = "O"            
+                    
+
+# classic dfs
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        m, n = len(board), len(board[0])
+        neighbors = [(-1, 0), (0, -1), (0, 1), (1, 0)]
+        visited = set()
+        def open(i, j, this_visit):
+            if i == 0 or i == m-1 or j == 0 or j == n-1:
+                return True
+            for u, v in neighbors:
+                ni, nj = i+u, j+v
+                if 0<=ni<m and 0<=nj<n and (ni, nj) not in this_visit and board[ni][nj] == 'O':
+                    this_visit.add((ni, nj))
+                    if open(ni, nj, this_visit):
+                        return True
+            return False
+                
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 'O' and (i, j) not in visited:
+                    this_visit = {(i, j)}
+                    if not open(i, j, this_visit):
+                        for a, b in this_visit:
+                            board[a][b] = 'X'
+                    visited.update(this_visit)
                     
