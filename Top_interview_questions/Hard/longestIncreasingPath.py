@@ -56,3 +56,37 @@ class Solution:
                     dp[i][j] = dfs(i, j)
                     res = max(res, dp[i][j])
         return res
+
+
+# topological sort (kahn's algorithm)
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        neighbors = [(-1, 0), (0, -1), (0, 1), (1, 0)]
+        indegree = [[0]*n for _ in range(m)]
+        
+        for i in range(m):
+            for j in range(n):
+                for u, v in neighbors:
+                    ni, nj = i+u, j+v
+                    if 0<=ni<m and 0<=nj<n and matrix[ni][nj] < matrix[i][j]:
+                        indegree[i][j] += 1
+        q = []
+        for i in range(m):
+            for j in range(n):
+                if indegree[i][j] == 0:
+                    q.append((i, j))
+                    
+        longest = 0
+        while q:
+            new_q = []
+            for i, j in q:
+                for u, v in neighbors:
+                    ni, nj = i+u, j+v
+                    if 0<=ni<m and 0<=nj<n and matrix[ni][nj] > matrix[i][j]:
+                        indegree[ni][nj] -= 1
+                        if indegree[ni][nj] == 0:
+                            new_q.append((ni, nj))
+            longest += 1
+            q = new_q[:]
+        return longest
