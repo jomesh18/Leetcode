@@ -33,6 +33,7 @@ isConnected[i][j] is 1 or 0.
 isConnected[i][i] == 1
 isConnected[i][j] == isConnected[j][i]
 '''
+# using union find
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
         class UF:
@@ -66,3 +67,21 @@ class Solution:
         for i in range(n):
             s.add(uf.find(i))
         return len(s)
+
+# dfs
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        n = len(isConnected)
+        def dfs(node):
+            for i, val in enumerate(isConnected[node]):
+                if val and i not in seen:
+                    seen.add(i)
+                    dfs(i)
+        ans = 0
+        seen = set()
+        for i in range(n):
+            if i not in seen:
+                ans += 1
+                seen.add(i)
+                dfs(i)
+        return ans
