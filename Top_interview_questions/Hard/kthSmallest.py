@@ -35,6 +35,7 @@ Follow up:
 Could you solve the problem with a constant memory (i.e., O(1) memory complexity)?
 Could you solve the problem in O(n) time complexity? The solution may be too advanced for an interview but you may find reading this paper fun.
 '''
+# (n+n)*log(d), where d is the difference between biggest and smallest in matrix
 class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
         n = len(matrix)
@@ -58,3 +59,15 @@ class Solution:
             else:
                 hi = mid
         return lo
+
+# klogk
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        n = len(matrix)
+        heap = []
+        for i in range(min(n, k)):
+            heap.append((matrix[i][0], i, 0))
+        for _ in range(k-1):
+            val, row, col = heappop(heap)
+            if col + 1 < n: heappush(heap, (matrix[row][col+1], row, col+1))
+        return heappop(heap)[0]
