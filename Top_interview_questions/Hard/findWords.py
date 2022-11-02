@@ -41,30 +41,31 @@ class Solution:
         for i, word in enumerate(words):
             word_count = Counter(word)
             skip = False
-            for w in word_count:
-                if word_count[w] > count[w]:
+            for c in word_count:
+                if word_count[c] > count[c]:
                     skip = True
+                    break
             if not skip:
                 curr = trie
                 for c in word:
                     curr = curr.setdefault(c, {})
                 curr['#'] = i
-        def dfs(i, j, curr):
-            if '#' in curr:
-                self.res.append(words[curr['#']])
-                del curr['#']
-                if not len(curr): return
+        
+        def dfs(node, i, j):
+            if '#' in node:
+                res.append(words[node['#']])
+                del node['#']
+                if not len(node): return
             t, board[i][j] = board[i][j], '$'
             for ni, nj in [(i-1, j), (i, j-1), (i, j+1), (i+1, j)]:
-                if 0<=ni<m and 0<=nj<n and board[ni][nj] in curr:
-                    dfs(ni, nj, curr[board[ni][nj]]) 
-                    if not curr[board[ni][nj]]:
-                        del curr[board[ni][nj]]
+                if 0<=ni<m and 0<=nj<n and board[ni][nj] in node:
+                    dfs(node[board[ni][nj]], ni, nj)
+                    if not node[board[ni][nj]]:
+                        del node[board[ni][nj]]
             board[i][j] = t
-    
-        self.res = []
+        res = []
         for i in range(m):
             for j in range(n):
                 if board[i][j] in trie:
-                    dfs(i, j, trie[board[i][j]])     
-        return self.res
+                    dfs(trie[board[i][j]], i, j)
+        return res
