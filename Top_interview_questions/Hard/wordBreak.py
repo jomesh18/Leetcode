@@ -73,3 +73,19 @@ class Solution:
                 if dfs(trie[s[i]], i):
                     return True
         return False
+
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        memo = {}
+        word_set = set(wordDict)
+        def helper(start):
+            if start in memo: return memo[start]
+            if start == len(s): return True
+            
+            for end in range(start+1, len(s)+1):
+                if s[start:end] in word_set and helper(end):
+                    memo[start] = True
+                    return memo[start]
+            memo[start] = False
+            return memo[start]
+        return helper(0)
