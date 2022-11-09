@@ -59,8 +59,25 @@ class Solution:
         helper(0, [])
         return self.ans
 
-
 # with memo
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        memo = {}
+        wordSet = set(wordDict)
+        def helper(s):
+            if s in memo: return memo[s]
+            if not s: return [""]
+            res = []
+            for i in range(1, len(s)+1):
+                word = s[:i]
+                if word in wordSet:
+                    for w in helper(s[len(word):]):
+                        res.append(word if not w else word + ' '+ w)
+            memo[s] = res
+            return res
+        return helper(s)
+
+# with memo, another version
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         memo = {}
