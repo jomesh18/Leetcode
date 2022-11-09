@@ -42,6 +42,7 @@ Accepted
 Submissions
 1,101,282
 '''
+# accepted, fastest
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         word_dic = {key: i for i, key in enumerate(wordDict)}
@@ -57,3 +58,23 @@ class Solution:
             
         helper(0, [])
         return self.ans
+
+
+# with memo
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        memo = {}
+        def helper(s):
+            if s in memo: return memo[s]
+            if not s: return []
+            res = []
+            for word in wordDict:
+                if s.startswith(word):
+                    if len(word) == len(s):
+                        res.append(word)
+                    else:
+                        for w in helper(s[len(word):]):
+                            res.append(word + ' '+ w)
+            memo[s] = res
+            return res
+        return helper(s)
