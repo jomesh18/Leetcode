@@ -43,3 +43,16 @@ class Solution:
             else:
                 stack.append(c)
         return ''.join(stack)
+
+
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        s = list(s)
+        i = 0
+        for j in range(len(s)):
+            if i > 0 and s[i-1] == s[j]:
+                i -= 1
+            else:
+                s[i] = s[j]
+                i += 1
+        return ''.join(s[:i])
