@@ -44,3 +44,23 @@ class Solution:
             level += 1
             q = new_q[:]
         return -1
+
+
+class Solution:
+    def numSquares(self, n: int) -> int:
+        squares = [i*i for i in range(1, int(n**.5)+1)]
+        q = [n]
+        level = 1
+        while q:
+            new_q = []
+            # print(q, level)
+            for curr in q:
+                for sq in squares:
+                    if curr == sq:
+                        return level
+                    if curr < sq:
+                        break
+                    new_q.append(curr-sq)
+            level += 1
+            q = new_q
+        return -1
