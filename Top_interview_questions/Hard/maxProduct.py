@@ -35,3 +35,35 @@ class Solution:
             suffix = nums[-i-1] * (suffix or 1)
             ans = max(ans, prefix, suffix)
         return ans
+
+
+#memo, recursive
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        n = len(nums)
+        memo = {}
+        def dfs_max(i, must_pick):
+            if i == n:
+                return 1 if must_pick else float('-inf')
+            if (i, must_pick) in memo: return memo[(i, must_pick)]
+            if must_pick:
+                memo[(i, must_pick)] = max(1, nums[i]*(dfs_max(i+1, True) if nums[i] >= 0 else dfs_min(i+1)))
+            else:
+                memo[(i, must_pick)] = max(dfs_max(i+1, False), nums[i]*(dfs_max(i+1, True) if nums[i] >= 0 else dfs_min(i+1)))
+            return memo[(i, must_pick)]
+        def dfs_min(i):
+            if i == n:
+                return 1
+            return nums[i]*(dfs_min(i+1) if nums[i] >= 0 else dfs_max(i+1, True))
+        return dfs_max(0, False)
+
+
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        ans, dpmax, dpmin = nums[0], nums[0], nums[0]
+        for i in range(1, len(nums)):
+            tmax, tmin = dpmax, dpmin
+            dpmax = max(nums[i], nums[i]*(tmax if nums[i] >= 0 else tmin))
+            dpmin = min(nums[i], nums[i]*(tmin if nums[i] >= 0 else tmax))
+            ans = max(ans, dpmax)
+        return ans
