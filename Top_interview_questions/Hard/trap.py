@@ -39,3 +39,18 @@ class Solution:
         for i in range(n):
             res += min(ans[i], right[i])-height[i]
         return res
+
+# monotonic decreasing stack
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        stack = []
+        ans = 0
+        for i in range(len(height)):
+            while stack and height[stack[-1]] <= height[i]:
+                k = stack.pop()
+                ans += 0 if not stack else (min(height[i], height[stack[-1]])-height[k])*(i-1-stack[-1])
+                # print(i, ans)
+            stack.append(i)
+        return ans
+
+# using two pointers
