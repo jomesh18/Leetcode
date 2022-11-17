@@ -87,3 +87,37 @@ class Solution:
         res = [0]*len(arr)
         merge_sort(arr)
         return res
+
+# using binary indexed tree/fenwick tree
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        bit = BIT(len(nums))
+        res = []
+        hashtable = {v: i for i, v in enumerate(sorted(set(nums)))}
+        
+        for i in range(len(nums)-1, -1, -1):
+            res.append(bit.sum(hashtable[nums[i]]))
+            bit.update(hashtable[nums[i]] + 1, 1)
+        return res[::-1]
+        
+class BIT:
+    def __init__(self, n):
+        self.bit = [0]*(n+1)
+    
+    def update(self, i, delta):
+        while i < len(self.bit):
+            self.bit[i] += delta
+            i = self.get_next(i)
+        
+    def sum(self, i):
+        s = 0
+        while i > 0:
+            s += self.bit[i]
+            i = self.get_parent(i)
+        return s
+    
+    def get_parent(self, i):
+        return i - (i & -i)
+    
+    def get_next(self, i):
+        return i + (i & -i)
