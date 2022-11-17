@@ -49,3 +49,41 @@ class Solution:
             ans[i] = j
             # print(res, j, i, ans)
         return ans
+
+# mergesort
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        def merge(left, right):
+            l, r = 0, 0
+            elemslessthanleftinright = 0
+            merged = []
+            while l < len(left) and r < len(right):
+                if left[l][0] > right[r][0]:
+                    merged.append(right[r])
+                    r += 1
+                    elemslessthanleftinright += 1
+                else:
+                    res[left[l][1]] += elemslessthanleftinright
+                    merged.append(left[l])
+                    l += 1
+            if l < len(left):
+                for i in range(l, len(left)):
+                    res[left[i][1]] += elemslessthanleftinright
+                    merged.append(left[i])
+            elif r < len(right):
+                for i in range(r, len(right)):
+                    merged.append(right[i])
+            return merged
+        
+        def merge_sort(arr):
+            if len(arr) == 1:
+                return arr
+            mid = len(arr)//2
+            left = merge_sort(arr[:mid])
+            right = merge_sort(arr[mid:])
+            return merge(left, right)
+        
+        arr = [(num, i) for i, num in enumerate(nums)]
+        res = [0]*len(arr)
+        merge_sort(arr)
+        return res
