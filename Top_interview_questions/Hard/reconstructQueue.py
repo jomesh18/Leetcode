@@ -65,3 +65,36 @@ class Solution:
             res[j] = [h, i]
         return res
 
+# O(n*logn*logn)
+class Solution:
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        n = len(people)
+        bit = [0]*(n+1)
+        def update(i, delta):
+            while i < (n+1):
+                bit[i] += delta
+                i += (i & -i)
+                
+        def getsum(i):
+            s = 0
+            while i > 0:
+                s += bit[i]
+                i -= (i & -i)
+            return s
+        
+        for i in range(2, n+1):
+            update(i, 1)
+        people.sort(key = lambda x:(x[0], -x[1]))
+        # print(people)
+        res = [0]*n
+        for i in range(n):
+            l, r = 0, n
+            while l < r:
+                mid = (l+r)//2
+                if getsum(mid + 1) < people[i][1]:
+                    l = mid + 1
+                else:
+                    r = mid
+            res[l] = people[i]
+            update(l+1, -1)
+        return res
