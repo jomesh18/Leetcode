@@ -53,4 +53,3 @@ class Solution:
         if len(word1) != len(word2): return False
         c1, c2 = Counter(word1), Counter(word2)
         return Counter(c1.values()) == Counter(c2.values()) and set(c1.keys()) == set(c2.keys())
-    
