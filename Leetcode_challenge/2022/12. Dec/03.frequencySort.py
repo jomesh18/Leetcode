@@ -40,6 +40,24 @@ Constraints:
 1 <= s.length <= 5 * 105
 s consists of uppercase and lowercase English letters and digits.
 '''
+# Oneliner, O(n) + O(klogk) (k is number of distinct symbols, here, 62(upper and lower case + digits))
 class Solution:
     def frequencySort(self, s: str) -> str:
         return ''.join(key*val for key, val in sorted(Counter(s).items(), key= lambda x:x[1], reverse=True))
+
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        return ''.join(key*val for key, val in sorted(Counter(s).items(), key= lambda x:-x[1]))
+
+# O(n) using bucket sort (frquencies should be <= n)
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        n = len(s)
+        buckets = [[] for _ in range(n+1)]
+        for c, freq in Counter(s).items():
+            buckets[freq].append(c)
+        ans = []
+        for freq in range(n, 0, -1):
+            for c in buckets[freq]:
+                ans.append(c*freq)
+        return ''.join(ans)
