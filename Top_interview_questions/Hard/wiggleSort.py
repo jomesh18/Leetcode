@@ -47,3 +47,50 @@ class Solution:
         for i in range(0, len(nums), 2):
             nums[i] = arr.pop()
         
+
+class Solution:
+    def wiggleSort(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # find median using quick select O(n) average time
+        def find_med(l, r, k):
+            while True:
+                pivot_ind = random.randint(l, r)
+                nums[pivot_ind], nums[r] = nums[r], nums[pivot_ind]
+                store_ind = l
+                for i in range(l, r):
+                    if nums[i] < nums[r]:
+                        nums[i], nums[store_ind] = nums[store_ind], nums[i]
+                        store_ind += 1
+                nums[store_ind], nums[r] = nums[r], nums[store_ind]
+                if store_ind < k:
+                    l = store_ind + 1
+                elif store_ind > k:
+                    r = store_ind - 1
+                else: return store_ind
+
+        n = len(nums)
+        median_ind = (n-1)//2
+        median = nums[find_med(0, n-1, median_ind)]
+        print(nums, median)
+        odd = 1
+        even = n-1 if (n & 1) else n-2
+        
+        # 3 color sort (Dutch national flag problem) higher on left, lower on right of median
+        temp = [0]*n
+        for j in range(n):
+            if nums[j] > median:
+                temp[odd] = nums[j]
+                odd += 2
+            elif nums[j] < median:
+                temp[even] = nums[j]
+                even -= 2
+        while odd < n:
+            temp[odd] = median
+            odd += 2
+        while even >= 0:
+            temp[even] = median
+            even -= 2
+        for i in range(n):
+            nums[i] = temp[i]
