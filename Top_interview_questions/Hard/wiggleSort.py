@@ -94,3 +94,48 @@ class Solution:
             even -= 2
         for i in range(n):
             nums[i] = temp[i]
+
+
+# O(n) time, O(1) space
+class Solution:
+    def wiggleSort(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        def find_med(l, r, k):
+            while True:
+                pivot_ind = random.randint(l, r)
+                nums[r], nums[pivot_ind] = nums[pivot_ind], nums[r]
+                store_ind = l
+                for i in range(l, r):
+                    if nums[i] < nums[r]:
+                        nums[store_ind], nums[i] = nums[i], nums[store_ind]
+                        store_ind += 1
+                nums[r], nums[store_ind] = nums[store_ind], nums[r]
+                if store_ind == k:
+                    return k
+                elif store_ind < k:
+                    l = store_ind + 1
+                else:
+                    r = store_ind - 1
+        
+        n = len(nums)
+        med_ind = (n-1)//2
+        # rearranging median to correct position using quick select O(n) average case
+        find_med(0, n-1, med_ind)
+        
+        median = nums[med_ind]
+        
+        new_idx = lambda i: (2*i+1)%(n|1)
+        i, j, k = 0, 0, n-1
+        while j <= k:
+            if nums[new_idx(j)] > median:
+                nums[new_idx(i)], nums[new_idx(j)] = nums[new_idx(j)], nums[new_idx(i)]
+                i += 1
+                j += 1
+            elif nums[new_idx(j)] < median:
+                nums[new_idx(k)], nums[new_idx(j)] = nums[new_idx(j)], nums[new_idx(k)]
+                k -= 1
+            else:
+                j += 1
+        
