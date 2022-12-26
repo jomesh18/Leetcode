@@ -88,3 +88,36 @@ class Solution:
             
         backtrack(0, '', 0, 0, 0)
         return list(ans)
+
+
+# bfs
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        ans = []
+        q = [s]
+        seen = {s}
+        def is_valid(node):
+            c = 0
+            for ch in node:
+                if ch == '(':
+                    c += 1
+                elif ch == ')':
+                    if c == 0:
+                        return False
+                    c -= 1
+            return c == 0
+        while q:
+            newq = []
+            for node in q:
+                if is_valid(node):
+                    ans.append(node)
+                if not ans:
+                    for i in range(len(node)):
+                        if node[i] == '(' or node[i] == ')':
+                            new_node = node[:i]+node[i+1:]
+                            if new_node not in seen:
+                                newq.append(new_node)
+                                seen.add(new_node)
+            q = newq
+            
+        return ans
