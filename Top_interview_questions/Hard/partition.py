@@ -39,3 +39,21 @@ class Solution:
                     starts_at[i].append(j-i)
         dfs(0, [])
         return ans
+
+
+# O(n* 2**n)
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        n = len(s)
+        ans = []
+        dp = [[False]*n for _ in range(n)]
+        def dfs(start, curr):
+            if start >= n:
+                ans.append(curr)
+                return
+            for end in range(start, n):
+                if s[start] == s[end] and (end-start <= 2 or dp[start+1][end-1]):
+                    dp[start][end] = True
+                    dfs(end+1, curr+[s[start:end+1]])
+        dfs(0, [])
+        return ans
