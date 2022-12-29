@@ -3,16 +3,18 @@
 
 class BIT:
     def __init__(self, n):
-        self.bit = [0]*n
+        self.bit = [0]*(n+1)
 
     def sum(self, i):
         s = 0
+        i += 1
         while i > 0:
             s += self.bit[i]
             i = self.get_parent(i)
         return s
 
     def update(self, i, delta):
+        i += 1
         while i < len(self.bit):
             self.bit[i] += delta
             i = self.get_next(i)
@@ -25,8 +27,10 @@ class BIT:
 
 arr = [1, 2, 3, 4]
 bit = BIT(len(arr))
+print(bit.bit)
 for i in range(len(arr)):
     bit.update(i, arr[i])
+print(bit.bit)
 print(bit.sum(2))
 #update index 2 value to 0
 old_val = arr[2]
