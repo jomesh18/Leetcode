@@ -36,4 +36,6 @@ print(bit.sum(2))
 old_val = arr[2]
 new_val = 0
 bit.update(2, -old_val+new_val)
+print(bit.bit)
 print(bit.sum(2))
+print(bit.sum(2)-bit.sum(0))
