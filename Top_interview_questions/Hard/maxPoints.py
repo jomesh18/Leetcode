@@ -24,7 +24,7 @@ points[i].length == 2
 -104 <= xi, yi <= 104
 All the points are unique.
 '''
-# using equation of a line with two points: (x-x1)/(x2-x1) = (y-y1)/(y2-y1)
+# O(n**3), using equation of a line with two points: (x-x1)/(x2-x1) = (y-y1)/(y2-y1)
 class Solution:
     def maxPoints(self, points: List[List[int]]) -> int:
         n = len(points)
@@ -41,4 +41,26 @@ class Solution:
                     if b*(x3-x1) == (y3-y1)*a:
                         count += 1
                 ans = max(ans, count)
+        return ans
+
+# O(n*n), using slope
+class Solution:
+    def maxPoints(self, points: List[List[int]]) -> int:
+        n = len(points)
+        ans = 1
+        def gcd(x, y):
+            return gcd(y, x%y) if y else x
+        for i in range(n):
+            d = {}
+            x1, y1 = points[i]
+            for j in range(i+1, n):
+                x2, y2 = points[j]
+                x = x2-x1
+                y = y2 - y1
+                g = gcd(x, y)
+                x //= g
+                y //= g
+                key = str(x)+'_'+str(y)
+                d[key] = d.get(key, 0) + 1
+                ans = max(ans, d[key] + 1)
         return ans
