@@ -25,7 +25,7 @@ class BIT:
     def get_parent(self, i):
         return i - (i & -i)
 
-arr = [1, 2, 3, 4]
+arr = [1, 2, 3, 4, 5]
 bit = BIT(len(arr))
 print(bit.bit)
 for i in range(len(arr)):

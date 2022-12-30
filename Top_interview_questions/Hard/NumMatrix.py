@@ -84,10 +84,10 @@ class NumMatrix(object):
         self.matrix = matrix
         self.m, self.n = len(matrix), len(matrix[0])
         self.bit = BIT((self.m+1)*(self.n+1))
-        for i in range(1, self.m+1):
-            for j in range(1, self.n+1):
-                pos = i*(self.n+1)+j
-                val = self.bit.sum((i-1)*(self.n+1)+j) + self.bit.sum(i*(self.n+1)+j-1) - self.bit.sum((i-1)*(self.n+1)+j-1) + self.matrix[i-1][j-1]
+        for i in range(self.m):
+            for j in range(self.n):
+                pos = (i+1)*(self.n+1)+j+1
+                val = self.bit.sum((i+1)*(self.n+1)+j) + self.bit.sum(i*(self.n+1)+j+1) - self.bit.sum(i*(self.n+1)+j) + self.matrix[i][j]
                 self.bit.update(pos, val)
                 print('inside init', i, j, self.bit.bit)
         print('final', self.bit.bit)
@@ -99,7 +99,7 @@ class NumMatrix(object):
         :type val: int
         :rtype: void
         """
-        i = row*(self.n+1) + col
+        i = (row+1)*(self.n+1) + col + 1
         delta = -self.matrix[row][col] + val
         self.matrix[row][col] = val
         self.bit.update(i, delta)
@@ -113,9 +113,9 @@ class NumMatrix(object):
         :type col2: int
         :rtype: int
         """
-        a = self.bit.sum(row2*(self.n+1)+col2)
-        b = self.bit.sum(row2*(self.n+1)+col1)
-        c = self.bit.sum(row1*(self.n+1)+col2)
+        a = self.bit.sum((row2+1)*(self.n+1)+col2+1)
+        b = self.bit.sum((row2+1)*(self.n+1)+col1)
+        c = self.bit.sum(row1*(self.n+1)+col2+1)
         d = self.bit.sum(row1*(self.n+1)+col1)
         ans = a-b-c+d
         print('inside sum', a, b, c, d, ans)
