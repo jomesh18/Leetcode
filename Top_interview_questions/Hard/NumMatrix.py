@@ -83,11 +83,11 @@ class NumMatrix(object):
         """
         self.matrix = matrix
         self.m, self.n = len(matrix), len(matrix[0])
-        self.bit = BIT((self.m+1)*(self.n+1))
+        self.bit = BIT(self.m*self.n)
         for i in range(self.m):
             for j in range(self.n):
-                pos = (i+1)*(self.n+1)+j+1
-                val = self.bit.sum((i+1)*(self.n+1)+j) + self.bit.sum(i*(self.n+1)+j+1) - self.bit.sum(i*(self.n+1)+j) + self.matrix[i][j]
+                pos = i*(self.n)+j
+                val = self.matrix[i][j]
                 self.bit.update(pos, val)
                 print('inside init', i, j, self.bit.bit)
         print('final', self.bit.bit)
@@ -122,6 +122,7 @@ class NumMatrix(object):
         return ans
 
 # Your NumMatrix object will be instantiated and called as such:
-# obj = NumMatrix(matrix)
+matrix = [[1,2,3], [2,1,0]]
+obj = NumMatrix(matrix)
 # obj.update(row,col,val)
 # param_2 = obj.sumRegion(row1,col1,row2,col2)
