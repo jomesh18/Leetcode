@@ -39,6 +39,13 @@ from typing import (
 from lintcode import (
     Interval,
 )
+from typing import (
+    List,
+)
+from lintcode import (
+    Interval,
+)
+from heapq import *
 
 """
 Definition of Interval:
@@ -55,3 +62,55 @@ class Solution:
     """
     def min_meeting_rooms(self, intervals: List[Interval]) -> int:
         # Write your code here
+        ans = 0
+        rooms = 0
+        heap = []
+        intervals.sort(key=lambda x:(x.start, x.end))
+        print([(i.start, i.end) for i in intervals])
+        for interval in intervals:
+            while heap and interval.start >= heap[0]:
+                heappop(heap)
+                rooms -= 1
+            heappush(heap, interval.end)
+            rooms += 1
+            ans = max(ans, rooms)
+        return ans
+
+
+
+
+from typing import (
+    List,
+)
+from lintcode import (
+    Interval,
+)
+
+"""
+Definition of Interval:
+class Interval(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+"""
+
+class Solution:
+    """
+    @param intervals: an array of meeting time intervals
+    @return: the minimum number of conference rooms required
+    """
+    def min_meeting_rooms(self, intervals: List[Interval]) -> int:
+        # Write your code here
+        ans = 0
+        rooms = 0
+        points = []
+        for i in intervals:
+            points.extend([(i.start, 1), (i.end, 0)])
+        points.sort(key=lambda x:(x[0], x[1]))
+        for p, type_ in points:
+            if type_ == 1:
+                rooms += 1
+            else:
+                rooms -= 1
+            ans = max(ans, rooms)
+        return ans
