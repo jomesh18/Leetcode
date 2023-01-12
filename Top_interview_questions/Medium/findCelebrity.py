@@ -61,3 +61,34 @@ class Solution:
     # @return {int} the celebrity's label or -1
     def findCelebrity(self, n):
         # Write your code here
+        candidates = set(i for i in range(n))
+        to_visit = set(i for i in range(n))
+        def helper(i):
+            is_celebrity = True
+            for k in range(n):
+                if k != i:
+                    if Celebrity.knows(i, k):
+                        if k in to_visit:
+                            to_visit.remove(k)
+                            if helper(k) is not None: return k
+                        is_celebrity = False
+                        break
+                    else:
+                        if k in candidates: candidates.remove(k)
+            if is_celebrity: return i
+            if i in candidates: candidates.remove(i)
+            return None
+
+        for i in range(n):
+            if i in candidates:
+                if i in to_visit:
+                    to_visit.remove(i)
+                helper(i)
+        for k in candidates:
+            is_celebrity = True
+            for i in range(n):
+                if i != k and not Celebrity.knows(i, k):
+                    is_celebrity = False
+                    break
+            if is_celebrity: return k
+        return -1
