@@ -78,3 +78,35 @@ class Solution:
         for u in baseStr:
             ans.append(chr(ord('a')+uf.find(ord(u)-ord('a'))))
         return ''.join(ans)
+
+# dfs
+class Solution:
+    def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
+        adj = [set() for _ in range(26)]
+        for u, v in zip(s1, s2):
+            u, v = ord(u)-ord('a'), ord(v)-ord('a')
+            adj[u].add(v)
+            adj[v].add(u)
+
+        visited = [0]*26
+        def dfs(node, traversed):
+            for nei in adj[node]:
+                if not visited[nei]:
+                    visited[nei] = 1
+                    traversed.append(nei)
+                    dfs(nei, traversed)
+            
+        smallest = [26]*26  
+        for i in range(26):
+            if not visited[i]:
+                visited[i] = 1
+                traversed = [i]
+                min_ = i
+                dfs(i, traversed)
+                for k in traversed:
+                    smallest[k] = min_
+
+        ans = []
+        for u in baseStr:
+            ans.append(chr(smallest[ord(u)-ord('a')]+ord('a')))
+        return ''.join(ans)
