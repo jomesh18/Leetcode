@@ -74,3 +74,28 @@ class Solution:
             
         dfs(0)
         return self.ans
+
+
+class Solution:
+    def longestPath(self, parent: List[int], s: str) -> int:
+        n = len(parent)
+        children = [[] for _ in range(n)]
+        for i in range(1, n):
+            children[parent[i]].append(i)
+        
+        # print(children)
+        self.ans = 0
+        def dfs(node):
+            candidates = []
+            for child in children[node]:
+                l = dfs(child)
+                if s[node] != s[child]:
+                    if len(candidates) < 2:
+                        candidates.append(l)
+                    elif l > min(candidates):
+                        candidates = [max(candidates), l]
+            self.ans = max(self.ans, sum(candidates)+1)
+            return 1+ (max(candidates) if candidates else 0)
+            
+        dfs(0)
+        return self.ans
