@@ -68,3 +68,30 @@ class Solution:
         if start > 0 and start < len(intervals) and end < len(intervals) and intervals[start-1][1] < newInterval[0] and intervals[end][0] > newInterval[1]:
             return intervals[:start]+[newInterval]+intervals[end:]
         return intervals[:start]+[[min(intervals[start][0], newInterval[0]) if start < len(intervals) else newInterval[0], max(intervals[end][1], newInterval[1]) if end < len(intervals) else newInterval[1]]]+intervals[end+1:]
+
+
+# O(n) linear search
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        ans = []
+        ns, ne = newInterval
+        for i, (s, e) in enumerate(intervals):
+            if s > ne:
+                return ans + [[ns, ne]] + intervals[i:]
+            elif min(ne, e) - max(ns, s) >= 0:
+                ns = min(ns, s)
+                ne = max(ne, e)
+            else:
+                ans.append([s, e])
+        return ans + [[ns,ne]]
+
+
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        s, e = newInterval
+        left = [i for i in intervals if i[1] < s]
+        right = [i for i in intervals if i[0] > e]
+        if left + right != intervals:
+            s = min(s, intervals[len(left)][0])
+            e = max(e, intervals[-len(right)-1][1])
+        return left + [[s, e]] + right
