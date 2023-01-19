@@ -46,3 +46,16 @@ class Solution:
                 ans += d.get(r)
             d[r] = d.get(r, 0) + 1
         return ans
+
+
+class Solution:
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+        d = [0]*(k)
+        d[0] = 1
+        ans = 0
+        premod = 0
+        for num in nums:
+            premod = (premod + num%k + k) % k
+            ans += d[premod]
+            d[premod] += 1
+        return ans
