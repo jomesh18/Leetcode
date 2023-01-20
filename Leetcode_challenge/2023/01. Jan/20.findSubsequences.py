@@ -67,3 +67,13 @@ class Solution:
             backtrack(i+1, curr)
         backtrack(0, [])
         return list(self.ans)
+
+
+class Solution:
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        ans = set()
+        n = len(nums)    
+        for mask in range(1, 1<<n):
+            t = [nums[i] for i in range(n) if (mask >> i) & 1]
+            if len(t) >= 2 and all(t[i] <= t[i+1] for i in range(len(t)-1)): ans.add(tuple(t))
+        return ans
