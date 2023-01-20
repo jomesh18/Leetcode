@@ -51,3 +51,19 @@ class Solution:
                     t.append(nums[i])
             res.add(tuple(t))
         return [list(t) for t in res]
+
+
+class Solution:
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        self.ans = set()
+        n = len(nums)    
+        def backtrack(i, curr):
+            if i == n:
+                if len(curr) >= 2:
+                    self.ans.add(tuple(curr))
+                return
+            if not curr or curr[-1] <= nums[i]:
+                backtrack(i+1, curr+[nums[i]])
+            backtrack(i+1, curr)
+        backtrack(0, [])
+        return list(self.ans)
