@@ -33,4 +33,61 @@ s consists of only lowercase English letters.
 '''
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:
+        if not s: return 0
+        count = Counter(s)
+        to_remove = set(c for c in count if count[c] < k)
+        if not to_remove: return len(s)
+        ans = 0
+        l = 0
+        for r in range(len(s)):
+            if s[r] in to_remove:
+                ans = max(ans, self.longestSubstring(s[l:r], k))
+                l = r+1
+        return max(ans, self.longestSubstring(s[l:], k))
+
+
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
         
+        def helper(start, end, k):
+            if end <= start: return 0
+            count = [0]*26
+            for i in range(start, end):
+                count[ord(s[i])-ord('a')] += 1
+            for i in range(start, end):
+                if count[ord(s[i])-ord('a')] >= k: continue
+                nextstart = i
+                while nextstart < end and count[ord(s[nextstart])-ord('a')] < k: nextstart += 1
+                return max(helper(start, i, k), helper(nextstart, end, k))
+            return end-start
+
+        return helper(0, len(s), k)
+
+
+# sliding window
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
+        ans = 0
+        for curr_unique in range(1, len(set(s))+1):
+            count_map = [0]*26
+            start = 0
+            end = 0
+            unique = 0
+            count_above_k = 0
+            while end < len(s):
+                
+                if unique <= curr_unique:
+                    idx = ord(s[end])-ord('a')
+                    if not count_map[idx]: unique += 1
+                    count_map[idx] += 1
+                    if count_map[idx] == k: count_above_k += 1
+                    end += 1
+                else:
+                    idx = ord(s[start])-ord('a')
+                    if count_map[idx] == k: count_above_k -= 1
+                    count_map[idx] -= 1
+                    if not count_map[idx]: unique -= 1
+                    start += 1
+                if unique == curr_unique and count_above_k == unique:
+                    ans = max(ans, end-start)
+        return ans
