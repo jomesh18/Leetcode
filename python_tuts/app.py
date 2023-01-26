@@ -50,4 +50,51 @@
 
 
 #3
-# oops
+# classes
+# too basic, i know this
+
+
+#web scraping with python
+'''
+import requests
+from bs4 import BeautifulSoup
+
+res = requests.get("https://www.codewithtomi.com/")
+
+# print(res.text) # gets all html code from the page
+# print(res)
+
+soup = BeautifulSoup(res.content, "html.parser")
+# print(soup)
+# print(soup.title)
+# print(soup.title.name)
+# print(soup.title.parent.name)
+# print(soup.title.parent)
+
+# s = soup.find('h2', class_='post-title') #find the content with h2 tag with class post-title
+# print(s)
+
+# s = soup.find_all('h2', class_='post-title') #find the content with h2 tag with class post-title
+# print(s)
+
+# s = soup.find('h2', class_='post-title') #find the content with h2 tag with class post-title
+# print(s.text)
+
+# s = soup.find_all('h2', class_='post-title') #find the content with h2 tag with class post-title
+# for data in s:
+#     print(data.text)
+
+
+s = soup.find_all('p', class_='post-snippet') #find the content with h2 tag with class post-title
+for data in s:
+    print(data.text)
+
+'''
+
+
+# 4. Virtual environments
+# pretty basic
+
+
+
+# flask setup
