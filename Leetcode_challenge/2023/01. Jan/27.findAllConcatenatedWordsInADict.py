@@ -36,6 +36,7 @@ words[i] consists of only lowercase English letters.
 All the strings of words are unique.
 1 <= sum(words[i].length) <= 105
 '''
+# trie solution
 class Solution:
     def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
         trie = {}
@@ -66,3 +67,37 @@ class Solution:
                 
         return ans
             
+# dp O(n*m*m*m) where n is no of words and m is maxlen of word in words
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        words = set(words)
+        ans = []
+        for word in words:
+            dp = [True] + [False]*len(word)
+            for i in range(1, len(word)+1):
+                for j in range(i):
+                    if i != len(word) or j != 0:
+                        dp[i] = dp[j] and word[j:i] in words
+                        if dp[i]: break
+            if dp[-1]: ans.append(word)
+        return ans
+
+
+#
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        words = set(words)
+        res = []
+        def helper(i, word):
+            if i == len(word):
+                return True
+            for end in range(i+1, len(word)+1):
+                curr = word[i:end]
+                if curr in words and word != curr and helper(end, word):
+                    return True
+            return False
+
+        for word in words:
+            if helper(0, word):
+                res.append(word)
+        return res
