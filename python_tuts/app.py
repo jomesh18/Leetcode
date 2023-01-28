@@ -96,5 +96,19 @@ for data in s:
 # pretty basic
 
 
-
+'''
 # flask setup
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return '<h2>Welcome to my web app</h2>'
+
+# in terminal run 'python -m flask run'
+'''
+
+
+
+#django setup
