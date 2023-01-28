@@ -110,5 +110,4 @@ def hello():
 '''
 
 
-
 #django setup
