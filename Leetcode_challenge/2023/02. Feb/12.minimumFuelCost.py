@@ -105,3 +105,32 @@ class Solution:
 
         dfs(0, -1)
         return self.fuel
+
+# bfs
+class Solution:
+    def minimumFuelCost(self, roads: List[List[int]], seats: int) -> int:
+        n = len(roads) + 1
+        adj = [[] for _ in range(n)]
+        degree = [0]*n
+        for s, d in roads:
+            adj[s].append(d)
+            adj[d].append(s)
+            degree[s] += 1
+            degree[d] += 1
+        reps = [1]*n  
+        fuel = 0
+        q = []
+        for i in range(1, n):
+            if degree[i] == 1:
+                q.append(i)
+        while q:
+            new_q = []
+            for node in q:
+                fuel += ceil(reps[node]/seats)
+                for nei in adj[node]:
+                    degree[nei] -= 1
+                    reps[nei] += reps[node]
+                    if degree[nei] == 1 and nei != 0:
+                        new_q.append(nei)
+            q = new_q
+        return fuel
