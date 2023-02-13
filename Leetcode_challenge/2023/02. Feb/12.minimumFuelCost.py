@@ -86,3 +86,22 @@ class Solution:
 
         dfs(0, -1, 0, 0)
         return self.ans
+
+class Solution:
+    def minimumFuelCost(self, roads: List[List[int]], seats: int) -> int:
+        adj = [[] for _ in range(len(roads)+1)]
+        for s, d in roads:
+            adj[s].append(d)
+            adj[d].append(s)
+        self.fuel = 0
+        def dfs(node, parent):
+            reps = 1
+            for nei in adj[node]:
+                if nei != parent:
+                    reps += dfs(nei, node)
+            if node != 0:
+                self.fuel += ceil(reps/seats)
+            return reps
+
+        dfs(0, -1)
+        return self.fuel
