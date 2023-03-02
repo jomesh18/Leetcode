@@ -70,3 +70,20 @@ class Solution:
                 j += 1
         # print(chars)
         return j
+
+
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        i, j = 0, 0
+        while i < len(chars):
+            group_len = 1
+            while (i + group_len < len(chars)) and chars[i+group_len] == chars[i]:
+                group_len += 1
+            chars[j] = chars[i]
+            j += 1
+            if group_len > 1:
+                str_l = str(group_len)
+                chars[j:j+len(str_l)] = list(str_l)
+                j += len(str_l)
+            i += group_len
+        return j
