@@ -82,7 +82,7 @@ class Node:
         self.bottomLeft = bottomLeft
         self.bottomRight = bottomRight
 """
-
+# O(n*n log n)
 class Solution:
     def construct(self, grid: List[List[int]]) -> 'Node':
         n = len(grid)
@@ -94,4 +94,33 @@ class Solution:
                 return Node(val, True, None, None, None, None)
             nl = l//2
             return Node(1, False, helper(sr, sc, nl), helper(sr, sc+nl, nl), helper(sr+nl, sc, nl), helper(sr+nl, sc+nl, nl))
+        return helper(0, 0, n)
+
+# O(n*n)
+"""
+# Definition for a QuadTree node.
+class Node:
+    def __init__(self, val, isLeaf, topLeft, topRight, bottomLeft, bottomRight):
+        self.val = val
+        self.isLeaf = isLeaf
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
+"""
+
+class Solution:
+    def construct(self, grid: List[List[int]]) -> 'Node':
+        n = len(grid)
+        def helper(sr, sc, l):
+            if l == 1: return Node(grid[sr][sc], True, None, None, None, None)
+            nl = l // 2
+            topLeft = helper(sr, sc, nl)
+            topRight = helper(sr, sc+nl, nl)
+            bottomLeft = helper(sr+nl, sc, nl)
+            bottomRight = helper(sr+nl, sc+nl, nl)
+            if topLeft.isLeaf and topRight.isLeaf and bottomLeft.isLeaf and bottomRight.isLeaf and (topLeft.val == topRight.val == bottomLeft.val == bottomRight.val):
+                return Node(grid[sr][sc], True, None, None, None, None)
+            else:
+                return Node(grid[sr][sc], False, topLeft, topRight, bottomLeft, bottomRight)
         return helper(0, 0, n)
