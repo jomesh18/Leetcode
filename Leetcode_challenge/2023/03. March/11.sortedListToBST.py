@@ -64,3 +64,31 @@ class Solution:
             n += 1
             curr = curr.next
         return build(head, n)
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        
+        def build(head, tail):
+            if head == tail: return None
+            f, s = head, head
+            while f != tail and f.next != tail:
+                f = f.next.next
+                s = s.next
+            root = TreeNode(s.val)
+            root.left = build(head, s)
+            root.right = build(s.next, tail)
+            return root
+            
+        return build(head, None)
