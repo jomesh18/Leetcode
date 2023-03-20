@@ -74,3 +74,109 @@ class BrowserHistory:
 # obj.visit(url)
 # param_2 = obj.back(steps)
 # param_3 = obj.forward(steps)
+
+
+# two stacks
+class BrowserHistory:
+
+    def __init__(self, homepage: str):
+        self.history = []
+        self.future = []
+        self.curr = homepage
+
+    def visit(self, url: str) -> None:
+        self.history.append(self.curr)
+        self.curr = url
+        self.future = []
+
+    def back(self, steps: int) -> str:
+        while steps and self.history:
+            self.future.append(self.curr)
+            self.curr = self.history.pop()
+            steps -= 1
+        return self.curr
+
+    def forward(self, steps: int) -> str:
+        while steps and self.future:
+            self.history.append(self.curr)
+            self.curr = self.future.pop()
+            steps -= 1
+        return self.curr
+
+
+# Your BrowserHistory object will be instantiated and called as such:
+# obj = BrowserHistory(homepage)
+# obj.visit(url)
+# param_2 = obj.back(steps)
+# param_3 = obj.forward(steps)
+
+
+# using double linked list, visit O(l), back and forward O(min(n, m)) where l is the max length of the string and n is the total calls and m is the steps
+# space O(l*n)
+class DLLNode:
+    def __init__(self, url):
+        self.data = url
+        self.next, self.prev = None, None
+        
+class BrowserHistory:
+
+    def __init__(self, homepage: str):
+        self.head = DLLNode(homepage)
+        self.curr = self.head
+
+    def visit(self, url: str) -> None:
+        self.curr.next = DLLNode(url)
+        self.curr.next.prev = self.curr
+        self.curr = self.curr.next
+
+    def back(self, steps: int) -> str:
+        while steps and self.curr.prev:
+            steps -= 1
+            self.curr = self.curr.prev
+        return self.curr.data
+
+    def forward(self, steps: int) -> str:
+        while steps and self.curr.next:
+            steps -= 1
+            self.curr = self.curr.next
+        return self.curr.data
+
+
+# Your BrowserHistory object will be instantiated and called as such:
+# obj = BrowserHistory(homepage)
+# obj.visit(url)
+# param_2 = obj.back(steps)
+# param_3 = obj.forward(steps)
+
+
+# dynamic array
+# O(1) time
+class BrowserHistory:
+
+    def __init__(self, homepage: str):
+        self.urls = [homepage]
+        self.curr = 0
+        self.last = 0
+
+    def visit(self, url: str) -> None:
+        self.curr += 1
+        if len(self.urls) > self.curr:
+            self.urls[self.curr] = url
+        else:
+            self.urls.append(url)
+        self.last = self.curr
+
+    def back(self, steps: int) -> str:
+        self.curr = max(0, self.curr-steps)
+        return self.urls[self.curr]
+
+    def forward(self, steps: int) -> str:
+        self.curr = min(self.curr+steps, self.last)
+        return self.urls[self.curr]
+
+
+# Your BrowserHistory object will be instantiated and called as such:
+# obj = BrowserHistory(homepage)
+# obj.visit(url)
+# param_2 = obj.back(steps)
+# param_3 = obj.forward(steps)
