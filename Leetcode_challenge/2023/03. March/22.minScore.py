@@ -68,3 +68,22 @@ class Solution:
                         nq.add((nei))
             q = nq
         return ans
+
+# dfs
+class Solution:
+    def minScore(self, n: int, roads: List[List[int]]) -> int:
+        g = [[] for _ in range(n+1)]
+        for i, j, d in roads:
+            g[i].append((j, d))
+            g[j].append((i, d))
+        visited = [False]*(n+1)
+        self.ans = float('inf')
+        def dfs(node, visited):
+            visited[node] = True
+            for nex, d in g[node]:
+                self.ans = min(self.ans, d)
+                if not visited[nex]:
+                    dfs(nex, visited)
+
+        dfs(1, visited)
+        return self.ans
