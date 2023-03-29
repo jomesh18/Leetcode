@@ -43,6 +43,7 @@ n == satisfaction.length
 1 <= n <= 500
 -1000 <= satisfaction[i] <= 1000
 '''
+# O(n*n)
 class Solution:
     def maxSatisfaction(self, satisfaction: List[int]) -> int:
         satisfaction.sort()
@@ -54,3 +55,49 @@ class Solution:
                 curr += (j-i+1)*satisfaction[j]
             ans = max(ans, curr)
         return ans
+
+# memo O(n*n)
+class Solution:
+    def maxSatisfaction(self, satisfaction: List[int]) -> int:
+        satisfaction.sort()
+        n = len(satisfaction)
+        ans = 0
+        memo = {}
+        def helper(i, t):
+            if i == n:
+                return 0
+            if (i, t) in memo: return memo[(i, t)]
+            cook = satisfaction[i]*t + helper(i+1, t+1)
+            skip = helper(i+1, t)
+            memo[(i, t)] = max(cook, skip)
+            return memo[(i, t)]
+        
+        return max(ans, helper(0, 1))
+
+
+# O(n*n)
+class Solution:
+    def maxSatisfaction(self, satisfaction: List[int]) -> int:
+        satisfaction.sort()
+        n = len(satisfaction)
+        ans = 0
+        dp = [[0]*(n+2) for _ in range(n+1)]
+        for i in range(n-1, -1, -1):
+            for t in range(1, n+1):
+                dp[i][t] = max(satisfaction[i]*t+dp[i+1][t+1], dp[i+1][t])
+        return dp[0][1]
+
+
+# O(nlogn)
+class Solution:
+    def maxSatisfaction(self, satisfaction: List[int]) -> int:
+        satisfaction.sort()
+        n = len(satisfaction)
+        max_satisfaction = 0
+        suff_sum = 0
+        for i in range(n-1, -1, -1):
+            suff_sum += satisfaction[i]
+            if suff_sum <= 0:
+                break
+            max_satisfaction += suff_sum
+        return max_satisfaction
