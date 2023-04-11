@@ -82,3 +82,36 @@ class Solution:
         for i in range(n):
             ans = max(ans, max(d[i].values()))
         return ans
+
+
+class Solution:
+    def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
+        n = len(colors)
+        g = [[] for _ in range(n)]
+        indegree = [0]*n
+        for i, j in edges:
+            g[i].append(j)
+            indegree[j] += 1
+        
+        q = deque()
+        count = [[0]*26 for _ in range(n)]
+        
+        for i in range(n):
+            if indegree[i] == 0:
+                q.append(i)
+        
+        ans = 0
+        seen = 0
+        while q:
+            node = q.popleft()
+            count[node][ord(colors[node])-ord('a')] += 1
+            ans = max(ans, count[node][ord(colors[node])-ord('a')])
+            seen += 1
+            for nei in g[node]:
+                for i in range(26):
+                    count[nei][i] = max(count[nei][i], count[node][i])
+                indegree[nei] -= 1
+                if not indegree[nei]:
+                    q.append(nei)
+            
+        return ans if seen == n else -1
