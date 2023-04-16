@@ -79,3 +79,47 @@ class Solution:
             return ans%MOD
             
         return helper(0, 0)
+
+
+
+class Solution:
+    def numWays(self, words: List[str], target: str) -> int:
+        n, m, k = len(words), len(target), len(words[0])
+        MOD = 10**9+7
+        count = [[0]*26 for _ in range(k)]
+        
+        for word in words:
+            for i in range(k):
+                count[i][ord(word[i])-ord('a')] += 1
+        
+#         @lru_cache(None)
+#         def helper(tl, wl):
+#             if tl == m:
+#                 return 1
+#             if k-wl < m-tl: return 0
+#             curr_tc = target[tl]
+#             freq = count[wl][ord(curr_tc)-ord('a')]
+#             ans = 1
+#             taking = 0
+#             if freq > 0:
+#                 taking = helper(tl+1, wl+1) * freq
+#             not_taking = helper(tl, wl+1)
+#             ans = taking+not_taking
+#             return ans%MOD
+            
+#         return helper(0, 0)
+    
+        dp = [[0]*(k+1) for _ in range(m+1)]
+        dp[0][0] = 1
+        
+        for i in range(m+1):
+            for j in range(k):
+                if i < m:
+                    freq = count[j][ord(target[i])-ord('a')]
+                    dp[i+1][j+1] += dp[i][j]*freq
+                    dp[i+1][j+1] %= MOD
+                dp[i][j+1] += dp[i][j]
+                dp[i][j+1] %= MOD
+        
+        return dp[m][k]
+        
