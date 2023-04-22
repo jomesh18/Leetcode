@@ -55,3 +55,21 @@ class Solution:
             memo[(i, curr_profit, curr_people)] = ways
             return ways
         return helper(0, 0, 0)
+
+
+class Solution:
+    def profitableSchemes(self, n: int, minProfit: int, group: List[int], profit: List[int]) -> int:
+        MOD = 10**9 + 7
+        m = len(group)  
+        dp = [[[0]*(minProfit+1) for _ in range(n+1)] for _ in range(m+1)]
+        
+        for people in range(n+1):
+            dp[m][people][minProfit] = 1
+        
+        for i in range(m-1, -1, -1):
+            for curr_people in range(n+1):
+                for curr_profit in range(minProfit+1):
+                    take = (dp[i+1][curr_people+group[i]][min(minProfit, curr_profit+profit[i])] if (curr_people + group[i] <= n) else 0)%MOD
+                    dp[i][curr_people][curr_profit] = (dp[i+1][curr_people][curr_profit] + take)%MOD
+        
+        return dp[0][0][0]
