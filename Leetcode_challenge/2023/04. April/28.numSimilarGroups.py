@@ -80,3 +80,41 @@ class Solution:
         
         return count
                     
+
+class Solution:
+    def numSimilarGroups(self, strs: List[str]) -> int:
+        n = len(strs)
+        k = len(strs[0])
+        adj = [[] for _ in range(n)]
+        
+        def similar(i, j):
+            word1, word2 = strs[i], strs[j]
+            diff = 0
+            for p in range(k):
+                if word1[p] != word2[p]:
+                    diff += 1
+                    if diff > 2: return False
+            return (diff == 0 or diff == 2)
+                        
+        def dfs(i):
+            for nei in adj[i]:
+                if not visited[nei]:
+                    visited[nei] = True
+                    dfs(nei)
+                    
+        for i in range(n):
+            for j in range(i+1, n):
+                if similar(i, j):
+                    adj[i].append(j)
+                    adj[j].append(i)
+        
+        visited = [False]*n
+        count = 0
+        for i in range(n):
+            if not visited[i]:
+                visited[i] = True
+                dfs(i)
+                count += 1
+        
+        return count
+                    
