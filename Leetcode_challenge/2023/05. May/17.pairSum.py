@@ -90,3 +90,22 @@ class Solution:
         reverse = rev(reverse)
         last.next = reverse
         return ans
+
+
+class Solution:
+    def pairSum(self, head: Optional[ListNode]) -> int:
+        slow, fast = head, head
+        ans = 0
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        curr, prev = slow, None
+        while curr:
+            prev, curr.next, curr = curr, prev, curr.next
+        curr = head
+        while prev:
+            ans = max(ans, curr.val+prev.val)
+            curr = curr.next
+            prev = prev.next
+        
+        return ans
