@@ -39,6 +39,7 @@ Constraints:
 1 <= prices[i] < 5 * 104
 0 <= fee < 5 * 104
 '''
+# topdown dp, O(n) time, O(n) space
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
         n = len(prices)
@@ -57,3 +58,26 @@ class Solution:
             memo[i][bought] = ans
             return memo[i][bought]
         return max(0, helper(0, False))
+
+# bottom up dp, O(n) time, O(n) space
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        n = len(prices)    
+        dp = [[0]*2 for _ in range(n+1)]
+        dp[n][1] = float('-inf')
+        for i in range(n-1, -1, -1):
+            dp[i][False] = max(dp[i+1][False], -prices[i]+dp[i+1][True])
+            dp[i][True] = max(dp[i+1][True], prices[i]-fee+dp[i+1][False])
+        return dp[0][False]
+
+# optimized bottom up dp, O(n) time, O(1) space
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        n = len(prices)
+        holding = float('-inf')
+        not_holding = 0
+        for i in range(n-1, -1, -1):
+            new_not_holding = max(not_holding, -prices[i]+holding)
+            new_holding = max(holding, prices[i]-fee+not_holding)
+            holding, not_holding = new_holding, new_not_holding
+        return not_holding
