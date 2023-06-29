@@ -56,32 +56,29 @@ Each key in the grid has a matching lock.
 '''
 class Solution:
     def shortestPathAllKeys(self, grid: List[str]) -> int:
-        grid = [list(r) for r in grid]
         m, n = len(grid), len(grid[0])
-        tot_k = 0
+        k = 0
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == '@':
                     start = (i, j)
-                    grid[i][j] = '.'
                 elif grid[i][j] == '.' or grid[i][j] == '#':
                     continue
                 elif grid[i][j].islower():
-                    tot_k += 1
+                    k += 1
         mask = 0
-        all_collected = (1<<tot_k)-1
+        all_collected = (1<<k)-1
         q = [(mask, start[0], start[1])]
         dp = dict()
         dp[(mask, start[0], start[1])] = 0
         while q:
             nq = []
-            # print("q = {}".format(q))
             for mask, i, j in q:
                 moves = dp[(mask, i, j)]
                 for ni, nj in [(i-1, j), (i, j-1), (i, j+1), (i+1, j)]:
                     if 0<=ni<m and 0<=nj<n and grid[ni][nj] != '#':
                         key = (mask, ni, nj)
-                        if grid[ni][nj] == '.':
+                        if grid[ni][nj] == '.' or grid[ni][nj] == '@':
                             if dp.get(key, float('inf')) > moves+1:
                                 dp[key] = moves + 1
                                 nq.append(key)
@@ -97,6 +94,5 @@ class Solution:
                             if dp.get(key, float('inf')) > moves+1:
                                 dp[key] = moves + 1
                                 nq.append(key)
-            # print(dp)
             q = nq
         return -1
