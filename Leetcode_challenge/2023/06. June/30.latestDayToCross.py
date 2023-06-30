@@ -86,3 +86,47 @@ class Solution:
                 hi = mid
             # print(lo, hi, mid)
         return ans
+
+
+class Solution:
+    def latestDayToCross(self, row: int, col: int, cells: List[List[int]]) -> int:
+        class UF:
+            def __init__(self, n):
+                self.root = [i for i in range(n)]
+                self.rank = [0 for _ in range(n)]
+            
+            def find(self, x):
+                if self.root[x] != x:
+                    self.root[x] = self.find(self.root[x])
+                return self.root[x]
+            
+            def union(self, x, y):
+                rx, ry = self.find(x), self.find(y)
+                if rx != ry:
+                    if self.rank[rx] < self.rank[ry]:
+                        self.root[rx] = ry
+                    else:
+                        self.root[ry] = rx
+                        if self.rank[rx] == self.rank[ry]:
+                            self.rank[rx] += 1
+            
+        uf = UF(row*col+2)
+        grid = [[1]*col for _ in range(row)]
+        directions = [(-1, 0), (0, -1), (0, 1), (1, 0)]
+        
+        for i in range(row*col-1, -1, -1):
+            r, c = cells[i][0]-1, cells[i][1]-1
+            grid[r][c] = 0
+            ind1 = r*col + c + 1
+            for dr, dc in directions:
+                nr, nc = r+dr, c+dc
+                
+                if 0<=nr<row and 0<=nc<col and grid[nr][nc] == 0:
+                    ind2 = nr*col+nc+1
+                    uf.union(ind1, ind2)
+            if r == 0:
+                uf.union(ind1, 0)
+            if r == row-1:
+                uf.union(ind1, row*col+1)
+            if uf.find(0) == uf.find(row*col+1):
+                return i
