@@ -45,3 +45,13 @@ class Solution:
         if ans >= 2**31:
             ans -= 2**32
         return ans
+
+
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        ones, twos = 0, 0
+        for num in nums:
+            ones ^= (num & ~twos)
+            twos ^= (num & ~ones)
+        return ones
