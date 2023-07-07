@@ -74,3 +74,31 @@ class Solution:
         
         return max(count("T"), count("F"))
     
+
+
+class Solution:
+    def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
+        count = Counter(answerKey[:k])
+        ans = k
+        l = 0
+        for i in range(k, len(answerKey)):
+            count[answerKey[i]] += 1
+            while min(count['T'], count['F']) > k:
+                count[answerKey[l]] -= 1
+                l += 1
+            ans = max(ans, i-l+1)
+        return ans
+
+
+class Solution:
+    def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
+        count = Counter()
+        max_size = 0
+        for i in range(len(answerKey)):
+            count[answerKey[i]] += 1
+            minor = min(count['T'], count['F'])
+            if minor <= k:
+                max_size += 1
+            else:
+                count[answerKey[i-max_size]] -= 1
+        return max_size
