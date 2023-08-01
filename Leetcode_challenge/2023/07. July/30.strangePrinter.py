@@ -55,3 +55,21 @@ class Solution:
             return cost
 
         return solve(s)
+
+
+class Solution:
+    def strangePrinter(self, s: str) -> int:
+        cache = {}
+        
+        def solve(l, r):
+            if l > r: return 0
+            if (l, r) in cache: return cache[(l, r)]
+            cost = 1 + solve(l, r-1)
+            char = s[r]
+            
+            for i in range(l, r):
+                if s[i] == char:
+                    cost = min(cost, solve(l, i) + solve(i+1, r-1))
+            cache[(l, r)] =  cost
+            return cost
+        return solve(0, len(s)-1)
