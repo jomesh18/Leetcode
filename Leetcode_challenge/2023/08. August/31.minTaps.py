@@ -69,3 +69,21 @@ class Solution:
             prev_l, prev_r = intervals[chosen]
             # print(right, count, chosen, end)
         return count
+
+
+class Solution:
+    def minTaps(self, n: int, ranges: List[int]) -> int:
+        max_reach = [0]*(n+1)
+        for i, v in enumerate(ranges):
+            max_reach[max(0, i-v)] = max(max_reach[i], min(i+v, n))
+        taps = 0
+        curr_end = 0
+        next_end = 0
+        for i in range(n+1):
+            if i > next_end:
+                return -1
+            if i > curr_end:
+                taps += 1
+                curr_end = next_end
+            next_end = max(next_end, max_reach[i])
+        return taps
