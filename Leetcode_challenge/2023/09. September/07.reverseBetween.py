@@ -62,3 +62,33 @@ class Solution:
             curr = temp
         prev.next = nex
         return dummy.next
+
+# One pass
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        dummy = ListNode(0, head)
+        prev = dummy
+        count = 0
+        curr = head
+        while curr and count+1 < left:
+            count += 1
+            prev = curr
+            curr = curr.next
+        first_half_last = prev
+        first = curr
+        prev = curr
+        curr = curr.next
+        while count < right-1 and curr:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+            count += 1
+        first_half_last.next = prev
+        first.next = curr
+        return dummy.next
