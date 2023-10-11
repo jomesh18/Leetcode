@@ -57,3 +57,18 @@ class Solution:
             j = bisect_right(new_nums, num+n-1)
             present = max(present, j-i)
         return n-present
+
+
+class Solution:
+    def minOperations(self, nums: List[int]) -> int:
+        n = len(nums)
+        new_nums = sorted(set(nums))
+        # print(new_nums, n)
+        j = 0
+        present = 0
+        for i, num in enumerate(new_nums):
+            while j < len(new_nums) and new_nums[j] < (num + n):
+                j += 1
+            present = max(present, j-i)
+            # print(i, j, present)
+        return n-present
