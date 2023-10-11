@@ -57,3 +57,41 @@ class Solution:
             
             ans[i] = len(heap)
         return ans
+
+
+# line sweep
+class Solution:
+    def fullBloomFlowers(self, flowers: List[List[int]], people: List[int]) -> List[int]:
+        difference = {0: 0}
+        for s, e in flowers:
+            difference[s] = difference.get(s, 0) + 1
+            difference[e+1] = difference.get(e+1, 0) - 1
+        positions = []
+        prefix = []
+        curr = 0
+        for key in sorted(difference.keys()):
+            positions.append(key)
+            curr += difference[key]
+            prefix.append(curr)
+        ans = []
+        for person in people:
+            i = bisect_right(positions, person)-1
+            ans.append(prefix[i])
+        return ans
+
+
+#simple binary_search
+class Solution:
+    def fullBloomFlowers(self, flowers: List[List[int]], people: List[int]) -> List[int]:
+        starts, ends = [], []
+        for s, e in flowers:
+            starts.append(s)
+            ends.append(e+1)
+        starts.sort()
+        ends.sort()
+        ans = []
+        for p in people:
+            i = bisect_right(starts, p)
+            j = bisect_right(ends, p)
+            ans.append(i-j)
+        return ans
