@@ -60,3 +60,24 @@ class Solution:
             memo[(i, last, rem)] = ans
             return ans
         return helper(0, 0, k)
+
+
+class Solution:
+    def numOfArrays(self, n: int, m: int, k: int) -> int:
+        mod, memo = 10**9+7, {}
+        def helper(i, last, rem):
+            # if i == n:
+            #     if rem == 0:
+            #         return 1
+            #     else:
+            #         return 0
+            
+            if rem == 0: return last**(n-i)
+            if i == n: return 0
+            if (i, last, rem) in memo: return memo[(i, last, rem)]
+            ans = (last * helper(i+1, last, rem)) % mod
+            for val in range(last+1, m+1):
+                ans = (ans + helper(i+1, val, rem-1)) % mod
+            memo[(i, last, rem)] = ans
+            return ans
+        return helper(0, 0, k)
