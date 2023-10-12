@@ -41,3 +41,18 @@ class Solution:
             return 4*3**(n//3-1)
         if n % 3 == 2:
             return 2*3**(n//3)
+
+
+class Solution:
+    def integerBreak(self, n: int) -> int:
+        if n <= 3: return n-1
+        memo = {}
+        def helper(i):
+            if i <= 3: return i
+            if i in memo: return memo[i]
+            ans = 0
+            for j in range(i-1, 1, -1):
+                ans = max(ans, j*helper(i-j))
+            memo[i] = ans
+            return ans
+        return helper(n)
