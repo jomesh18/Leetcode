@@ -81,3 +81,22 @@ class Solution:
             memo[(i, last, rem)] = ans
             return ans
         return helper(0, 0, k)
+
+
+class Solution:
+    def numOfArrays(self, n: int, m: int, k: int) -> int:
+        mod = 10**9+7
+        dp = [[[0]*(k+1) for _ in range(m+1)] for _ in range(n+1)]
+        
+        for max_ in range(1, m+1):
+            dp[n][max_][0] = 1
+            
+        for i in range(n-1, -1, -1):
+            for max_ in range(m, -1, -1):
+                for rem in range(k+1):
+                    dp[i][max_][rem] = (max_*dp[i+1][max_][rem]) % mod
+                    if rem > 0:
+                        for v in range(max_+1, m+1):
+                            dp[i][max_][rem] = (dp[i][max_][rem] + dp[i+1][v][rem-1]) % mod
+                            
+        return dp[0][0][k]
