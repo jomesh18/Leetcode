@@ -1,77 +1,76 @@
-class SegmentTree:
 
-    def __init__(self, nums: int):
-        self.n = len(nums)
-        curr = 1
-        while curr < self.n:
-            curr <<= 1
-        seg_size = curr*2-1
+# segment tree for range updates and query
 
-        self.segment = [0]*seg_size
-        self.lazy = [0]*seg_size
-        self.build(0, self.n-1, 0, nums)
-
-    def build(self, lo, hi, pos, nums):
-        if(lo == hi):
-            self.segment[pos] = nums[lo]
-        else:
-            mid = (lo + hi)//2;
-            self.build(lo, mid, 2 * pos + 1, nums);
-            self.build(mid + 1, hi, 2 * pos + 2, nums);
-            self.segment[pos] = self.segment[2*pos+1]+self.segment[2*pos+2]
-
-    def update(self, start, end, delta, pos, lo, hi):
-        if lo > hi:
-            return 
-        if self.lazy[pos] != 0:
-            self.segment[pos] += self.lazy[pos]
-            if low != high:
-                self.lazy[2*pos+1] += self.lazy[pos]
-                self.lazy[2*pos+2] += self.lazy[pos]
-            self.lazy[pos] = 0
-
-        if lo >= start and hi <= end:
-            self.segment[pos] += delta
-            if lo != hi:
-                self.lazy[2*pos+1] += delta
-                self.lazy[2*pos+2] += delta
-        else:
-            mid = (lo+hi)//2
-            self.update(start, end, delta, 2*pos+1, lo, mid)
-            self.update(start, end, delta, 2*pos+2, mid+1, hi)
-            self.segment[pos] = self.segment[2*pos+1]+self.segment[2*pos+2]
-
-    def range_query_util(self, qlow, qhigh):
-        return self.range_query(qlow, qhigh, 0, 0, self.n-1)
-
-    def range_query(self, qlow, qhigh, pos, lo, hi):
-        if lo > hi:
-            return 0
-
-        if self.lazy[pos] != 0:
-            self.segment[pos] += self.lazy[pos]
-            if lo != hi:
-                self.lazy[2*pos+1] += self.lazy
-                self.lazy[2*pos+2] += self.lazy
-            self.lazy[pos] = 0
-
-        if qlow > hi or qhigh < lo:
-            return 0
-        elif qlow <= lo and qhigh >= hi:
-            return self.segment[pos]
-        else:
-            mid = (lo+hi)//2
-            l = self.range_query(qlow, qhigh, 2*pos+1, lo, mid)
-            r = self.range_query(qlow, qhigh, 2*pos+2, mid+1, hi)
-            return l+r
+arr = [-1,2,4,1,7,1,3,2]
 
 
-nums = [2, 3, -1, 4]
-segObj = SegmentTree(nums)
+n = len(arr)
+st = [0]*(4*n)
+lazy = [0]*(4*n)
 
-print(segObj.segment)
-print(segObj.lazy)
 
-print(segObj.range_query_util(1, 2))
-print(segObj.range_query_util(0, 3))
-print(segObj.range_query_util(1, 3))
+def add(start, end, value, tl=0, tr=n-1, pos=1):
+    if lazy[pos] != 0:
+        st[pos] += (tr-tl+1)*lazy[pos]
+        if tl != tr:
+            lazy[2*pos] += lazy[pos]
+            lazy[2*pos+1] += lazy[pos]
+        lazy[pos] = 0
+    if start > end:
+        return 0
+        
+    if start == tl and end == tr:
+        st[pos] += (tr-tl+1)*value
+        if start != end:
+            lazy[2*pos] += value
+            lazy[2*pos+1] += value
+    elif start <= end:
+        tm = (tl + tr)//2
+        add(start, min(tm, end), value, tl, tm, 2*pos)
+        add(max(start, tm+1), end, value, tm+1, tr, 2*pos+1)
+        st[pos] = st[2*pos] + st[2*pos+1]
+
+def query(start, end, tl=0, tr=n-1, pos=1):
+    
+    if lazy[pos] != 0:
+        st[pos] += (tr-tl+1)*lazy[pos]
+        if tl != tr:
+            lazy[2*pos] += lazy[pos]
+            lazy[2*pos+1] += lazy[pos]
+        lazy[pos] = 0
+    if start > end:
+        return 0
+    if start == tl and end == tr:
+        return st[pos]
+    elif start <= end:
+        tm = (tl + tr)//2
+        return query(start, min(tm, end), tl, tm, 2*pos) + query(max(start, tm+1), end, tm+1, tr, 2*pos+1)
+
+def build(arr, tl=0, tr=n-1, pos=1):
+    if tl == tr:
+        st[pos] = arr[tl]
+    else:
+        tm = (tl+tr)//2
+        build(arr, tl, tm, 2*pos)
+        build(arr, tm+1, tr, 2*pos+1)
+        st[pos] = st[2*pos] + st[2*pos+1]
+
+
+build(arr)
+print(st)
+print(lazy)
+
+add(0, 3, 3)
+print(st)
+print(lazy)
+add(0, 3, 1)
+print(st)
+print(lazy)
+add(0, 0, 2)
+print(st)
+print(lazy)
+print(query(3,5))
+print(st)
+print(lazy)
+# arr = [1,2,1]
+
