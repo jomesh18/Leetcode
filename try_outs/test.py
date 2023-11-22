@@ -3,7 +3,7 @@ a = [int(i) for i in input().split()]
 
 class Node:
     def __init__(self, max_sum, pref, suff, sum):
-        self.max_sum = max_sum
+        self.max_sum = max(0, max_sum)
         self.pref = pref
         self.suff = suff
         self.sum = sum
@@ -47,9 +47,3 @@ for _ in range(m):
     a, b = [int(i) for i in input().split()]
     set(a, b)
     print(find_max())
-
-
-# 4 2
-# -2 -1 -5 -4
-# 1 3
-# 3 2

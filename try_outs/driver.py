@@ -1,12 +1,14 @@
 import test_generator
 import correct_brute_force
 import test
+import filecmp
 
-for i in range(10):
+for i in range(100000):
 
-	print("Test "+str(i))
 	test_generator
-	print("correct answer")
 	correct_brute_force
-	print('my answer')
 	test
+	print('Test '+str(i))
+	if not filecmp.cmp('correct.txt', 'my_out.txt', shallow=False):
+		print("Not good")
+		break

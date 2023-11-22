@@ -1,18 +1,13 @@
 import random
-nm_lo, nm_hi = 1, 100000
-ai_lo, ai_hi = 0, 10**9
+nm_lo, nm_hi = 1, 10
+ai_lo, ai_hi = -10**9, 10**9
 
-n, m = random.randint(nm_lo, nm_hi), random.randint(nm_lo, nm_hi)
-print(str(n)+" "+str(m))
-a = [str(random.randint(ai_lo, ai_hi)) for _ in range(n)]
-print(" ".join(a))
-for _ in range(m):
-	t = random.randint(1, 2)
-	if t == 1:
-		v = random.randint(ai_lo, ai_hi)
+with open('input.txt', 'w') as t:
+	n, m = random.randint(nm_lo, nm_hi), random.randint(nm_lo, nm_hi)
+	t.write(str(n)+" "+str(m)+"\n")
+	a = [str(random.randint(ai_lo, ai_hi)) for _ in range(n)]
+	t.write(" ".join(a)+"\n")
+	for _ in range(m):
 		i = random.randint(0, n-1)
-		print(str(t)+" "+str(i)+" "+str(v))
-	else:
-		l = random.randint(0, n-1)
-		r = random.randint(l+1, n)
-		print(str(t)+" "+str(l)+" "+str(r))
+		v = random.randint(-10**9, 10**9)
+		t.write(str(i)+ " "+str(v)+"\n")
