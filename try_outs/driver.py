@@ -1,13 +1,13 @@
 import test_generator
 import correct_brute_force
-import test
+import mine
 import filecmp
 
-for i in range(100000):
+for i in range(10000):
 
 	test_generator
 	correct_brute_force
-	test
+	mine
 	print('Test '+str(i))
 	if not filecmp.cmp('correct.txt', 'my_out.txt', shallow=False):
 		print("Not good")

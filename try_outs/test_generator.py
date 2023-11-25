@@ -1,13 +1,17 @@
 import random
-nm_lo, nm_hi = 1, 10
-ai_lo, ai_hi = -10**9, 10**9
+n_lo, n_hi = 1, 10
+m_lo, m_hi = 1, 10**5
 
 with open('input.txt', 'w') as t:
-	n, m = random.randint(nm_lo, nm_hi), random.randint(nm_lo, nm_hi)
+	n, m = random.randint(n_lo, n_hi), random.randint(m_lo, m_hi)
 	t.write(str(n)+" "+str(m)+"\n")
-	a = [str(random.randint(ai_lo, ai_hi)) for _ in range(n)]
-	t.write(" ".join(a)+"\n")
 	for _ in range(m):
-		i = random.randint(0, n-1)
-		v = random.randint(-10**9, 10**9)
-		t.write(str(i)+ " "+str(v)+"\n")
+		type = random.randint(1, 2)
+		if type == 1:
+			l = random.randint(0, n-1)
+			r = random.randint(l+1, n)
+			v= random.randint(0, 10**9)
+			t.write(str(type)+ ' '+str(l)+ " "+str(r)+ " "+str(v)+"\n")
+		else:
+			i = random.randint(0, n-1)
+			t.write(str(type)+" "+str(i)+"\n")

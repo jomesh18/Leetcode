@@ -1,49 +1,31 @@
 n, m = [int(i) for i in input().split()]
-a = [int(i) for i in input().split()]
-
-class Node:
-    def __init__(self, max_sum, pref, suff, sum):
-        self.max_sum = max(0, max_sum)
-        self.pref = pref
-        self.suff = suff
-        self.sum = sum
+a = [0]*n
 
 st = [0]*(4*n)
 
-def combine(a, b):
-    curr = Node(0, 0, 0, 0)
-    curr.max_sum = max(0, a.max_sum, b.max_sum, a.suff+b.pref)
-    curr.sum = a.sum+b.sum
-    curr.pref = max(a.pref, a.sum+b.pref)
-    curr.suff = max(b.suff, b.sum+a.suff)
-    return curr
+def query(i, tl=0, tr=n-1, pos=1):
+	if tl == tr:
+		return st[pos]
+	tm = (tl+tr)//2
+	if i <= tm:
+		return query(i, tl, tm, 2*pos)
+	else:
+		return query(i, tm+1, tr, 2*pos+1)
 
-def build(a, tl=0, tr=n-1, pos=1):
-    if tl == tr:
-        st[pos] = Node(a[tl], a[tl], a[tl], a[tl])
-    else:
-        tm = (tl+tr)//2
-        build(a, tl, tm, 2*pos)
-        build(a, tm+1, tr, 2*pos+1)
-        st[pos] = combine(st[2*pos], st[2*pos+1])
+def update(i, val, tl=0, tr=n-1, pos=1):
+	if tl == tr:
+		st[pos] += val
+	else:
+		tm = (tl+tr)//2
+		if i <= tm:
+			update(i, val, tl, tm, 2*pos)
+		else:
+			update(i, val, tm+1, tr, 2*pos+1)
 
-def set(i, val, tl=0, tr=n-1, pos=1):
-    if tl == tr:
-        st[pos] = Node(val, val, val, val)
-    else:
-        tm = (tl+tr)//2
-        if i <= tm:
-            set(i, val, tl, tm, 2*pos)
-        else:
-            set(i, val, tm+1, tr, 2*pos+1)
-        st[pos] = combine(st[2*pos], st[2*pos+1])
-
-def find_max(tl=0, tr=n-1, pos=1):
-    return st[1].max_sum
-
-build(a)
-print(find_max())
 for _ in range(m):
-    a, b = [int(i) for i in input().split()]
-    set(a, b)
-    print(find_max())
+	ins = [int(i) for i in input().split()]
+	if ins[0] == 1:
+		for k in range(ins[1], ins[2]):
+			update(k, ins[3])
+	else:
+		print(query(ins[1]))
