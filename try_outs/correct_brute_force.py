@@ -1,12 +1,17 @@
 with open('input.txt') as t:
-    n, m = [int(i) for i in t.readline().split()]
-    a = [0]*n
+    n = int(t.readline())
+    a = [int(i) for i in t.readline().split()]
+    m = int(t.readline())
 
     with open('correct.txt', 'w') as o:
         for _ in range(m):
-            ins = [int(i) for i in t.readline().split()]
-            if ins[0] == 1:
-                for i in range(ins[1], ins[2]):
-                    a[i] += ins[3]
+            typ, b, c = [int(i) for i in t.readline().split()]
+            if typ == 0:
+                a[b-1] = int(c)
             else:
-                o.write(str(a[ins[1]])+"\n")
+                ans = 0
+                mul = 1
+                for i in range(b-1, c):
+                    ans += mul*a[i]
+                    mul *= -1
+                o.write(str(ans)+"\n")

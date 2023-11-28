@@ -3,7 +3,7 @@ import correct_brute_force
 import mine
 import filecmp
 
-for i in range(10000):
+for i in range(1000):
 
 	test_generator
 	correct_brute_force
