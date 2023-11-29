@@ -1,22 +1,19 @@
 import random
-n_lo, n_hi = 1, 5
-m_lo, m_hi = 1, 5
-e_lo, e_hi = 1, 5
+n_lo, n_hi = 1, 2*10**5
+m_lo, m_hi = 1, 2*10**5
+r_lo, r_hi = 1, 10**4
 
 with open('input.txt', 'w') as t:
 	n = random.randint(n_lo, n_hi)
-	t.write(str(n)+"\n")
-	a = [str(random.randint(e_lo, e_hi)) for _ in range(n)]
-	t.write(" ".join(a)+"\n")
 	m = random.randint(m_lo, m_hi)
-	t.write(str(m)+"\n")
+	r = random.randint(r_lo, r_hi)
+	t.write(str(r)+" "+str(n)+" "+str(m)+"\n")
+	for _ in range(n):
+		t.write(str(random.randint(0, r-1))+" "+str(random.randint(0, r-1))+"\n")
+		t.write(str(random.randint(0, r-1))+" "+str(random.randint(0, r-1))+"\n")
+		t.write("\n")
+
 	for _ in range(m):
-		type = random.randint(0, 1)
-		if type == 0:
-			i = random.randint(1, n)
-			v= random.randint(e_lo, e_hi)
-			t.write(str(type)+ ' '+str(i)+ " "+str(v)+"\n")
-		else:
-			l = random.randint(1, n)
-			r= random.randint(l, n)
-			t.write(str(type)+ ' '+str(l)+ " "+str(r)+"\n")
+		l = random.randint(1, n)
+		r= random.randint(l, n)
+		t.write(str(l)+ " "+str(r)+"\n")
