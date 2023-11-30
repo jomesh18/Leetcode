@@ -10,7 +10,7 @@ with open('input.txt') as t:
         a3, a4 = a[1]
         b1, b2 = b[0]
         b3, b4 = b[1]
-        ans = [[((a1*b1)%r+(a2*b3)%r)%r, ((a1*b2)%r+(a2*b4)%r)%r], [((a3*b1)%r+(a4*b3)%r)%r, ((a3*b2)%r+(a4*b4)%r)%r]]
+        ans = [[(a1*b1+a2*b3)%r, (a1*b2+a2*b4)%r], [(a3*b1+a4*b3)%r, (a3*b2+a4*b4)%r]]
         return ans
 
     def build(a, tl=0, tr=n-1, pos=1):
@@ -20,9 +20,7 @@ with open('input.txt') as t:
             tm = (tl+tr)//2
             build(a, tl, tm, 2*pos)
             build(a, tm+1, tr, 2*pos+1)
-            a1 = st[2*pos]
-            a2 = st[2*pos+1]
-            st[pos] = mul(a1, a2)
+            st[pos] = mul(st[2*pos], st[2*pos+1])
 
     def query(l, r, tl=0, tr=n-1, pos=1,):
         if l==tl and r == tr:
