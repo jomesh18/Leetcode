@@ -1,52 +1,65 @@
-r, n, m = [int(i) for i in input().split()]
+from sys import stdin, stdout 
+
+n, q = [int(i) for i in stdin.readline().split()]
 
 st = [[] for _ in range(4*n)]
 
-def mul(a, b):
-    a1, a2 = a[0]
-    a3, a4 = a[1]
-    b1, b2 = b[0]
-    b3, b4 = b[1]
-    ans = [[(a1*b1+a2*b3)%r, (a1*b2+a2*b4)%r], [(a3*b1+a4*b3)%r, (a3*b2+a4*b4)%r]]
-    return ans
-    	
+def merge(a, b):
+    num1, f1 = a
+    num2, f2 = b
+    ans = num1 + num2
+    for i in range(len(f2)):
+        if f2[i] > 0:
+            for j in range(i+1, len(f1)):
+                if f1[j] > 0:
+                    ans += f2[i]*f1[j]
+    return [ans, [i+j for i, j in zip(f1, f2)]]
 
-def query(l, r, tl=0, tr=n-1, pos=1,):
-    if l==tl and r == tr:
+def query_util(l, r, tl, tr, pos):
+    if l > r:
+        return [0, [0]*40]
+    elif tl == l and tr == r:
         return st[pos]
-    elif l > r:
-        return [[1, 0], [0, 1]]
-    tm = (tl+tr)//2
-    ans = [[1, 0], [0, 1]]
-    if l <= min(r, tm):
-        ans = query(l, min(r, tm), tl, tm, 2*pos)
-    if max(l, tm+1) <= r:
-        ans = mul(ans, query(max(l, tm+1), r, tm+1, tr, 2*pos+1))
-    return ans
+    else:
+        tm = (tl+tr)//2
+        return merge(query_util(l, min(r, tm), tl, tm, 2*pos), query_util(max(l, tm+1), r, tm+1, tr, 2*pos+1))
+
+def query(l, r):
+    return query_util(l, r, 0, n-1, 1)[0]
+
+def update(i, v, tl=0, tr=n-1, pos=1):
+    if tl == tr:
+        count = [0]*40
+        count[v-1] = 1
+        st[pos] = [0, count]
+    else:
+        tm = (tl+tr)//2
+        if i <= tm:
+            update(i, v, tl, tm, 2*pos)
+        else:
+            update(i, v, tm+1, tr, 2*pos+1)
+        st[pos] = merge(st[2*pos], st[2*pos+1])
 
 def take_and_build():
     def build(a, tl=0, tr=n-1, pos=1):
         if tl == tr:
-            st[pos] = a[tl]
+            count = [0]*40
+            count[a[tl]-1] = 1
+            st[pos] = [0, count]
         else:
             tm = (tl+tr)//2
             build(a, tl, tm, 2*pos)
             build(a, tm+1, tr, 2*pos+1)
-            st[pos] = mul(st[2*pos], st[2*pos+1])
-        
-    a = []
-    for _ in range(n):
-    	b = [[int(i)%r for i in input().split()]]
-    	b.append([int(i)%r for i in input().split()])
-    	a.append(b)
-    	input()
-    build(a)
+            st[pos] = merge(st[2*pos], st[2*pos+1])
+
+    arr = [int(i) for i in stdin.readline().split()]
+    build(arr)
 
 take_and_build()
 
-for _ in range(m):
-	b, c = [int(i) for i in input().split()]
-	arr = query(b-1, c-1)
-	print(" ".join(str(i) for i in arr[0]))
-	print(" ".join(str(i) for i in arr[1]))
-	print()
+for _ in range(q):
+    a, b, c = [int(i) for i in stdin.readline().split()]
+    if a == 1:
+        stdout.write(str(query(b-1, c-1))+"\n")
+    else:
+        update(b-1, c)
