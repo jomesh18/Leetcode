@@ -13,7 +13,7 @@ with open('input.txt') as t:
     arr = [int(i) for i in t.readline().split()]
 
     with open('correct_output.txt', 'w') as w:
-        for _ in range(q):
+        for kk in range(q):
             a, b, c = [int(i) for i in t.readline().split()]
             if a == 1:
                 ans = 0
@@ -21,6 +21,7 @@ with open('input.txt') as t:
                     for j in range(b-1, i):
                         if arr[j] > arr[i]:
                             ans += 1
+                print(ans)
                 w.write(str(ans)+"\n")
             else:
                 arr[b-1] = c

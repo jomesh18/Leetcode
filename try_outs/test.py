@@ -1,6 +1,9 @@
-from sys import stdin, stdout 
+import sys
+def get_ints(): return map(int, sys.stdin.readline().strip().split())
+def get_list(): return list(map(int, sys.stdin.readline().strip().split()))
+def get_string(): return sys.stdin.readline().strip()
 
-n, q = [int(i) for i in stdin.readline().split()]
+n, q = get_ints()
 
 st = [[] for _ in range(4*n)]
 
@@ -52,7 +55,7 @@ def take_and_build():
             build(a, tm+1, tr, 2*pos+1)
             st[pos] = merge(st[2*pos], st[2*pos+1])
 
-    arr = [int(i) for i in stdin.readline().split()]
+    arr = get_list()
     build(arr)
 
 take_and_build()
