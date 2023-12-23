@@ -7,7 +7,8 @@ sys.stdout = open('my_output.txt', 'w')
 
 # n, m = map(int, sys.stdin.readline().split())
 n, m = map(int, input().split())
-big_num = 10**9+1
+# big_num = 10**9+1
+big_num = 10
 st = [(big_num, n)]*(4*n)
 print(st)
 def merge(a, b):
@@ -42,12 +43,14 @@ for _ in range(m):
     ins = list(map(int, sys.stdin.readline().split()))
     if ins[0] == 1:
         update(ins[1], ins[2])
+        print(st)
     else:
         ans = 0
         l, r, p = ins[1], ins[2]-1, ins[3]
         while True:
             min_, i = query(l, r)
-            if min_ > p or min_ == big_num:
+            print(min_, i, l, r)
+            if min_ > p:
                 Q.append(ans)
                 break
             else:
