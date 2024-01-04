@@ -1,9 +1,7 @@
-import sys 
-# For getting input from input.txt file 
-sys.stdin = open('input.txt', 'r')  
-  
-# Printing the Output to output.txt file 
-sys.stdout = open('correct_output.txt', 'w')
+import sys
+
+# # For getting input from input.txt file 
+# sys.stdin = open('input.txt', 'r')
 
 n, m = [int(i) for i in sys.stdin.readline().split()]
 arr = [0]*n

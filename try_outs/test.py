@@ -1,9 +1,10 @@
 import sys 
-# For getting input from input.txt file 
-sys.stdin = open('input.txt', 'r')  
+
+# # For getting input from input.txt file 
+# sys.stdin = open('input.txt', 'r')
   
-# Printing the Output to output.txt file 
-sys.stdout = open('my_output.txt', 'w')
+# # Printing the Output to output.txt file 
+# sys.stdout = open('my_output.txt', 'w')
 
 n, m = map(int, sys.stdin.readline().split())
 
@@ -16,7 +17,7 @@ def add(l, r, v, tl=0, tr=n-1, pos=1):
         tm = (tl+tr)//2
         add(l, min(r, tm), v, tl, tm, 2*pos)
         add(max(l, tm+1), r, v, tm+1, tr, 2*pos+1)
-        st[pos] = (min(st[2*pos][0], st[2*pos+1][0]), st[pos][1])
+        st[pos] = (min(st[2*pos][0], st[2*pos+1][0])+st[pos][1], st[pos][1])
 
 def query(l, r, tl=0, tr=n-1, pos=1):
     if l == tl and r == tr:

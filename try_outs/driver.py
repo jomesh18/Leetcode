@@ -1,14 +1,11 @@
-import test_generator
-import correct_brute_force
-import test
-import filecmp
-import compare
-import sys
+import os
 
-for i in range(1):
-	test_generator
-	test
-	correct_brute_force
-	if compare:
-		sys.stdout.write('not good '+str(i))
-		break
+for i in range(100):
+	os.system('test_generator.py > input.txt')
+	os.system('correct_brute_force.py < input.txt > correct_output.txt')
+	os.system('test.py < input.txt > my_output.txt')
+	if open('correct_output.txt').read() != open('my_output.txt').read():
+		print('WA', i)
+		exit(0)
+	else:
+		print('test success', i)
