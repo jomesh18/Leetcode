@@ -1,37 +1,52 @@
 import sys
 
-# sys.stdin = open('input.txt', 'r')
+sys.stdin = open('input.txt', 'r')
 
 n, m = map(int, sys.stdin.readline().split())
 
-ops = [0]*(4*n)
+lazy = [float('inf')]*(4*n)
 vals = [0]*(4*n)
 
-def add(l, r, v, tl=0, tr=n-1, pos=1):
+def push(pos, tl, tr):
+    tm = (tl+tr)//2
+    vals[2*pos] = lazy[pos] * (tm-tl+1)
+    vals[2*pos+1] = lazy[pos] * (tr-tm+1+1)
+    lazy[2*pos] = lazy[pos]
+    lazy[2*pos+1] = lazy[pos]
+    lazy[pos] = float('inf')
+
+def assign(l, r, v, tl=0, tr=n-1, pos=1):
     if tl == l and tr == r:
-        ops[pos] += v
-        vals[pos] += v
+        lazy[pos] = v
+        vals[pos] = v * (tr-tl+1)
     elif l <= r:
+        if lazy[pos] != float('inf'):
+            push(pos, tl, tr)
         tm = (tl+tr)//2
-        add(l, min(r, tm), v, tl, tm, 2*pos)
-        add(max(l, tm+1), r, v, tm+1, tr, 2*pos+1)
-        vals[pos] = ops[pos] * (r-l+1) + (vals[2*pos] + vals[2*pos+1])
+        assign(l, min(r, tm), v, tl, tm, 2*pos)
+        assign(max(l, tm+1), r, v, tm+1, tr, 2*pos+1)
+        vals[pos] = vals[2*pos] + vals[2*pos+1]
 
 def query(l, r, tl=0, tr=n-1, pos=1):
     if tl == l and tr == r:
         return vals[pos]
     elif l > r:
         return 0
+    if lazy[pos] != float('inf'):
+        return lazy[pos] * (r-l+1)
     tm = (tl+tr)//2
     lef = query(l, min(r, tm), tl, tm, 2*pos)
     rig = query(max(l, tm+1), r, tm+1, tr, 2*pos+1)
-    return ops[pos] * (r-l+1) + (lef + rig)
+    return lef + rig
 
 Q = []
 for _ in range(m):
     inp = list(map(int, sys.stdin.readline().split()))
     if inp[0] == 1:
-        add(inp[1], inp[2]-1, inp[3])
+        assign(inp[1], inp[2]-1, inp[3])
+        print(inp)
+        print(vals[:12])
+        print(lazy[:12])
     else:
         Q.append(query(inp[1], inp[2]-1))
 
