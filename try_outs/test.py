@@ -4,50 +4,47 @@ sys.stdin = open('input.txt', 'r')
 
 n, m = map(int, sys.stdin.readline().split())
 
-lazy = [float('inf')]*(4*n)
-vals = [0]*(4*n)
+s = [0]*(4*n)
+change = [0]*(4*n)
 
 def push(pos, tl, tr):
     tm = (tl+tr)//2
-    vals[2*pos] = lazy[pos] * (tm-tl+1)
-    vals[2*pos+1] = lazy[pos] * (tr-tm+1+1)
-    lazy[2*pos] = lazy[pos]
-    lazy[2*pos+1] = lazy[pos]
-    lazy[pos] = float('inf')
+    s[2*pos] = (tm-tl+1)-s[2*pos]
+    s[2*pos+1] = (tr-tm)-s[2*pos+1]
+    change[2*pos] = 1 - change[2*pos]
+    change[2*pos+1] = 1 - change[2*pos+1]
 
-def assign(l, r, v, tl=0, tr=n-1, pos=1):
-    if tl == l and tr == r:
-        lazy[pos] = v
-        vals[pos] = v * (tr-tl+1)
-    elif l <= r:
-        if lazy[pos] != float('inf'):
-            push(pos, tl, tr)
+def complement(l, r, tl=0, tr=n-1, pos=1):
+    if l == tl and r == tr:
+        change[pos] = 1 - change[pos]
+        s[pos] = (l-r+1)-s[pos]
+    elif l >= r:
         tm = (tl+tr)//2
-        assign(l, min(r, tm), v, tl, tm, 2*pos)
-        assign(max(l, tm+1), r, v, tm+1, tr, 2*pos+1)
-        vals[pos] = vals[2*pos] + vals[2*pos+1]
+        if change[pos]:
+            push(pos, tl, tr)
+        complement(l, min(r, tm), tl, tm, 2*pos)
+        complement(max(l, tm+1), tm+1, tr, 2*pos+1)
+        s[pos] = s[2*pos] + s[2*pos+1]
 
-def query(l, r, tl=0, tr=n-1, pos=1):
-    if tl == l and tr == r:
-        return vals[pos]
-    elif l > r:
-        return 0
-    if lazy[pos] != float('inf'):
-        return lazy[pos] * (r-l+1)
-    tm = (tl+tr)//2
-    lef = query(l, min(r, tm), tl, tm, 2*pos)
-    rig = query(max(l, tm+1), r, tm+1, tr, 2*pos+1)
-    return lef + rig
+def query(k, tl=0, tr=n-1, pos=1):
+    if tl == tr:
+        return tl
+    else:
+        tm = (tl+tr)//2
+        if s[pos] >= k:
+            return query(k, tl, tm, 2*pos)
+        else:
+            return query(k-s[pos], tm+1, tr, 2*pos+1)
 
 Q = []
 for _ in range(m):
     inp = list(map(int, sys.stdin.readline().split()))
     if inp[0] == 1:
-        assign(inp[1], inp[2]-1, inp[3])
+        complement(inp[1], inp[2]-1)
         print(inp)
-        print(vals[:12])
-        print(lazy[:12])
+        print(s[:10])
+        print(change[:10])
     else:
-        Q.append(query(inp[1], inp[2]-1))
+        Q.append(query(inp[1]))
 
 print(*Q, sep="\n")
