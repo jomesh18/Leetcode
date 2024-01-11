@@ -17,13 +17,15 @@ def push(pos, tl, tr):
 def complement(l, r, tl=0, tr=n-1, pos=1):
     if l == tl and r == tr:
         change[pos] = 1 - change[pos]
-        s[pos] = (l-r+1)-s[pos]
-    elif l >= r:
+        s[pos] = (r-l+1)-s[pos]
+        print(r, l, pos, s[pos])
+        return
+    elif l <= r:
         tm = (tl+tr)//2
         if change[pos]:
             push(pos, tl, tr)
         complement(l, min(r, tm), tl, tm, 2*pos)
-        complement(max(l, tm+1), tm+1, tr, 2*pos+1)
+        complement(max(l, tm+1), r, tm+1, tr, 2*pos+1)
         s[pos] = s[2*pos] + s[2*pos+1]
 
 def query(k, tl=0, tr=n-1, pos=1):

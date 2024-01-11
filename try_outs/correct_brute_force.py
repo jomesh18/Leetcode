@@ -1,7 +1,7 @@
 import sys
 
 # # For getting input from input.txt file 
-# sys.stdin = open('input.txt', 'r')
+sys.stdin = open('input.txt', 'r')
 
 # MOD = 10**9+7
 
@@ -10,15 +10,17 @@ arr = [0]*n
 Q = []
 for _ in range(m):
     inp = list(map(int, sys.stdin.readline().split()))
-    # if inp[0] == 1:
-    for i in range(inp[0], inp[1]):
-        arr[i] = inp[2]
-    # else:
-    max_sum = 0
-    curr_sum = 0
-    for num in arr:
-        curr_sum = max(curr_sum+num, 0)
-        max_sum = max(max_sum, curr_sum)
-    Q.append(max_sum)
+    if inp[0] == 1:
+        for i in range(inp[1], inp[2]):
+            arr[i] = 1-arr[i]
+    else:
+        k = inp[1]
+        for i, num in enumerate(arr):
+            if num == 1:
+                if k == 0:
+                    Q.append(i)
+                    break
+                else:
+                    k -= 1
 
 print(*Q, sep="\n")
