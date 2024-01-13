@@ -11,15 +11,20 @@ q = random.randint(q_lo, q_hi)
 Q.append(str(n)+" "+str(q))
 
 for _ in range(q):
-	typ = random.randint(1, 2)
+	typ = random.randint(1, 3)
 	if typ == 1:
+		l = random.randint(0, n-1)
+		r = random.randint(l+1, n)
+		e = random.randint(e_lo, e_hi)
+		Q.append(str(typ)+" "+str(l)+" "+str(r)+" "+str(e))
+	elif typ == 2:
 		l = random.randint(0, n-1)
 		r = random.randint(l+1, n)
 		e = random.randint(e_lo, e_hi)
 		Q.append(str(typ)+" "+str(l)+" "+str(r)+" "+str(e))
 	else:
 		l = random.randint(0, n-1)
-		r = random.randint(0, 20)
-		Q.append(str(typ)+ " "+str(r)+" "+str(l))
+		r = random.randint(l+1, n)
+		Q.append(str(typ)+ " "+str(l)+" "+str(r))
 
 print(*Q, sep="\n")

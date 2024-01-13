@@ -12,13 +12,11 @@ for _ in range(m):
     inp = list(map(int, sys.stdin.readline().split()))
     if inp[0] == 1:
         for i in range(inp[1], inp[2]):
+            arr[i] = inp[3]
+    elif inp[0] == 2:
+        for i in range(inp[1], inp[2]):
             arr[i] += inp[3]
     else:
-        pos = -1
-        for i in range(inp[2], n):
-            if arr[i] >= inp[1]:
-                pos = i
-                break
-        Q.append(pos)
+        Q.append(sum(arr[inp[1]:inp[2]]))
 
 print(*Q, sep="\n")
