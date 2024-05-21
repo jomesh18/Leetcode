@@ -73,3 +73,58 @@ class Solution:
             memo[(i, parity)] = ans
             return ans
         return helper(0, 0)
+
+
+
+class Solution:
+    def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
+        n = len(nums)
+        dp = [[0]*2 for _ in range(n+1)]
+        dp[n][1] = float('-inf')
+        
+        for i in range(n-1, -1, -1):
+            dp[i][0] = max((nums[i] ^ k) + dp[i+1][1], nums[i] + dp[i+1][0])
+            dp[i][1] = max((nums[i] ^ k) + dp[i+1][0], nums[i] + dp[i+1][1])
+        return dp[0][0]
+
+
+class Solution:
+    def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
+        n = len(nums)
+        net_change = [0]*n
+        for i in range(n):
+            net_change[i] = (nums[i] ^ k) - nums[i]
+        net_change.sort(reverse=True)
+        ans = sum(nums)
+        for i in range(0, n-1, 2):
+            pair_sum = net_change[i] + net_change[i+1]
+            if pair_sum <= 0:
+                break
+            else:
+                ans += pair_sum
+        return ans
+
+
+
+class Solution:
+    def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
+        n = len(nums)
+        ans = 0
+        count = 0
+        positive_min = float('inf')
+        negative_max = float('-inf')
+        for i in range(n):
+            net_change = (nums[i] ^ k) - nums[i]
+            if net_change > 0:
+                positive_min = min(positive_min, net_change)
+                ans += net_change
+                count += 1
+            else:
+                negative_max = max(negative_max, net_change)
+            ans += nums[i]
+        if count & 1:
+            if (positive_min + negative_max) > 0:
+                ans += negative_max
+            else:
+                ans -= positive_min
+        return ans
