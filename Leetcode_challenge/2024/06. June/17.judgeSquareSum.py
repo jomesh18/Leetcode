@@ -37,3 +37,23 @@ class Solution:
                 return True
             d.add(sq)
         return False
+
+
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        for a in range(int(c**.5)+1):
+            b_sq = c - a * a
+            b = int(b_sq**0.5)
+            if b * b == b_sq: return True
+        return False
+
+
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        l, r = 0, int(c**.5)
+        while l <= r:
+            a, b = l*l, r*r
+            if (a + b) < c: l += 1
+            elif (a + b) > c: r -= 1
+            else: return True
+        return False
