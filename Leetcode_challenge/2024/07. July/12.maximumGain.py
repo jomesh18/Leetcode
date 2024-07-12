@@ -86,3 +86,30 @@ class Solution:
         # print(ans)
 
         return max(curr, ans)
+
+
+
+class Solution:
+    def maximumGain(self, s: str, x: int, y: int) -> int:
+        max_pair = 'ab' if x > y else 'ba'
+        max_points = x if max_pair == 'ab' else y
+        min_points = x if max_pair != 'ab' else y
+        stack = []
+        ans = 0
+
+        for c in s:
+            if c == max_pair[1] and stack and stack[-1] == max_pair[0]:
+                stack.pop()
+                ans += max_points
+            else:
+                stack.append(c)
+
+        stack2 = []
+        for c in stack:
+            if c == max_pair[0] and stack2 and stack2[-1] == max_pair[1]:
+                stack2.pop()
+                ans += min_points
+            else:
+                stack2.append(c)
+
+        return ans
