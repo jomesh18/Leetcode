@@ -34,16 +34,7 @@ class Solution:
     def largestNumber(self, nums: List[int]) -> str:
         nums = [str(i) for i in nums]
         def custom_sort(a, b):
-            if len(a) != len(b):
-                a, b = a + b, b+a
-            for i in range(len(a)):
-                if a[i] == b[i]:
-                    continue
-                elif a[i] > b[i]:
-                    return True
-                else:
-                    return False
-            return True
+            return a + b >= b + a
         ans = []
         for i in range(len(nums)):
             for j in range(i+1, len(nums)):
@@ -51,7 +42,7 @@ class Solution:
                 if not custom_sort(a, b):
                     nums[i], nums[j] = b, a
             ans.append(nums[i])
-            if all(i == '0' for i in ans):
-                ans = ['0']
+        if ans[0] == '0':
+            return '0'
         return ''.join(ans)
                 
