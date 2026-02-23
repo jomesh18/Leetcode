@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import ttk
+import tkinter.font as tkFont
+
 
 
 def read_file():
@@ -15,65 +17,73 @@ def read_file():
                 d[model].append(box)
     return d
 
-def yscroll1(args):
-    if box_list.yview() != model_list.yview():
-        box_list.yview_moveto(args[0])
-    s.set(*args)
+class FindAccBox:
+    def __init__(self, root):
+        root.title('Acc App')
+        self.largefontStyle = tkFont.Font(family="Lucida Grande", size=50)
+        self.smallfontStyle = tkFont.Font(family="Lucida Grande", size=25)
+        width= root.winfo_screenwidth()-50 
+        height= root.winfo_screenheight()-100
+        #setting tkinter window size
+        root.geometry('%dx%d+%d+%d' % (width, height, 0, 0))
 
-def yscroll2(args):
-    if box_list.yview() != model_list.yview():
-        model_list.yview_moveto(args[0])
-    s.set(*args)
+        self.entry_var = StringVar()
+        self.entry_var.trace_add("write", self.update_list)
+        self.model_var = StringVar()
+        self.box_var =  StringVar()
 
-def listbox_scroll(args):
-    model_list.yview(*args)
-    box_list.yview(*args)
 
-def update_list(d, entry_var, l1_var, l2_var):
-    if not entry_var:
-        l1_var.set(d.keys())
-        l2_var.set(d.values())
-    else:
-        models = []
-        boxes = []
-        for key in d:
-            if entry_var in d:
-                models.append(key)
-                boxes.append(d[key])
-        l1_var.set(models)
-        l2_var.set(boxes)
+        frame = ttk.Frame(root)
+        ttk.Label(frame, text='Search model', font=self.largefontStyle).grid(row=1, column=0, padx=5)
+        self.entry = ttk.Entry(frame, font=self.smallfontStyle, textvariable=self.entry_var)
+        self.s = ttk.Scrollbar(frame, orient='vertical', command=self.listbox_scroll)
+        self.model_list = Listbox(frame, listvariable=self.model_var, yscrollcommand=self.yscroll1, selectmode=SINGLE, font=self.smallfontStyle)
+        self.box_list = Listbox(frame, listvariable=self.box_var, yscrollcommand=self.yscroll2, selectmode=SINGLE, font=self.smallfontStyle)
+
+
+        frame.grid(row=0, column=0, padx=5, pady=5, sticky=NSEW)
+        self.entry.grid(row=1, column=1, sticky=NSEW)
+        self.model_list.grid(row=2, column=0, sticky=NSEW)
+        self.box_list.grid(row=2, column=1, sticky=NSEW)
+        self.s.grid(row=2, column=3)
+
+        root.columnconfigure(0, weight=1)
+        frame.columnconfigure(1, weight=1)
+        root.rowconfigure(0, weight=1)
+        frame.rowconfigure(1, weight=1)
+        frame.rowconfigure(2, weight=5)
+
+        self.entry.focus()
+        
+    def yscroll1(self, *args):
+        if self.box_list.yview() != self.model_list.yview():
+            self.box_list.yview_moveto(args[0])
+        self.s.set(*args)
+
+    def yscroll2(self, *args):
+        if self.box_list.yview() != self.model_list.yview():
+            self.model_list.yview_moveto(args[0])
+        self.s.set(*args)
+
+    def listbox_scroll(self, *args):
+        self.model_list.yview(*args)
+        self.box_list.yview(*args)
+
+    def update_list(self, *args):
+        search_term =  ''.join(self.entry_var.get().strip().split(' ')).upper()
+        self.box_list.delete(0, END)
+        self.model_list.delete(0, END)
+
+        for key, value in d.items():
+            if search_term in ''.join(key.strip()):
+                self.box_list.insert(END, value)
+                self.model_list.insert(END, key)
 
 root = Tk()
-root.title('Acc App')
 
-entry_var = StringVar()
-entry_var.trace_add("write", update_list)
-model_var = StringVar()
-box_var =  StringVar()
+obj = FindAccBox(root)
 
-
-frame = ttk.Frame(root)
-label = ttk.Label(frame, text='Search model')
-entry = ttk.Entry(frame, textvariable=entry_var)
-s = ttk.Scrollbar(frame, orient='vertical', command=listbox_scroll)
-model_list = Listbox(frame, listvariable=model_var, yscrollcommand=yscroll1)
-box_list = Listbox(frame, listvariable=box_var, yscrollcommand=yscroll2)
-
-
-frame.grid(row=0, column=0, padx=5, pady=5, sticky=NSEW)
-label.grid(row=1, column=0, padx=5)
-entry.grid(row=1, column=1, sticky=NSEW)
-model_list.grid(row=2, column=0, sticky=NSEW)
-box_list.grid(row=2, column=1, sticky=NSEW)
-s.grid(row=2, column=3)
-
-root.columnconfigure(0, weight=1)
-frame.columnconfigure(1, weight=1)
-root.rowconfigure(0, weight=1)
-frame.rowconfigure(1, weight=1)
-frame.rowconfigure(2, weight=5)
-
-
-entry.focus()
+d = read_file()
+obj.update_list()
 root.mainloop()
 
