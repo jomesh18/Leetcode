@@ -13,8 +13,10 @@ def read_file():
             for model in model_string.strip().split(','):
                 model = model.strip()
                 if model not in d:
-                    d[model] = []
-                d[model].append(box)
+                    d[model] = set()
+                d[model].add(box)
+    for key in d:
+        d[key] = ', '.join(d[key])
     return d
 
 class FindAccBox:
@@ -23,7 +25,7 @@ class FindAccBox:
         self.largefontStyle = tkFont.Font(family="Lucida Grande", size=50)
         self.smallfontStyle = tkFont.Font(family="Lucida Grande", size=25)
         width= root.winfo_screenwidth()-50 
-        height= root.winfo_screenheight()-100
+        height= root.winfo_screenheight()-50
         #setting tkinter window size
         root.geometry('%dx%d+%d+%d' % (width, height, 0, 0))
 
@@ -31,7 +33,6 @@ class FindAccBox:
         self.entry_var.trace_add("write", self.update_list)
         self.model_var = StringVar()
         self.box_var =  StringVar()
-
 
         frame = ttk.Frame(root)
         ttk.Label(frame, text='Search model', font=self.largefontStyle).grid(row=1, column=0, padx=5)
@@ -47,8 +48,13 @@ class FindAccBox:
         self.box_list.grid(row=2, column=1, sticky=NSEW)
         self.s.grid(row=2, column=3)
 
-        root.columnconfigure(0, weight=1)
-        frame.columnconfigure(1, weight=1)
+        for i in range(3):
+            for j in range(3):
+                frame.config(padding=5)
+
+        root.columnconfigure(0, weight=2)
+        frame.columnconfigure(0, weight=2)
+        frame.columnconfigure(1, weight=2)
         root.rowconfigure(0, weight=1)
         frame.rowconfigure(1, weight=1)
         frame.rowconfigure(2, weight=5)
@@ -73,9 +79,9 @@ class FindAccBox:
         search_term =  ''.join(self.entry_var.get().strip().split(' ')).upper()
         self.box_list.delete(0, END)
         self.model_list.delete(0, END)
-
         for key, value in d.items():
-            if search_term in ''.join(key.strip()):
+            curr_key = ''.join(key.strip().split(' ')).upper()
+            if search_term in curr_key:
                 self.box_list.insert(END, value)
                 self.model_list.insert(END, key)
 
@@ -86,4 +92,3 @@ obj = FindAccBox(root)
 d = read_file()
 obj.update_list()
 root.mainloop()
-
